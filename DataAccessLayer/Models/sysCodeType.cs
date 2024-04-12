@@ -18,5 +18,5 @@ public partial class sysCodeType
     /// </summary>
     public string? description { get; set; }
 
-    public virtual ICollection<appProduct> appProducts { get; set; } = new List<appProduct>();
+    public virtual ICollection<AppProduct> appProducts { get; set; } = new List<AppProduct>();
 }

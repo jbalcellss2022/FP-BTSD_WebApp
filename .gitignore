@@ -399,3 +399,5 @@ FodyWeavers.xsd
 
 # AppSettings with application secrets
 appsettings*.json
+/ExternalAPI/appsettings.json
+/PresentationLayer/appsettings.json

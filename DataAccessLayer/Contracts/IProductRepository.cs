@@ -3,10 +3,11 @@
     public interface IProductRepository<T>
     {
         /// <summary>
-        /// Returns a customer document summary object.
+        /// Locate a product in the database by its product id reference.
         /// </summary>
-        /// <param name="request">A customer document request object that requires UserId(s) and the document Id being requested. </param>
-        /// <returns>Response Code and document information.</returns>
+        /// <param name="id">The id code of the product you want to obtain. </param>
+        /// <returns>An appProduct object that has been located. Otherwise null.</returns>
+
         T GetById(int id);
 
         IEnumerable<T> GetAll();

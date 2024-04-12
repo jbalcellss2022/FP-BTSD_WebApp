@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DataAccessLayer.Models;
+﻿namespace DataAccessLayer.Models;
 
 /// <summary>
 /// Product codes availables
@@ -18,5 +15,5 @@ public partial class sysCodeType
     /// </summary>
     public string? description { get; set; }
 
-    public virtual ICollection<AppProduct> appProducts { get; set; } = new List<AppProduct>();
+    public virtual ICollection<appProduct> appProducts { get; set; } = new List<appProduct>();
 }

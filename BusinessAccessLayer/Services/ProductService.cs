@@ -5,14 +5,19 @@ namespace BusinessAccessLayer.Services
 {
     internal class ProductService
     {
-        private readonly IProductRepository<AppProduct> productRepository;
+        private readonly IProductRepository<appProduct> productRepository;
 
-        public ProductService(IProductRepository<AppProduct> _productRepository)
+        // Constructor & Dependency Injection //
+        public ProductService(IProductRepository<appProduct> _productRepository)
         {
             productRepository = _productRepository;
         }
 
-        // Business logic methods 
-        // ... //
+        // Business logic methods //
+
+        void dummy()
+        {
+            productRepository.GetById(1);
+        }
     }
 }

@@ -5,9 +5,10 @@ namespace DataAccessLayer.Repositories
 {
     public class ProductRepository<T> : IProductRepository<T> where T : class
     {
-
         private readonly DbContext dbcontext;
         private readonly DbSet<T> dbSet;
+
+        // Constructor & Dependency Injection //
 
         public ProductRepository(DbContext _dbContext)
         {
@@ -15,7 +16,9 @@ namespace DataAccessLayer.Repositories
             dbSet = dbcontext.Set<T>();
         }
 
-        public T GetById(int id)
+        // Implementation of repository methods //
+
+        public T? GetById(int id)
         {
             return dbSet.Find(id);
         }

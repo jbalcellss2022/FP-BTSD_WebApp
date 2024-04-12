@@ -1,9 +1,11 @@
-﻿namespace DataAccessLayer.Models;
+﻿// Ignore Spelling: app
+
+namespace DataAccessLayer.Models;
 
 /// <summary>
 /// Users Products table
 /// </summary>
-public partial class AppProduct
+public partial class appProduct
 {
     /// <summary>
     /// Auto ID

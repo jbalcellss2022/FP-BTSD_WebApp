@@ -243,3 +243,11 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+/BusinessAccessLayer/obj/Debug/net8.0/BusinessAccessLayer.AssemblyInfo.cs
+/BusinessAccessLayer/obj/Debug/net8.0/BusinessAccessLayer.AssemblyInfoInputs.cache
+/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfo.cs
+/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfoInputs.cache
+/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfo.cs
+/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfoInputs.cache
+/Tests/obj/Debug/net8.0/Tests.AssemblyInfo.cs
+/Tests/obj/Debug/net8.0/Tests.AssemblyInfoInputs.cache

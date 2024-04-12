@@ -1,6 +1,6 @@
 
 using AspNetCoreRateLimit;
-using ExternalAPI.Helpers;
+using ExternalAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;

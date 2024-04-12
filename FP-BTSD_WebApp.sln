@@ -19,6 +19,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{725758A0-A15F-4651-AC38-A8BB80A22EA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAPI", "ExternalAPI\ExternalAPI.csproj", "{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A53F8B5-EC62-41C0-9A5F-A668F73C149F} = {7A53F8B5-EC62-41C0-9A5F-A668F73C149F}
+		{9F77C133-D311-4A92-A1CB-B3ED9B847033} = {9F77C133-D311-4A92-A1CB-B3ED9B847033}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

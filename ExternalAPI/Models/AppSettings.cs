@@ -1,4 +1,4 @@
-﻿namespace ExternalAPI.Helpers
+﻿namespace ExternalAPI.Models
 {
     public class AppSettings
     {

@@ -1,24 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}|PresentationLayer\\PresentationLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\presentationlayer\\presentationlayer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
-      "RelativeMoniker": "D:0:0:{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}|PresentationLayer\\PresentationLayer.csproj|solutionrelative:presentationlayer\\presentationlayer.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{725758A0-A15F-4651-AC38-A8BB80A22EA5}|Tests\\Tests.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{725758A0-A15F-4651-AC38-A8BB80A22EA5}|Tests\\Tests.csproj|solutionrelative:tests\\unittest1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7A53F8B5-EC62-41C0-9A5F-A668F73C149F}|BusinessAccessLayer\\BusinessAccessLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\businessaccesslayer\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7A53F8B5-EC62-41C0-9A5F-A668F73C149F}|BusinessAccessLayer\\BusinessAccessLayer.csproj|solutionrelative:businessaccesslayer\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\dataaccesslayer\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -26,8 +9,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": -1,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:140:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -67,61 +54,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:133:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PresentationLayer",
-              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\PresentationLayer\\PresentationLayer.csproj",
-              "RelativeDocumentMoniker": "PresentationLayer\\PresentationLayer.csproj",
-              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\PresentationLayer\\PresentationLayer.csproj",
-              "RelativeToolTip": "PresentationLayer\\PresentationLayer.csproj",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-04-12T08:41:45.551Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "UnitTest1.cs",
-              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\Tests\\UnitTest1.cs",
-              "RelativeDocumentMoniker": "Tests\\UnitTest1.cs",
-              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\Tests\\UnitTest1.cs",
-              "RelativeToolTip": "Tests\\UnitTest1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:40:13.909Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\BusinessAccessLayer\\Class1.cs",
-              "RelativeDocumentMoniker": "BusinessAccessLayer\\Class1.cs",
-              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\BusinessAccessLayer\\Class1.cs",
-              "RelativeToolTip": "BusinessAccessLayer\\Class1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:39:03.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Class1.cs",
-              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\Class1.cs",
-              "RelativeDocumentMoniker": "DataAccessLayer\\Class1.cs",
-              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\Class1.cs",
-              "RelativeToolTip": "DataAccessLayer\\Class1.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-12T08:37:40.348Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
               "$type": "Bookmark",

@@ -1,40 +1,40 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using PresentationLayer.Data;
+using Microsoft.Net.Http.Headers;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-builder.Services.AddRazorPages();
-
 var app = builder.Build();
+
+Logger logger = LogManager.GetLogger("");   // Initialize NLog Logger
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint();
+
 }
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();
+try
+{
+    app.UseHttpsRedirection();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        OnPrepareResponse = ctx => {
+            const int durationInSeconds = 60 * 60 * 24; // 1 dia
+            ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+                "public,max-age=" + durationInSeconds;
+        }
+    });
+    app.UseRouting();
+    app.UseAuthorization();
+    app.MapRazorPages();
+    app.Run();
+}
+catch (Exception ex)
+{
+    logger.Error(ex, "An error occurred while starting the application.");
+}

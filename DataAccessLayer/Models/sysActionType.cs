@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Ignore Spelling: app
 
 namespace DataAccessLayer.Models;
 
@@ -18,5 +17,5 @@ public partial class sysActionType
     /// </summary>
     public string? description { get; set; }
 
-    public virtual ICollection<AppProduct> appProducts { get; set; } = new List<AppProduct>();
+    public virtual ICollection<appProduct> appProducts { get; set; } = new List<appProduct>();
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Ignore Spelling: app
 
 namespace DataAccessLayer.Models;
 
@@ -45,7 +44,7 @@ public partial class appUser
 
     public virtual ICollection<appLogger> appLoggers { get; set; } = new List<appLogger>();
 
-    public virtual ICollection<AppProduct> appProducts { get; set; } = new List<AppProduct>();
+    public virtual ICollection<appProduct> appProducts { get; set; } = new List<appProduct>();
 
     public virtual ICollection<appUsersRole> appUsersRoles { get; set; } = new List<appUsersRole>();
 

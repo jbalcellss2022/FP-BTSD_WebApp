@@ -401,3 +401,5 @@ FodyWeavers.xsd
 appsettings*.json
 /ExternalAPI/appsettings.json
 /PresentationLayer/appsettings.json
+/PresentationLayer/appsettings.Development.json
+/ExternalAPI/appsettings.Development.json

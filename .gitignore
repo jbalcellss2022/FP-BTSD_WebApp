@@ -396,3 +396,17 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/DataAccessLayer/Repositories/ProductRepository.cs
+/ExternalAPI/Controllers/WeatherForecastController.cs
+/ExternalAPI/ExternalAPI.csproj
+/ExternalAPI/ExternalAPI.http
+/ExternalAPI/GlobalSuppressions.cs
+/ExternalAPI/Helpers/AppSettings.cs
+/ExternalAPI/Models/AppSettings.cs
+/ExternalAPI/NLog.config
+/ExternalAPI/Program.cs
+/ExternalAPI/Properties/launchSettings.json
+/PresentationLayer/NLog.config
+/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfo.cs
+/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfoInputs.cache
+/PresentationLayer/obj/Debug/net8.0/PresentationLayer.csproj.AssemblyReference.cache

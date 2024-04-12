@@ -1,8 +1,6 @@
-
 using AspNetCoreRateLimit;
 using ExternalAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
@@ -36,7 +34,11 @@ builder.Services.Configure<AppSettings>(appSettingsSection);
 
 // configure jwt authentication
 var appSettings = appSettingsSection.Get<AppSettings>();
-var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+if (appSettings == null)
+{
+    throw new InvalidOperationException("AppSettings configuration is required.");
+}
+var key = Encoding.ASCII.GetBytes(appSettings.Secret!);
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

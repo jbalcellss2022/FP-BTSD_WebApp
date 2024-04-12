@@ -18,9 +18,9 @@ namespace DataAccessLayer.Repositories
 
         // Implementation of repository methods //
 
-        public T? GetById(int id)
+        public T GetById(int id)
         {
-            return dbSet.Find(id);
+            return dbSet.Find(id) ?? throw new Exception($"Entity with id {id} was not found.");
         }
 
         public IEnumerable<T> GetAll()

@@ -16,7 +16,7 @@ public partial class BBDDContext : DbContext
 
     public virtual DbSet<appLogger> appLoggers { get; set; }
 
-    public virtual DbSet<appProduct> appProducts { get; set; }
+    public virtual DbSet<AppProduct> appProducts { get; set; }
 
     public virtual DbSet<appUser> appUsers { get; set; }
 
@@ -59,7 +59,7 @@ public partial class BBDDContext : DbContext
                 .HasConstraintName("FK_sysCustomLog_appUsers");
         });
 
-        modelBuilder.Entity<appProduct>(entity =>
+        modelBuilder.Entity<AppProduct>(entity =>
         {
             entity.ToTable(tb => tb.HasComment("Users Products table"));
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace DataAccessLayer.Models;
+﻿namespace DataAccessLayer.Models;
 
 /// <summary>
 /// Users Products table
 /// </summary>
-public partial class appProduct
+public partial class AppProduct
 {
     /// <summary>
     /// Auto ID

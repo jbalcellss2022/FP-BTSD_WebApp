@@ -3,19 +3,13 @@ using DataAccessLayer.Models;
 
 namespace BusinessAccessLayer.Services
 {
-    internal class ProductService
+    internal class ProductService(IProductRepository<appProduct> _productRepository)
     {
-        private readonly IProductRepository<appProduct> productRepository;
-
-        // Constructor & Dependency Injection //
-        public ProductService(IProductRepository<appProduct> _productRepository)
-        {
-            productRepository = _productRepository;
-        }
+        private readonly IProductRepository<appProduct> productRepository = _productRepository;
 
         // Business logic methods //
 
-        void dummy()
+        void Dummysdfsdfsdf()
         {
             productRepository.GetById(1);
         }

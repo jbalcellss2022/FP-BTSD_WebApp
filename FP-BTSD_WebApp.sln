@@ -24,6 +24,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalAPI", "ExternalAPI\
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033} = {9F77C133-D311-4A92-A1CB-B3ED9B847033}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF82E131-9531-4D25-AE4B-03759DDD61B3}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

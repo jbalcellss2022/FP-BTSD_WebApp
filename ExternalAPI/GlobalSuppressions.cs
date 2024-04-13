@@ -4,6 +4,4 @@
 // a specific target and scoped to a namespace, type, member, etc.
 
 using System.Diagnostics.CodeAnalysis;
-
-[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Pending>", Scope = "type", Target = "~T:ExternalAPI.Helpers.AppSettings")]
-[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Pending>", Scope = "type", Target = "~T:ExternalAPI.Models.AppSettings")]
+[assembly: SuppressMessage("Naming", "VSSpell001:Spell Check", Justification = "<Pending>", Scope = "member", Target = "~P:ExternalAPI.Classes.UserAuth.Username")]

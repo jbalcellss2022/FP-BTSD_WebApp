@@ -25,7 +25,7 @@ namespace DataAccessLayer.Repositories
 
         public IEnumerable<T> GetAll()
         {
-            return dbSet.ToList();
+            return [.. dbSet];
         }
 
         public void Add(T entity)

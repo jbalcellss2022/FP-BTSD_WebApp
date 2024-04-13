@@ -1,7 +1,40 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\externalapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\externalapi.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\classes\\partialclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\classes\\partialclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\globalsuppressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\globalsuppressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 16,
           "Children": [
             {
               "$type": "Bookmark",
@@ -60,8 +93,108 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ExternalAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ExternalAPI\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAkAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-13T16:41:54.798Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExternalAPI.http",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.http",
+              "RelativeDocumentMoniker": "ExternalAPI\\ExternalAPI.http",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.http",
+              "RelativeToolTip": "ExternalAPI\\ExternalAPI.http",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2024-04-13T16:40:25.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "GlobalSuppressions.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\GlobalSuppressions.cs",
+              "RelativeDocumentMoniker": "ExternalAPI\\GlobalSuppressions.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\GlobalSuppressions.cs",
+              "RelativeToolTip": "ExternalAPI\\GlobalSuppressions.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T16:26:17.962Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "ExternalAPI\\Services\\UserService.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Services\\UserService.cs",
+              "RelativeToolTip": "ExternalAPI\\Services\\UserService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T16:12:25.889Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainController.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Controllers\\MainController.cs",
+              "RelativeDocumentMoniker": "ExternalAPI\\Controllers\\MainController.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Controllers\\MainController.cs",
+              "RelativeToolTip": "ExternalAPI\\Controllers\\MainController.cs",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAgwEkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T11:23:57.921Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PartialClasses.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Classes\\PartialClasses.cs",
+              "RelativeDocumentMoniker": "ExternalAPI\\Classes\\PartialClasses.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Classes\\PartialClasses.cs",
+              "RelativeToolTip": "ExternalAPI\\Classes\\PartialClasses.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBAAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T11:34:52.501Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "ExternalAPI\\appsettings.Development.json",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\appsettings.Development.json",
+              "RelativeToolTip": "ExternalAPI\\appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAmAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-13T10:17:46.306Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Program.cs",
+              "RelativeDocumentMoniker": "ExternalAPI\\Program.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Program.cs",
+              "RelativeToolTip": "ExternalAPI\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAATAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T10:18:10.29Z",
+              "EditorCaption": ""
             }
           ]
         }

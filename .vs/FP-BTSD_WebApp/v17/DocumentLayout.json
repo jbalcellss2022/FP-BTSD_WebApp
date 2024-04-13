@@ -1,7 +1,28 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7A53F8B5-EC62-41C0-9A5F-A668F73C149F}|BusinessAccessLayer\\BusinessAccessLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\businessaccesslayer\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7A53F8B5-EC62-41C0-9A5F-A668F73C149F}|BusinessAccessLayer\\BusinessAccessLayer.csproj|solutionrelative:businessaccesslayer\\services\\productservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}|PresentationLayer\\PresentationLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\presentationlayer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}|PresentationLayer\\PresentationLayer.csproj|solutionrelative:presentationlayer\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\dataaccesslayer\\globalsuppressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\globalsuppressions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\dataaccesslayer\\data\\bbddcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9F77C133-D311-4A92-A1CB-B3ED9B847033}|DataAccessLayer\\DataAccessLayer.csproj|solutionrelative:dataaccesslayer\\data\\bbddcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,12 +30,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 12,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
@@ -64,8 +81,69 @@
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\BusinessAccessLayer\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "BusinessAccessLayer\\Services\\ProductService.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\BusinessAccessLayer\\Services\\ProductService.cs",
+              "RelativeToolTip": "BusinessAccessLayer\\Services\\ProductService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T20:37:58.878Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\PresentationLayer\\Program.cs",
+              "RelativeDocumentMoniker": "PresentationLayer\\Program.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\PresentationLayer\\Program.cs",
+              "RelativeToolTip": "PresentationLayer\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T20:37:32.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "GlobalSuppressions.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\GlobalSuppressions.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\GlobalSuppressions.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\GlobalSuppressions.cs",
+              "RelativeToolTip": "DataAccessLayer\\GlobalSuppressions.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T20:37:25.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "BBDDContext.cs",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\Data\\BBDDContext.cs",
+              "RelativeDocumentMoniker": "DataAccessLayer\\Data\\BBDDContext.cs",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\DataAccessLayer\\Data\\BBDDContext.cs",
+              "RelativeToolTip": "DataAccessLayer\\Data\\BBDDContext.cs",
+              "ViewState": "AQIAACsAAAAAAAAAAAAgwCQAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-13T20:37:10.183Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "ExternalAPI\\appsettings.Development.json",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\appsettings.Development.json",
+              "RelativeToolTip": "ExternalAPI\\appsettings.Development.json",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABsAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-13T20:35:18.317Z",
+              "EditorCaption": ""
             }
           ]
         }

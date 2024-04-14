@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -18,6 +19,8 @@ IWebHostEnvironment environment = builder.Environment;
 // Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; }); // false by default
+builder.Services.AddMvcCore().AddApiExplorer();
+builder.Services.AddControllers();
 
 // Configure API IP Rate Limit middelware
 builder.Services.Configure<IpRateLimitOptions>(configuration.GetSection("IpRateLimiting"));
@@ -26,6 +29,13 @@ builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounte
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;
+});
 
 var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("APIKeySettings:Secret")!);
 
@@ -69,7 +79,7 @@ builder.Services.AddSwaggerGen(c =>
 
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "QRFY.es API",
+        Title = "QRFY RESTful API",
         Version = "v1.0",
         Description =
           "<strong>We are glad to have your here! In our developer\'s hub you\'ll find everything you need to interact with our platform.</strong> <br /><br />" +
@@ -95,24 +105,27 @@ builder.Services.AddSwaggerGen(c =>
                     }
     });
 
+    c.OperationFilter<SwaggerFilterOperationAuthorizationHeader>();
+
     c.AddSecurityDefinition("JWT Bearer Token", new OpenApiSecurityScheme
     {
-        In = ParameterLocation.Header,
         Description = "Use a JWT Bearer Token to communicate with the QRFY RESTful API. Notice! Always enter the token in the following format <strong>{Bearer eyJhbGciOiJIUzI1NiIs...}</strong><br /><br />" +
         "JSON Web Token (<strong><a href=\"https://jwt.io/introduction/\" target =\"_blank\">JWT</a></strong>) is an open standard <strong><a href=\"https://tools.ietf.org/html/rfc7519\" target=\"_blank\">RFC 7519</a></strong> that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information is verified and trusted digitally signed using a secret with the HMAC algorithm.<br /> <br />" +
         "<p class=\"imgp\"><img class=\"JWTBearerImg\" src=\"https://cdn2.auth0.com/docs/media/articles/api-auth/client-credentials-grant.png\" alt=\"JWT Bearer Token diagram\" width=\"600\" height =\"228\"></p>" +
         "The output is three Base64-URL strings separated by dots that can be easily passed in HTML and HTTP environments, while being more compact when compared to XML-based standards such as SAML. The following shows a JWT that has the previous header and payload encoded, and it is signed with a secret." +
         "<p class=\"imgp\"><img class=\"JWTBearerImg\" src=\"https://cdn.auth0.com/content/jwt/encoded-jwt3.png\" alt=\"JWT Bearer Token coded sample\" width=\"600\" height =\"138\"></p><br /> <br />"
         ,
-        Name = "API Authorization",
         Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        Name = "Authorization",
     });
 
     c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-                {
-                    new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "JWT Bearer Token" } }, Array.Empty<string>()
-                }
-                });
+        {
+            new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "JWT Bearer Token" } }, Array.Empty<string>()
+        }
+        });
 
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
@@ -153,6 +166,7 @@ app.UseIpRateLimiting();
 
 // Swaggerbuckle. Enable middleware to serve generated Swagger as a JSON endpoint.
 app.UseSwagger(c => { c.RouteTemplate = "/apidocs/{documentName}/qrfyapi.json"; });  // For Local IIS
+app.MapSwagger().RequireAuthorization();
 
 // Enable OPENAPI middleware UI.
 app.UseSwaggerUI(c => {
@@ -165,7 +179,7 @@ app.UseSwaggerUI(c => {
     c.ShowExtensions();
     c.EnableValidator();
     c.InjectStylesheet("custom-ui/custom.css");                                 // Inject custom CSS style
-    c.SwaggerEndpoint("/apidocs/v1/qrfyapi.json", "QRFY RESTful API v1");          // For Local IIS
+    c.SwaggerEndpoint("/apidocs/v1/qrfyapi.json", "QRFY RESTful API v1");       // For Local IIS
     c.RoutePrefix = "apidocs";                                                  // For Local IIS or ... string.Empty;
 });
 

@@ -1,13 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-using Microsoft.AspNetCore.JsonPatch.Operations;
-using Microsoft.AspNetCore.Mvc.Authorization;
-
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using Microsoft.OpenApi.Any;
 
 public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
 {
@@ -29,7 +23,6 @@ public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
                 Description = "Please insert JWT with Bearer Token into field",
                 Required = true,
                 Schema = new OpenApiSchema { Type = "string", Default = new OpenApiString("Bearer {JWT Access token}") }
-                
             });
         }
     }

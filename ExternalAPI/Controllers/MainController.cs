@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using ExternalAPI.Classes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,9 @@ namespace ExternalAPI.Controllers
     /// Ensure that all methods are properly secured and accessible only to authorized users where applicable.
     /// </remarks>
 
-    [Authorize]
-    [Route("v1")]   
     [ApiController]
-    [Route("[controller]")]
+    [ApiVersion(1.0)]
+    [Route("v1")]
     public class MainController : ControllerBase
     {
 
@@ -47,8 +47,12 @@ namespace ExternalAPI.Controllers
             "<p id=\"headerBorder\"><strong>Your API keys and token carry many privileges, so be sure to keep them secret!. Do not share your API keys or token in publicly accessible areas such GitHub, client-side code, and so forth. All API requests must be made over HTTPS and Content-type as application/json thus calls made over plain HTTP will fail with HTTP 405 status code (Method Not Allowed).</strong></p>"
             ,Tags = ["Authenticate Methods"])]
 
-        [Produces("application/json")]
-        [AuthorizeAttribute]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
+        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
+        // [Produces("application/json")]
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public ObjectResult Authenticate([FromForm] UserAuth userParam)
@@ -90,5 +94,31 @@ namespace ExternalAPI.Controllers
         /**************** PRIVATE METHODS (FOR AUTHENTICATED USERS) *******************/
         /******************************************************************************/
 
+        /// <summary>
+        /// Get a list of all available ODM Projects (GetProjects)
+        /// </summary>
+        /// <response code="200">Succesfully. Returns a Project estructure with all available ODM Projects.</response>
+        /// <response code="400">Bad request. Error in parameters values.</response>
+        /// <response code="401">Unauthorized. Username or password is incorrect.</response>
+        /// <response code="405">Method Not Allowed.</response>
+        /// <response code="422">Unprocessable Entity. Unexpected API error {GetProjects: projectId}.</response>
+        /// <response code="429">Too Many Requests. The request was not accepted because the application has exceeded the API rate limit.</response>
+        [SwaggerOperation(Description = "This GET method will allow you to get all available ODM projects according to the authentication level of your user. You will need to use the value of the ProjectId field later in requests for other API methods. The result will be a JSON list with the available projects and their name labels in different languages.<br /><br />" +
+          "<p id=\"headerBorder\"><strong>This is a secure method so you will have to use JWT Bearer type authentication in the composition of the request headers.</strong></p>",
+          Tags = new[] { "ODM Values" })]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
+        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
+
+        [Produces("application/json")]
+        [HttpGet("GetProjects")]
+        [Authorize]
+        public IActionResult GetProjects()
+        {
+                return StatusCode(200);
+        }
     }
 }

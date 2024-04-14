@@ -42,4 +42,6 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4apidocs_4ui_4swagger-ui-standalone-preset_1js_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>

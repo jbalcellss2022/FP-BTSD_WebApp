@@ -83,7 +83,7 @@ builder.Services.AddSwaggerGen(c =>
         Version = "v1.0",
         Description =
           "<strong>We are glad to have your here! In our developer\'s hub you\'ll find everything you need to interact with our platform.</strong> <br /><br />" +
-          "<p class=\"imgp\"><img class=\"JWTBearerImg\" src=\"/images/ODM-Main.jpg\" alt =\"qrfy main image\"></p><br /> <br />" +
+          "<p class=\"imgp\"><img class=\"JWTBearerImg\" src=\"/images/QRFY-Main.jpg\" alt =\"qrfy main image\"></p><br /> <br />" +
           "The QRFY Web API is organized around REST, using HTTP responses code to keep you informed about what\'s going on. Our endpoints will return metada in Json format. All the \"List\" methods are GET requests and can be paginated thus you can get more pages if needed by query params i.e. <strong>?page=2</strong>.  <br /> <br />All requests are validated against an API JWT Bearer Token. You can obtain it manually from the \"authenticate\" Web API method (as you\'ll see in documented below).  <br /> <br />We tried to keep the documentation as clear and simple as possible. Thus you can test our endpoints with your own API Token and see the responses code directly. Additionally, if you wish, you can use the <strong><a href=\"https://www.postman.com\" target=\"_blank\">POSTMAN</a></strong> program to test all available methods." +
           "",
 
@@ -98,7 +98,7 @@ builder.Services.AddSwaggerGen(c =>
                         // Logo Extension
                         {"x-logo", new OpenApiObject
                             {
-                                {"url", new OpenApiString("https://api.qrfy.es/images/Logo_ODM_2.png")},
+                                { "url", new OpenApiString("..//images/QRFY-Logo.png")},
                                 { "altText", new OpenApiString("API Logo")}
                             }
                         },
@@ -120,12 +120,6 @@ builder.Services.AddSwaggerGen(c =>
         BearerFormat = "JWT",
         Name = "Authorization",
     });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
-        {
-            new OpenApiSecurityScheme { Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "JWT Bearer Token" } }, Array.Empty<string>()
-        }
-        });
 
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 

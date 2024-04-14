@@ -42,6 +42,10 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4apidocs_4ui_4swagger-ui-standalone-preset_1js_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 </Project>

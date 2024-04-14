@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.OpenApi.Any;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
@@ -7,23 +6,27 @@ public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        var filterPipeline = context.ApiDescription.ActionDescriptor.FilterDescriptors;
-        var isAuthorized = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is AuthorizeFilter);
-        var allowAnonymous = filterPipeline.Select(filterInfo => filterInfo.Filter).Any(filter => filter is IAllowAnonymousFilter);
+        var noAuthRequired = context.ApiDescription.CustomAttributes().Any(attr => attr.GetType() == typeof(AllowAnonymousAttribute));
 
-        if (isAuthorized && !allowAnonymous)
+        if (!noAuthRequired)
         {
-            if (operation.Parameters == null)
-                operation.Parameters = new List<OpenApiParameter>();
-
-            operation.Parameters.Add(new OpenApiParameter
+            operation.Security = new List<OpenApiSecurityRequirement>
             {
-                Name = "JWT Bearer Authorization",
-                In = ParameterLocation.Header,
-                Description = "Please insert JWT with Bearer Token into field",
-                Required = true,
-                Schema = new OpenApiSchema { Type = "string", Default = new OpenApiString("Bearer {JWT Access token}") }
-            });
+                new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "JWT Bearer Token"
+                            }
+                        },
+                        new List<string>()
+                    }
+                }
+            };
         }
     }
 }

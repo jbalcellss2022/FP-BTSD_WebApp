@@ -13,17 +13,16 @@ namespace ExternalAPI.Classes
     /// should meet the application's security criteria for complexity. Ensure that password data is
     /// handled securely throughout the application to prevent unauthorized access.
     /// </remarks>
-    
     public class UserAuth
     {
-        /// <summary>The same user (E-mail) that you use to identify yourself in the portal.</summary>
+        /// <summary>The same user (E-mail) that you use to identify yourself in the QRFY portal.</summary>
         /// <example>john.doe@mycompany.org</example>
         [Required]
         public string? Username { get; set; }
-
-        /// <summary>The same password that you use to identify yourself in the portal.</summary>
+        /// <summary>The same password that you use to identify yourself in the QRFY portal.</summary>
         /// <example>*********</example>
         [Required]
         public string? Password { get; set; }
     }
+
 }

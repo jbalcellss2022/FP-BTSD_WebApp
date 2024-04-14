@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using static ExternalAPI.Classes.PartialResponse;
 
 namespace ExternalAPI.Controllers
 {
@@ -17,9 +18,10 @@ namespace ExternalAPI.Controllers
     /// Ensure that all methods are properly secured and accessible only to authorized users where applicable.
     /// </remarks>
 
-    [ApiController]
     [ApiVersion(1.0)]
     [Route("v1")]
+    [ApiController]
+
     public class MainController : ControllerBase
     {
 
@@ -34,8 +36,8 @@ namespace ExternalAPI.Controllers
         /// <param password="userParam"></param>
         /// <returns>A newly created authenthication token.</returns>
         /// <response code="200">Succesfully. Returns a newly created authenthication token.</response>
-        /// <response code="400">Bad request. Error in parameters values.</response>
-        /// <response code="401">Unauthorized. Username or password is incorrect.</response>
+        /// <response code="400">Bad request. Error in the request parameters.</response>
+        /// <response code="401">Unauthorized. You are not authorized to use this method.</response>
         /// <response code="405">Method Not Allowed.</response>
         /// <response code="429">Too Many Requests. The request was not accepted because the application has exceeded the API rate limit.</response>
         [SwaggerOperation(Description = "This POST method will allow you to authenticate your user code (your QRFY E-mail) with the same access data that you currently have on the QRFY portal in order to obtain the JWT Bear Token. Then in order to use the QRFY API methods you will need to use JWT Bearer authentication with your own token. The maximum duration of a token is 30 minutes, during which you can carry out all the operations you need to apply in QRFY API. Once the token has expired you must request a new one if you want to continue using the QRFY API otherwise you will receive 401 Http error message (Unauthorized)." +
@@ -47,12 +49,12 @@ namespace ExternalAPI.Controllers
             "<p id=\"headerBorder\"><strong>Your API keys and token carry many privileges, so be sure to keep them secret!. Do not share your API keys or token in publicly accessible areas such GitHub, client-side code, and so forth. All API requests must be made over HTTPS and Content-type as application/json thus calls made over plain HTTP will fail with HTTP 405 status code (Method Not Allowed).</strong></p>"
             ,Tags = ["Authenticate Methods"])]
 
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
-        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
-        // [Produces("application/json")]
+        [SwaggerResponse(StatusCodes.Status200OK, "The token has been successfully obtained.", typeof(UserAuthResponse))]
+        [Produces("application/json")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status405MethodNotAllowed)]
+        [SwaggerResponse(StatusCodes.Status429TooManyRequests)]
         [AllowAnonymous]
         [HttpPost("authenticate")]
         public ObjectResult Authenticate([FromForm] UserAuth userParam)
@@ -95,28 +97,28 @@ namespace ExternalAPI.Controllers
         /******************************************************************************/
 
         /// <summary>
-        /// Get a list of all available ODM Projects (GetProjects)
+        /// Get a list of all available QRFY user products (GetAllProducts)
         /// </summary>
-        /// <response code="200">Succesfully. Returns a Project estructure with all available ODM Projects.</response>
-        /// <response code="400">Bad request. Error in parameters values.</response>
-        /// <response code="401">Unauthorized. Username or password is incorrect.</response>
+        /// <response code="200">Succesfully. Returns an array of all the user's products.</response>
+        /// <response code="400">Bad request. Error in the request parameters.</response>
+        /// <response code="401">Unauthorized. You are not authorized to use this method.</response>
         /// <response code="405">Method Not Allowed.</response>
-        /// <response code="422">Unprocessable Entity. Unexpected API error {GetProjects: projectId}.</response>
+        /// <response code="422">Unprocessable Entity. Unexpected API error.</response>
         /// <response code="429">Too Many Requests. The request was not accepted because the application has exceeded the API rate limit.</response>
-        [SwaggerOperation(Description = "This GET method will allow you to get all available ODM projects according to the authentication level of your user. You will need to use the value of the ProjectId field later in requests for other API methods. The result will be a JSON list with the available projects and their name labels in different languages.<br /><br />" +
+        [SwaggerOperation(Description = "This GET method will allow you to obtain a collection of products available in your QRFY user area. The result will be a JSON list with the available products and their attributes.<br /><br />" +
           "<p id=\"headerBorder\"><strong>This is a secure method so you will have to use JWT Bearer type authentication in the composition of the request headers.</strong></p>",
-          Tags = new[] { "ODM Values" })]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status405MethodNotAllowed)]
-        [ProducesResponseType(StatusCodes.Status422UnprocessableEntity)]
-        [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
+          Tags = ["QRFY Products"])]
 
+        [SwaggerResponse(StatusCodes.Status200OK, "All products have been obtained correctly.", typeof(UserProducts))]
         [Produces("application/json")]
-        [HttpGet("GetProjects")]
+        [SwaggerResponse(StatusCodes.Status400BadRequest)]
+        [SwaggerResponse(StatusCodes.Status401Unauthorized)]
+        [SwaggerResponse(StatusCodes.Status405MethodNotAllowed)]
+        [SwaggerResponse(StatusCodes.Status422UnprocessableEntity)]
+        [SwaggerResponse(StatusCodes.Status429TooManyRequests)]
+        [HttpGet("GetAllProducts")]
         [Authorize]
-        public IActionResult GetProjects()
+        public IActionResult GetAllProducts()
         {
                 return StatusCode(200);
         }

@@ -420,3 +420,7 @@ appsettings*.json
 /PresentationLayer/appsettings.Development.json
 /ExternalAPI/appsettings.Development.json
 >>>>>>> b5fa13c8c466b416b8741726933d7f3b1a40e1f0
+/ExternalAPI/host_remotecmd.txt
+/ExternalAPI/host_upload.txt
+/ExternalAPI/ignorelist.txt
+/ExternalAPI/sshkey.ppk

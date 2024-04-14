@@ -2,7 +2,7 @@
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ODMWebAPI.Services
+namespace ExternalAPI.Filters
 {
     public class SwaggerFilterSchemaAddLogo : IDocumentFilter
     {

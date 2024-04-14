@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace ODMWebAPI.Services
+namespace ExternalAPI.Filters
 {
     public class SwaggerFilterDocAddTagsDescriptions : IDocumentFilter
     {

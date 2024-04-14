@@ -87,12 +87,9 @@ builder.Services.AddSwaggerGen(c =>
           "The QRFY Web API is organized around REST, using HTTP responses code to keep you informed about what\'s going on. Our endpoints will return metada in Json format. All the \"List\" methods are GET requests and can be paginated thus you can get more pages if needed by query params i.e. <strong>?page=2</strong>.  <br /> <br />All requests are validated against an API JWT Bearer Token. You can obtain it manually from the \"authenticate\" Web API method (as you\'ll see in documented below).  <br /> <br />We tried to keep the documentation as clear and simple as possible. Thus you can test our endpoints with your own API Token and see the responses code directly. Additionally, if you wish, you can use the <strong><a href=\"https://www.postman.com\" target=\"_blank\">POSTMAN</a></strong> program to test all available methods." +
           "",
 
-        TermsOfService = new Uri("https://api.qrfy.es/license_&_terms.html"),
-        License = new OpenApiLicense
-        {
-            Name = "Use under MIT License",
-            Url = new Uri("https://api.qrfy.es/license_&_terms.html"),
-        },
+        //Contact = new OpenApiContact() { Name = "Jordi Balcells", Email = "jbalcellss@uoc.edu" },
+        License = new OpenApiLicense { Name = "Use under MIT License", Url = new Uri("https://api.qrfy.es/license_&_terms.html") },
+
         Extensions = new Dictionary<string, IOpenApiExtension>
                     {
                         // Logo Extension
@@ -146,7 +143,6 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddSwaggerGenNewtonsoftSupport();      // explicit opt-in - needs to be placed after AddSwaggerGen()
-
 
 var app = builder.Build();
 

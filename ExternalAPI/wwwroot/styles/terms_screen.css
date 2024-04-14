@@ -1083,6 +1083,8 @@
 }
 
 .long-form-content ul, .long-form-content ol {
+    font-family: 'Montserrat' !important
+    font-size: 18x;
     padding-left: 1.25em
 }
 

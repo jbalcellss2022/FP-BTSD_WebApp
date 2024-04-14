@@ -16,6 +16,9 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;
 
+// Set up the configuration sources.
+builder.WebHost.UseUrls("http://localhost:7155");
+
 // Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; }); // false by default
@@ -30,6 +33,7 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 builder.Services.AddHttpContextAccessor();
 
+// Configure API Versioning
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -37,8 +41,10 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
+// Configure API Secret Key
 var ApiKeySecret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("APIKeySettings:Secret")!);
 
+// Configure JWT Bearer Token
 builder.Services
     .AddAuthentication(x =>
     {
@@ -102,8 +108,10 @@ builder.Services.AddSwaggerGen(c =>
                     }
     });
 
+    // Add a custom operation filter which sets default values for the Authorization header
     c.OperationFilter<SwaggerFilterOperationAuthorizationHeader>();
 
+    // Add a security definition to the Swagger document
     c.AddSecurityDefinition("JWT Bearer Token", new OpenApiSecurityScheme
     {
         Description = "Use a JWT Bearer Token to communicate with the QRFY RESTful API. Notice! Always enter the token in the following format <strong>{Bearer eyJhbGciOiJIUzI1NiIs...}</strong><br /><br />" +
@@ -118,6 +126,7 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
     });
 
+    // Add a security requirement to the Swagger document
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
     // Set the comments path for the Swagger JSON and UI.
@@ -142,8 +151,10 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddSwaggerGenNewtonsoftSupport();      // explicit opt-in - needs to be placed after AddSwaggerGen()
+// Register the Swagger generator, defining 1 or more Swagger documents. explicit opt-in - needs to be placed after AddSwaggerGen()
+builder.Services.AddSwaggerGenNewtonsoftSupport();      
 
+// Add services to the container.
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

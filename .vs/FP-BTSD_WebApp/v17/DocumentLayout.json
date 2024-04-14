@@ -7,8 +7,16 @@
       "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\controllers\\maincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\externalapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\externalapi.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|c:\\proyectos\\fp-btsd\\fp-btsd_webapp\\externalapi\\externalapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}|ExternalAPI\\ExternalAPI.csproj|solutionrelative:externalapi\\externalapi.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
     }
   ],
   "DocumentGroupContainers": [
@@ -32,11 +40,52 @@
               "RelativeDocumentMoniker": "ExternalAPI\\Program.cs",
               "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Program.cs",
               "RelativeToolTip": "ExternalAPI\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAAACAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T20:46:47.506Z",
-              "IsPinned": true,
+              "WhenOpened": "2024-04-14T21:35:46.216Z",
               "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ExternalAPI",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.csproj",
+              "RelativeDocumentMoniker": "ExternalAPI\\ExternalAPI.csproj",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.csproj",
+              "RelativeToolTip": "ExternalAPI\\ExternalAPI.csproj",
+              "ViewState": "AQIAACcAAAAAAAAAAAAAADcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-04-14T21:23:00.244Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "ExternalAPI\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Properties\\launchSettings.json",
+              "RelativeToolTip": "ExternalAPI\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAAABoAAABFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-04-14T21:10:21.989Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ExternalAPI",
+              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.csproj",
+              "RelativeDocumentMoniker": "ExternalAPI\\ExternalAPI.csproj",
+              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\ExternalAPI.csproj",
+              "RelativeToolTip": "ExternalAPI\\ExternalAPI.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-04-14T17:35:27.41Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
             },
             {
               "$type": "Bookmark",
@@ -85,19 +134,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainController.cs",
-              "DocumentMoniker": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Controllers\\MainController.cs",
-              "RelativeDocumentMoniker": "ExternalAPI\\Controllers\\MainController.cs",
-              "ToolTip": "C:\\Proyectos\\FP-BTSD\\FP-BTSD_WebApp\\ExternalAPI\\Controllers\\MainController.cs",
-              "RelativeToolTip": "ExternalAPI\\Controllers\\MainController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAhAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-13T20:40:53.507Z",
-              "EditorCaption": ""
             }
           ]
         }

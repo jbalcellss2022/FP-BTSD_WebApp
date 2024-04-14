@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
 
-namespace BusinessAccessLayer.Services
+namespace BusinessLogicLayer.Services
 {
     internal class ProductService
     {

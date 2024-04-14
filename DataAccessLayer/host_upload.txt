@@ -1,0 +1,3 @@
+cd /home/netcoredev/FP-BTSD_WebApp
+put DataAccessLayer.zip
+quit

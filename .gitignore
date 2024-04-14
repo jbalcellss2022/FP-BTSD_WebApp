@@ -396,22 +396,6 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
-<<<<<<< HEAD
-/DataAccessLayer/Repositories/ProductRepository.cs
-/ExternalAPI/Controllers/WeatherForecastController.cs
-/ExternalAPI/ExternalAPI.csproj
-/ExternalAPI/ExternalAPI.http
-/ExternalAPI/GlobalSuppressions.cs
-/ExternalAPI/Helpers/AppSettings.cs
-/ExternalAPI/Models/AppSettings.cs
-/ExternalAPI/NLog.config
-/ExternalAPI/Program.cs
-/ExternalAPI/Properties/launchSettings.json
-/PresentationLayer/NLog.config
-/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfo.cs
-/PresentationLayer/obj/Debug/net8.0/PresentationLayer.AssemblyInfoInputs.cache
-/PresentationLayer/obj/Debug/net8.0/PresentationLayer.csproj.AssemblyReference.cache
-=======
 
 # AppSettings with application secrets
 appsettings*.json
@@ -419,7 +403,6 @@ appsettings*.json
 /PresentationLayer/appsettings.json
 /PresentationLayer/appsettings.Development.json
 /ExternalAPI/appsettings.Development.json
->>>>>>> b5fa13c8c466b416b8741726933d7f3b1a40e1f0
 /ExternalAPI/host_remotecmd.txt
 /ExternalAPI/host_upload.txt
 /ExternalAPI/ignorelist.txt

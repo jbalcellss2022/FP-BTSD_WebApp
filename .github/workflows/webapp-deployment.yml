@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-        - uses: actions/checkout@v1
+        - uses: actions/checkout@v2
         - name: Setup .NET Core
           uses: actions/setup-dotnet@v1
           with:
@@ -21,7 +21,7 @@ jobs:
           uses: trendyminds/github-actions-rsync@master
           with:
             RSYNC_OPTIONS: -avzr --delete --exclude node_modules --exclude '.git*'
-            RSYNC_TARGET: ${{ secrets.REMOTE_TARGET_EXTERNALAPI }}
+            RSYNC_TARGET: ${{ secrets.REMOTE_TARGET }}
             RSYNC_SOURCE: /deploy/
           env:
             SSH_PRIVATE_KEY: ${{ secrets.REMOTE_SSH_KEY }}
@@ -30,7 +30,7 @@ jobs:
         - name: Run SSH command
           uses: garygrossgarten/github-action-ssh@release
           with:
-            command: sudo systemctl restart project-name
+            command: sudo systemctl reload apache2
             host: ${{ secrets.REMOTE_HOST }}
             username: ${{ secrets.REMOTE_USER }}
             privateKey: ${{ secrets.REMOTE_SSH_KEY }}

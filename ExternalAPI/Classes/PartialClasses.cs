@@ -15,14 +15,13 @@ namespace ExternalAPI.Classes
     /// </remarks>
     public class UserAuth
     {
-        /// <summary>The same user (E-mail) that you use to identify yourself in the QRFY portal.</summary>
+        /// <summary>The same username you use to log in to the QRFY backend..</summary>
         /// <example>john.doe@mycompany.org</example>
         [Required]
         public string? Username { get; set; }
-        /// <summary>The same password that you use to identify yourself in the QRFY portal.</summary>
+        /// <summary>The same password you use to log in to the QRFY backend..</summary>
         /// <example>*********</example>
         [Required]
         public string? Password { get; set; }
     }
-
 }

@@ -37,7 +37,7 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
-var key = Encoding.ASCII.GetBytes(configuration.GetValue<string>("APIKeySettings:Secret")!);
+var ApiKeySecret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("APIKeySettings:Secret")!);
 
 builder.Services
     .AddAuthentication(x =>
@@ -55,7 +55,7 @@ builder.Services
             ValidateAudience = false,
             ValidateIssuer = false,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(key),
+            IssuerSigningKey = new SymmetricSecurityKey(ApiKeySecret),
             ValidateLifetime = true, // When receiving a token, check that it is still valid.
 
             // This defines the maximum allowable clock skew - i.e. provides a tolerance on the token expiry time
@@ -168,9 +168,9 @@ app.UseSwaggerUI(c => {
     c.EnableFilter();
     c.ShowExtensions();
     c.EnableValidator();
-    c.InjectStylesheet("custom-ui/custom.css");                                 // Inject custom CSS style
-    c.SwaggerEndpoint("/apidocs/v1/qrfyapi.json", "QRFY RESTful API v1");       // For Local IIS
-    c.RoutePrefix = "apidocs";                                                  // For Local IIS or ... string.Empty;
+    c.InjectStylesheet("custom-ui/custom.css");                                     // Inject custom CSS style
+    c.SwaggerEndpoint("/apidocs/v1/qrfyapi.json", "QRFY RESTful API v1");           // For Local IIS
+    c.RoutePrefix = "apidocs";                                                      // For Local IIS or ... string.Empty;
 });
 
 // Enable REDOC middleware UI.

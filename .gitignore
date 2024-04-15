@@ -412,3 +412,5 @@ appsettings*.json
 /ExternalAPI/ExternalAPI.zip
 /ExternalAPI/appsettings.Development.json
 /ExternalAPI/BusinessLogicLayer.zip
+/.vs/FP-BTSD_WebApp/v17/.suo
+/.vs/FP-BTSD_WebApp/v17/DocumentLayout.json

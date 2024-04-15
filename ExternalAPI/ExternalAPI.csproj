@@ -5,20 +5,19 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    <Configurations>Debug;Release;Deploy-ExternalAPI</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
-    <PackageReference Include="CsvHelper" Version="31.0.3" />
-    <PackageReference Include="DeviceDetector.NET" Version="6.3.3" />
-    <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.4" />
     <PackageReference Include="NLog" Version="5.2.8" />
     <PackageReference Include="NLog.Database" Version="5.2.8" />
@@ -46,6 +45,16 @@
     <ProjectReference Include="..\DataAccessLayer\DataAccessLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4apidocs_4ui_4swagger-ui-standalone-preset_1js_1map__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
+    <Exec Command="if $(Configuration) == Deploy-ExternalAPI cmd /c del &quot;BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI cmd /c del &quot;DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI cmd /c del &quot;$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI psftp root@79.143.89.216 -P 43522 -b host_upload.txt -i sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-ExternalAPI plink -batch -ssh root@79.143.89.216 -P 43522 -i sshkey.ppk -m host_remotecmd.txt" />
+  </Target>
 
 </Project>

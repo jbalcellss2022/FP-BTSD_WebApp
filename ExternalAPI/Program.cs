@@ -5,10 +5,19 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
+using NLog;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Text;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
+
+Logger logger = LogManager.GetLogger("");                               // Initialize NLog Logger
+LogManager.Configuration.Variables["LoggerFileName"] = "Backend";       // Set NLog filename pre/suffix
+LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smptEmail"] = "";                   // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smptUser"] = "";                    // Set SMTP User for NLog
+LogManager.Configuration.Variables["smptPassword"] = "";                // Set SMTP password for NLog
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +39,7 @@ builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>()
 builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrategy>();
 builder.Services.AddHttpContextAccessor();
 
+// Configure API Versioning
 builder.Services.AddApiVersioning(options =>
 {
     options.DefaultApiVersion = new ApiVersion(1, 0);
@@ -37,8 +47,10 @@ builder.Services.AddApiVersioning(options =>
     options.ReportApiVersions = true;
 });
 
+// Configure API Secret Key
 var ApiKeySecret = Encoding.ASCII.GetBytes(configuration.GetValue<string>("APIKeySettings:Secret")!);
 
+// Configure JWT Bearer Token
 builder.Services
     .AddAuthentication(x =>
     {
@@ -102,8 +114,10 @@ builder.Services.AddSwaggerGen(c =>
                     }
     });
 
+    // Add a custom operation filter which sets default values for the Authorization header
     c.OperationFilter<SwaggerFilterOperationAuthorizationHeader>();
 
+    // Add a security definition to the Swagger document
     c.AddSecurityDefinition("JWT Bearer Token", new OpenApiSecurityScheme
     {
         Description = "Use a JWT Bearer Token to communicate with the QRFY RESTful API. Notice! Always enter the token in the following format <strong>{Bearer eyJhbGciOiJIUzI1NiIs...}</strong><br /><br />" +
@@ -118,6 +132,7 @@ builder.Services.AddSwaggerGen(c =>
         Name = "Authorization",
     });
 
+    // Add a security requirement to the Swagger document
     c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
 
     // Set the comments path for the Swagger JSON and UI.
@@ -142,15 +157,28 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddSwaggerGenNewtonsoftSupport();      // explicit opt-in - needs to be placed after AddSwaggerGen()
+// Register the Swagger generator, defining 1 or more Swagger documents. explicit opt-in - needs to be placed after AddSwaggerGen()
+builder.Services.AddSwaggerGenNewtonsoftSupport();      
 
+// Add services to the container.
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+	app.UseDeveloperExceptionPage();
+}
+else
+{
+	builder.WebHost.UseUrls("http://0.0.0.0:7155"); // Set the listening port
+	app.UseExceptionHandler("/error");
+	app.UseHsts();
+}
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
-app.UseHttpsRedirection();
 app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = ["index.html"] });
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseIpRateLimiting();
 

@@ -414,3 +414,13 @@ appsettings*.json
 /ExternalAPI/BusinessLogicLayer.zip
 /.vs/FP-BTSD_WebApp/v17/.suo
 /.vs/FP-BTSD_WebApp/v17/DocumentLayout.json
+
+*.suo
+*.user
+_ReSharper.*
+bin
+obj
+packages
+
+/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfo.cs
+/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfoInputs.cache

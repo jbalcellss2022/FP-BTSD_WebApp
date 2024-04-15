@@ -25,9 +25,6 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;
 
-// Set up the configuration sources.
-builder.WebHost.UseUrls("https://localhost:7155");
-
 // Add services to the container.
 builder.Services.AddCors();
 builder.Services.AddMvc(options => { options.RespectBrowserAcceptHeader = true; }); // false by default
@@ -168,14 +165,20 @@ var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())
 {
+    builder.WebHost.UseUrls("http://0.0.0.0:7155"); // Set the listening port
+    app.UseExceptionHandler("/error");
     app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 app.UseAuthentication();
-app.UseHttpsRedirection();
 app.UseDefaultFiles(new DefaultFilesOptions { DefaultFileNames = ["index.html"] });
+app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseIpRateLimiting();
 

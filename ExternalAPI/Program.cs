@@ -26,7 +26,7 @@ ConfigurationManager configuration = builder.Configuration;
 IWebHostEnvironment environment = builder.Environment;
 
 // Set up the configuration sources.
-builder.WebHost.UseUrls("http://localhost:7155");
+builder.WebHost.UseUrls("https://localhost:7155");
 
 // Add services to the container.
 builder.Services.AddCors();
@@ -165,6 +165,11 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 
 // Add services to the container.
 var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseHsts();
+}
 
 // Configure the HTTP request pipeline.
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());

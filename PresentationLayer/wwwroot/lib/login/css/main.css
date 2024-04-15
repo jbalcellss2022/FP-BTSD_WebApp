@@ -23,8 +23,6 @@
 }
 
 
-
-
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
 
@@ -366,8 +364,6 @@ iframe {
   color: linear-gradient(left, #21d4fd, #b721ff);
 }
 
-
-
 /*------------------------------------------------------------------
 [ Button ]*/
 .container-login100-form-btn {
@@ -392,22 +388,21 @@ iframe {
 }
 
 .login100-form-bgbtn {
-  position: absolute;
-  z-index: -1;
-  width: 300%;
-  height: 100%;
-  background: #a64bf4;
-  background: -webkit-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: -o-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: -moz-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  background: linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
-  top: 0;
-  left: -100%;
-
-  -webkit-transition: all 0.4s;
-  -o-transition: all 0.4s;
-  -moz-transition: all 0.4s;
-  transition: all 0.4s;
+	position: absolute;
+	z-index: -1;
+	width: 300%;
+	height: 100%;
+	background: #18a689; /* Color sólido de respaldo para navegadores que no soportan gradientes */
+	background: -webkit-linear-gradient(right, #50c9b7, #18a689, #167d6e, #18a689, #50c9b7);
+	background: -o-linear-gradient(right, #50c9b7, #18a689, #167d6e, #18a689, #50c9b7);
+	background: -moz-linear-gradient(right, #50c9b7, #18a689, #167d6e, #18a689, #50c9b7);
+	background: linear-gradient(to left, #50c9b7, #18a689, #167d6e, #18a689, #50c9b7);
+	top: 0;
+	left: -100%;
+	-webkit-transition: all 0.4s;
+	-o-transition: all 0.4s;
+	-moz-transition: all 0.4s;
+	transition: all 0.4s;
 }
 
 .login100-form-btn {
@@ -475,7 +470,7 @@ iframe {
 }
 
 .alert-validate::after {
-  content: "\f06a";
+  content: "\f071";
   font-family: FontAwesome;
   font-size: 16px;
   color: #c80000;

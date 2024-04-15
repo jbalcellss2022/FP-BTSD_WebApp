@@ -2,7 +2,6 @@
 (function ($) {
     "use strict";
 
-
     /*==================================================================
     [ Focus input ]*/
     $('.input100').each(function(){
@@ -14,6 +13,15 @@
                 $(this).removeClass('has-val');
             }
         })    
+    })
+
+    $('.input100').each(function () {
+        if ($(this).val().trim() != "") {
+            $(this).addClass('has-val');
+        }
+        else {
+            $(this).removeClass('has-val');
+        }
     })
   
   
@@ -33,7 +41,6 @@
 
         return check;
     });
-
 
     $('.validate-form .input100').each(function(){
         $(this).focus(function(){
@@ -82,8 +89,5 @@
             $(this).find('i').removeClass('zmdi-eye-off');
             showPass = 0;
         }
-        
     });
-
-
 })(jQuery);

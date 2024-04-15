@@ -1,7 +1,10 @@
+using BusinessLogicLayer;
+using DeviceDetectorNET.Parser.Device;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using NLog;
 using System.IO.Compression;
@@ -25,11 +28,11 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        //options.Cookie.Expiration = TimeSpan.FromMinutes(30);
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-        options.LoginPath = new PathString("/Login/Login");
-        options.LogoutPath = new PathString("/Login/Login");
-        options.AccessDeniedPath = new PathString("/Login/Login");
+        options.Cookie.Expiration = TimeSpan.FromMinutes(10);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        options.LoginPath = new PathString("/SignIn/Login");
+        options.LogoutPath = new PathString("/SignIn/Login");
+        options.AccessDeniedPath = new PathString("/SignIn/Login");
         options.SlidingExpiration = true;
         options.Cookie.HttpOnly = true;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -37,10 +40,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-    options.LoginPath = new PathString("/Login/Login");
-    options.LogoutPath = new PathString("/Login/Login");
-    options.AccessDeniedPath = new PathString("/Login/Login");
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    options.LoginPath = new PathString("/SignIn/Login");
+    options.LogoutPath = new PathString("/SignIn/Login");
+    options.AccessDeniedPath = new PathString("/SignIn/Login");
     options.SlidingExpiration = true;
     options.Cookie.HttpOnly = true;
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
@@ -53,6 +56,8 @@ builder.Services.AddDbContext<BBDDContext>(options => options.UseSqlServer(Confi
     .EnableSensitiveDataLogging(true)
     .EnableDetailedErrors());
 */
+
+BLServiceCollection.GetServiceCollection("connString", builder.Services, (IConfigurationRoot)builder.Configuration);
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -104,7 +109,6 @@ try
         KnownProxies = { IPAddress.Parse("127.0.0.1"), IPAddress.Parse("185.254.207.147") },
     });
 
-    //app.UseHttpsRedirection();
     app.UseStaticFiles(new StaticFileOptions
     {
         OnPrepareResponse = ctx => {
@@ -123,10 +127,10 @@ try
     app.MapRazorPages();
     app.MapDefaultControllerRoute();
     app.UseAuthorization();
-    app.Run();
 
+    app.Run();
 }
 catch (Exception ex)
 {
-    logger.Error(ex, "An error occurred while starting the application.");
+	logger.Error(ex, message: "An error occurred while starting the application.");
 }

@@ -424,3 +424,7 @@ packages
 
 /DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfo.cs
 /DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfoInputs.cache
+/PresentationLayer/host_remotecmd.txt
+/PresentationLayer/host_upload.txt
+/PresentationLayer/ignorelist.txt
+/PresentationLayer/sshkey.ppk

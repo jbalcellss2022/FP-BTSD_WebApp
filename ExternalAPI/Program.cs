@@ -5,10 +5,19 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
+using NLog;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System.Text;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
+
+Logger logger = LogManager.GetLogger("");                               // Initialize NLog Logger
+LogManager.Configuration.Variables["LoggerFileName"] = "Backend";       // Set NLog filename pre/suffix
+LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smptEmail"] = "";                   // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smptUser"] = "";                    // Set SMTP User for NLog
+LogManager.Configuration.Variables["smptPassword"] = "";                // Set SMTP password for NLog
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -5,6 +5,7 @@ VisualStudioVersion = 17.10.34804.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "PresentationLayer\PresentationLayer.csproj", "{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}"
 	ProjectSection(ProjectDependencies) = postProject
+		{65FDA8A4-0495-4607-B941-DF92132BECD1} = {65FDA8A4-0495-4607-B941-DF92132BECD1}
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033} = {9F77C133-D311-4A92-A1CB-B3ED9B847033}
 	EndProjectSection
 EndProject
@@ -13,6 +14,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{725758A0-A15F-4651-AC38-A8BB80A22EA5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalAPI", "ExternalAPI\ExternalAPI.csproj", "{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{65FDA8A4-0495-4607-B941-DF92132BECD1} = {65FDA8A4-0495-4607-B941-DF92132BECD1}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{65FDA8A4-0495-4607-B941-DF92132BECD1}"
 EndProject
@@ -20,35 +24,44 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Deploy-ExternalAPI|Any CPU = Deploy-ExternalAPI|Any CPU
+		Deploy-PL|Any CPU = Deploy-PL|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Release|Any CPU
+		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Deploy-PL|Any CPU.ActiveCfg = Deploy-PL|Any CPU
+		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Deploy-PL|Any CPU.Build.0 = Deploy-PL|Any CPU
 		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{614A23DA-5F4B-45C8-B93D-966E2A76AA9B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Release|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Deploy-ExternalAPI|Any CPU.Build.0 = Release|Any CPU
+		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Deploy-PL|Any CPU.ActiveCfg = Release|Any CPU
+		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Deploy-PL|Any CPU.Build.0 = Release|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F77C133-D311-4A92-A1CB-B3ED9B847033}.Release|Any CPU.Build.0 = Release|Any CPU
 		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Release|Any CPU
+		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Deploy-PL|Any CPU.ActiveCfg = Release|Any CPU
 		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{725758A0-A15F-4651-AC38-A8BB80A22EA5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Deploy-ExternalAPI|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Deploy-ExternalAPI|Any CPU.Build.0 = Deploy-ExternalAPI|Any CPU
+		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Deploy-PL|Any CPU.ActiveCfg = Release|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Debug|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Deploy-ExternalAPI|Any CPU.Build.0 = Debug|Any CPU
+		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Deploy-PL|Any CPU.ActiveCfg = Release|Any CPU
+		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Deploy-PL|Any CPU.Build.0 = Release|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FDA8A4-0495-4607-B941-DF92132BECD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

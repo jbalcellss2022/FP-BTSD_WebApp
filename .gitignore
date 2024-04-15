@@ -422,8 +422,9 @@ bin
 obj
 packages
 
-/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfo.cs
-/DataAccessLayer/obj/Debug/net8.0/DataAccessLayer.AssemblyInfoInputs.cache
+/DataAccessLayer/obj
+/DataAccessLayer/bin
+
 /PresentationLayer/host_remotecmd.txt
 /PresentationLayer/host_upload.txt
 /PresentationLayer/ignorelist.txt
@@ -431,3 +432,9 @@ packages
 /PresentationLayer/BusinessLogicLayer.zip
 /PresentationLayer/DataAccessLayer.zip
 /PresentationLayer/PresentationLayer.zip
+
+/PresentationLayer/obj
+/PresentationLayer/bin
+
+/ExternalAPI/obj
+/ExternalAPI/bin

@@ -85,11 +85,12 @@ LogManager.Configuration.Variables["smptPassword"] = "";                // Set S
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	builder.WebHost.UseUrls("http://0.0.0.0:7100"); // Set the listening port
+	app.UseDeveloperExceptionPage();
 }
 else
 {
-    app.UseExceptionHandler("/Error");
+	builder.WebHost.UseUrls("http://0.0.0.0:7100"); // Set the listening port
+	app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 

@@ -163,15 +163,15 @@ builder.Services.AddSwaggerGenNewtonsoftSupport();
 // Add services to the container.
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    builder.WebHost.UseUrls("http://0.0.0.0:7155"); // Set the listening port
-    app.UseExceptionHandler("/error");
-    app.UseHsts();
+	app.UseDeveloperExceptionPage();
 }
 else
 {
-    app.UseDeveloperExceptionPage();
+	builder.WebHost.UseUrls("http://0.0.0.0:7155"); // Set the listening port
+	app.UseExceptionHandler("/error");
+	app.UseHsts();
 }
 
 // Configure the HTTP request pipeline.

@@ -411,3 +411,4 @@ appsettings*.json
 /ExternalAPI/DataAccessLayer.zip
 /ExternalAPI/ExternalAPI.zip
 /ExternalAPI/appsettings.Development.json
+/ExternalAPI/BusinessLogicLayer.zip

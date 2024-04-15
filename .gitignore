@@ -428,3 +428,6 @@ packages
 /PresentationLayer/host_upload.txt
 /PresentationLayer/ignorelist.txt
 /PresentationLayer/sshkey.ppk
+/PresentationLayer/BusinessLogicLayer.zip
+/PresentationLayer/DataAccessLayer.zip
+/PresentationLayer/PresentationLayer.zip

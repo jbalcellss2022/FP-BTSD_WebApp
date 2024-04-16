@@ -1,5 +1,4 @@
-﻿using BCrypt.Net;
-using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Classes;
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;

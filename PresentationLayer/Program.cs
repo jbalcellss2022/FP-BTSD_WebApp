@@ -78,7 +78,7 @@ builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat
 
 var app = builder.Build();
 
-Logger logger = LogManager.GetLogger("");                               // Initialize NLog Logger
+Logger logger = LogManager.GetLogger("");                               // Get NLog logger
 LogManager.Configuration.Variables["LoggerFileName"] = "Backend";       // Set NLog filename pre/suffix
 LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
 LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
@@ -89,25 +89,41 @@ LogManager.Configuration.Variables["smptPassword"] = "";                // Set S
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseDeveloperExceptionPage();
+	//app.UseExceptionHandler("/Error");  // Uses a friendly error page in production mode
+	app.UseDeveloperExceptionPage();  // Uses detailed exception page in development mode
 }
 else
 {
-	builder.WebHost.UseUrls("http://0.0.0.0:7100"); // Set the listening port
-	app.UseExceptionHandler("/Error");
-    app.UseHsts();
+	builder.WebHost.UseUrls("http://0.0.0.0:7100"); // Set the listening port for WebHost production mode
+	app.UseExceptionHandler("/Error");  // Uses a friendly error page in production mode
+	app.UseHsts(); // Use HSTS in production mode
 }
 
 try
 {
-    app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
+    /*
+    // Middleware to show specific error pages
+	app.UseStatusCodePages(async context =>
+	{
+		var request = context.HttpContext.Request;
+		var response = context.HttpContext.Response;
+		if (response.StatusCode == 404)
+		{
+			response.Redirect("/Home/Error");   // Redirect to error page if status code is 404
+		}
+	});
+    */
+
+    // Middleware to forward headers
+	app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
     {
         ForwardedHeaders = ForwardedHeaders.All,
         RequireHeaderSymmetry = false,
         ForwardLimit = null,
-        KnownProxies = { IPAddress.Parse("127.0.0.1"), IPAddress.Parse("185.254.207.147") },
+        KnownProxies = { IPAddress.Parse("127.0.0.1"), IPAddress.Parse("79.143.89.216") },
     });
 
+    // Middleware to serve static files and enable response compression
     app.UseStaticFiles(new StaticFileOptions
     {
         OnPrepareResponse = ctx => {
@@ -116,16 +132,16 @@ try
                 "public,max-age=" + durationInSeconds;
         }
     });
-
-    app.UseResponseCompression();
-    app.UseCookiePolicy();
-    app.UseAuthentication();
-    app.UseSession();
-    app.UseCors("AllowAll");
-    app.UseRouting();
-    app.MapRazorPages();
-    app.MapDefaultControllerRoute();
-    app.UseAuthorization();
+    
+    app.UseResponseCompression();       // Middleware to enable response compression
+	app.UseCookiePolicy();              // Middleware to manage cookies
+    app.UseAuthentication();            // Middleware to manage authentication
+    app.UseSession();                   // Middleware to manage session
+    app.UseCors("AllowAll");            // Middleware to manage CORS
+    app.UseRouting();                   // Middleware to manage routing
+    app.MapRazorPages();                // Middleware to manage Razor Pages
+    app.MapDefaultControllerRoute();    // Middleware to manage default controller route
+    app.UseAuthorization();             // Middleware to manage authorization
 
     app.Run();
 }

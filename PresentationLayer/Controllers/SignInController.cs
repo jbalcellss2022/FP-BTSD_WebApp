@@ -1,18 +1,16 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Classes;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using System.Security.Principal;
-using System.Net.Http;
 
 namespace PresentationLayer.Controllers
 {
-    [Authorize]
+	[Authorize]
     [Route("[controller]/[action]")]
     public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService AuthService) : Controller
     {

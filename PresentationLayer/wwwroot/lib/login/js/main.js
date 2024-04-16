@@ -16,14 +16,23 @@
     })
 
     $('.input100').each(function () {
+        // Agrega un manejador para el evento 'input'
+        $(this).on('input', function () {
+            // Verifica si el input tiene valor y agrega o quita la clase 'has-val' según corresponda
+            if ($(this).val().trim() != "") {
+                $(this).addClass('has-val');
+            } else {
+                $(this).removeClass('has-val');
+            }
+        });
+
+        // Inicialmente verifica si el input tiene valor (por ejemplo, valores guardados en el navegador)
         if ($(this).val().trim() != "") {
             $(this).addClass('has-val');
-        }
-        else {
+        } else {
             $(this).removeClass('has-val');
         }
-    })
-  
+    });
   
     /*==================================================================
     [ Validate ]*/
@@ -76,18 +85,15 @@
     /*==================================================================
     [ Show pass ]*/
     var showPass = 0;
-    $('.btn-show-pass').on('click', function(){
-        if(showPass == 0) {
-            $(this).next('input').attr('type','text');
-            $(this).find('i').removeClass('zmdi-eye');
-            $(this).find('i').addClass('zmdi-eye-off');
-            showPass = 1;
-        }
-        else {
-            $(this).next('input').attr('type','password');
-            $(this).find('i').addClass('zmdi-eye');
-            $(this).find('i').removeClass('zmdi-eye-off');
-            showPass = 0;
-        }
-    });
+    $('.btn-show-pass')
+        .on('mousedown touchstart', function () { // Evento para cuando se presiona el botón
+            $(this).next('input').attr('type', 'text'); // Cambiar el tipo de input a texto para mostrar la contraseña
+            $(this).find('i').removeClass('zmdi-eye').addClass('zmdi-eye-off'); // Cambiar el icono a "ojo cerrado"
+            showPass = 1; // Actualizar el estado
+        })
+        .on('mouseup mouseleave touchend', function () { // Eventos para cuando se suelta el botón o se deja de presionar
+            $(this).next('input').attr('type', 'password'); // Volver a cambiar el tipo de input a contraseña para ocultar la contraseña
+            $(this).find('i').removeClass('zmdi-eye-off').addClass('zmdi-eye'); // Cambiar el icono a "ojo abierto"
+            showPass = 0; // Resetear el estado
+        });
 })(jQuery);

@@ -28,7 +28,6 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.Cookie.Expiration = TimeSpan.FromMinutes(10);
         options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         options.LoginPath = new PathString("/SignIn/Login");
         options.LogoutPath = new PathString("/SignIn/Login");

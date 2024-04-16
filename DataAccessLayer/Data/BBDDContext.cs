@@ -1,4 +1,6 @@
-﻿using DataAccessLayer.Models;
+﻿using System;
+using System.Collections.Generic;
+using DataAccessLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Data;
@@ -100,6 +102,7 @@ public partial class BBDDContext : DbContext
                 .HasComment("UUID unique User ID");
             entity.Property(e => e.address).HasComment("User address");
             entity.Property(e => e.comments).HasComment("Internal comments");
+            entity.Property(e => e.isAdmin).HasDefaultValue(false);
             entity.Property(e => e.login).HasComment("User login email");
             entity.Property(e => e.name)
                 .HasMaxLength(35)

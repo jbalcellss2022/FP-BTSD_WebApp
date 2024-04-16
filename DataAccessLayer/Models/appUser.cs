@@ -1,4 +1,5 @@
-﻿// Ignore Spelling: app
+﻿using System;
+using System.Collections.Generic;
 
 namespace DataAccessLayer.Models;
 
@@ -17,10 +18,12 @@ public partial class appUser
     /// </summary>
     public string? login { get; set; }
 
+    public string password { get; set; } = null!;
+
     /// <summary>
     /// User name
     /// </summary>
-    public string? name { get; set; }
+    public string name { get; set; } = null!;
 
     /// <summary>
     /// User surname
@@ -35,12 +38,14 @@ public partial class appUser
     /// <summary>
     /// User address
     /// </summary>
-    public string address { get; set; } = null!;
+    public string? address { get; set; }
 
     /// <summary>
     /// Internal comments
     /// </summary>
-    public string comments { get; set; } = null!;
+    public string? comments { get; set; }
+
+    public bool? isAdmin { get; set; }
 
     public virtual ICollection<appLogger> appLoggers { get; set; } = new List<appLogger>();
 

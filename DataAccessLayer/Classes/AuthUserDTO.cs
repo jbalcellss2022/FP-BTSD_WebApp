@@ -1,17 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataAccessLayer.Models
+namespace DataAccessLayer.Classes
 {
-    public class AuthUser
+    public class AuthUserDTO
     {
         [Required]
-        public string UserId { get; set; }
+        public string Username { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
-        public bool Remember { get; set; }
-    }
+        public bool KeepSigned { get; set; }
+	}
 }

@@ -1,10 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@model DataAccessLayer.Classes.AuthUserDTO
+
+<!DOCTYPE HTML>
 <html lang="en">
 <body>
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
+				<form class="login100-form validate-form" method="post" asp-controller="SignIn" asp-action="Login">
 
 					<span class="login100-form-title p-b-15">
 		  				<img src="~/lib/login/images/qrfy.jpg" alt="QRFY Logo" height="150">
@@ -15,7 +17,7 @@
 					</span>
 
 					<div class="wrap-input100 validate-input" data-validate = "Invalid email address, please provide a valid address in the format: email@domain.com">
-						<input class="input100" type="email" name="email" title="Please provide a valid email address in the format: email@domain.com">
+						<input asp-for="Username" id="Username" class="input100" type="email" name="Username" autocomplete="username" title="Please provide a valid email address in the format: email@domain.com">
 						<span class="focus-input100" data-placeholder="Email"></span>
 					</div>
 
@@ -23,7 +25,7 @@
 						<span class="btn-show-pass">
 							<i class="zmdi zmdi-eye"></i>
 						</span>
-						<input class="input100" type="password" name="password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
+						<input asp-for="Password" id="Password" class="input100" type="password" name="Password" autocomplete="current-password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
 						<span class="focus-input100" data-placeholder="Password"></span>
 					</div>
 
@@ -36,22 +38,22 @@
 						</div>
 					</div>
 
-					<div class="text-center p-t-50">
+					<div class="text-center p-t-20">
 					  <label class="txt1">
-					    <input class="checkkeep" type="checkbox" name="remember-me" id="remember-me">
-					    Keep me signed in
+							<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep">
+						Keep me signed in
 					  </label>
 					</div>
 
 					<div class="text-center p-t-15">
-						<a class="txt2" href="#">
+						<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
 							¿Forgot your password?
 							<i class="fa fa-share-square-o" aria-hidden="true"></i>
 						</a>
 					</div>
 
 					<div class="text-center p-t-1">
-						<a class="txt2" href="#">
+						<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
 							Create an account to use QRFY services 
 							<i class="fa fa-external-link-square" aria-hidden="true"></i>
 						</a>

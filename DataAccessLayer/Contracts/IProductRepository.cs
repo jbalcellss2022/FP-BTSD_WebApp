@@ -7,7 +7,6 @@
         /// </summary>
         /// <param name="id">The id code of the product you want to obtain. </param>
         /// <returns>An appProduct object that has been located. Otherwise null.</returns>
-
         T GetById(int id);
 
         IEnumerable<T> GetAll();

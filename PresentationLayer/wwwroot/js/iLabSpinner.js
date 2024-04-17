@@ -25,7 +25,7 @@ Rats.UI.LoadAnimation = {
             direction: 1, // 1: clockwise, -1: counterclockwise
             zIndex: 2e9, // The z-index (defaults to 2000000000)
             className: 'spinner', // The CSS class to assign to the spinner
-            top: '33%', // Top position relative to parent
+            top: '40%', // Top position relative to parent
             left: '50%', // Left position relative to parent
             shadow: '0 0 1px transparent', // Box-shadow for the lines
             position: 'relative' // Element positioning / //position: 'absolute' // Element positioning

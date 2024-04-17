@@ -48,10 +48,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\NewFolder\" />
-  </ItemGroup>
-
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
     <Exec Command="if $(Configuration) == Deploy-PL cmd /c del &quot;BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-PL psftp root@79.143.89.216 -P 43522 -b host_upload.txt -i sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-PL plink -batch -ssh root@79.143.89.216 -P 43522 -i sshkey.ppk -m host_remotecmd.txt" />
   </Target>

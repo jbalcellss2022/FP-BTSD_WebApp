@@ -31,31 +31,39 @@ namespace PresentationLayer.Controllers
 		[AllowAnonymous]
 		public IActionResult Login(LoginUserDTO loginUserDTO)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-                ModelState.Clear();
-                if (authService.CheckUserAuth(loginUserDTO))
+				if (ModelState.IsValid)
 				{
-					// TODO: Create and Get Claims from repository in BL
-					var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+					ModelState.Clear();
+					if (authService.CheckUserAuth(loginUserDTO))
+					{
+						// TODO: Create and Get Claims from repository in BL
+						var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 						identity.AddClaim(new Claim(ClaimTypes.Name, loginUserDTO.Username!));
 						identity.AddClaim(new Claim("Usuario", loginUserDTO.Username!));
-					// TODO: Use AuthorizeUSer in BL Service
-					HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+						// TODO: Use AuthorizeUSer in BL Service
+						HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
 
-					return RedirectToAction("Index", "Dashboard");
+						return RedirectToAction("Index", "Dashboard");
+					}
+					else
+					{
+						ModelState.Clear();
+						ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
+						return View("Login", loginUserDTO);
+					}
 				}
 				else
 				{
-                    ModelState.Clear();
-					ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
-                    return View("Login", loginUserDTO);
+					ModelState.Clear();
+					ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
+					return View("Login", loginUserDTO);
 				}
 			}
-			else
-			{
+			catch (Exception ex) {
 				ModelState.Clear();
-				ModelState.AddModelError(string.Empty, "LOGIN_ERROR2");
+				ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
 				return View("Login", loginUserDTO);
 			}
 		}

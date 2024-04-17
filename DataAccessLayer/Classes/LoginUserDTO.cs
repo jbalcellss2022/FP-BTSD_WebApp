@@ -5,10 +5,14 @@ namespace DataAccessLayer.Classes
     public class LoginUserDTO
     {
         [Required]
-        public string? Username { get; set; }
+		[RegularExpression(@"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]
+		[EmailAddress]
+		public string? Username { get; set; }
 
         [Required]
-        [DataType(DataType.Password)]
+		[StringLength(125, MinimumLength = 8)]
+		//[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")]
+		[DataType(DataType.Password)]
         public string? Password { get; set; }
 
         [Required]

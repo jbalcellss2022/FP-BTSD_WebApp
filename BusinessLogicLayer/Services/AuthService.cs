@@ -12,7 +12,7 @@ namespace BusinessLogicLayer.Services
 
         public bool CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
-            appUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
+			appUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
 			if (user != null) {
 				if (Verify(loginUserDTO.Password, user.password))
 				{

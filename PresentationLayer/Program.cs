@@ -18,7 +18,24 @@ var builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services; 
 
 services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
-services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
+services.AddResponseCompression(
+    options => {
+		options.EnableForHttps = true;
+		options.Providers.Add<BrotliCompressionProvider>();
+		options.Providers.Add<GzipCompressionProvider>();
+	});
+
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+	options.Level = CompressionLevel.Fastest;
+});
+
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+	options.Level = CompressionLevel.SmallestSize;
+});
+
+builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
 
 services.AddHttpClient();                                                   // HttpClient
 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();         // HttpContextAccessor
@@ -85,7 +102,7 @@ services.AddMvc();
 var app = builder.Build();
 
 Logger logger = LogManager.GetLogger("");                               // Get NLog logger
-LogManager.Configuration.Variables["LoggerFileName"] = "Backend";       // Set NLog filename pre/suffix
+LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";       // Set NLog filename pre/suffix
 LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
 LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
 LogManager.Configuration.Variables["smptEmail"] = "";                   // Set SMTP Email for NLog
@@ -104,9 +121,10 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-	builder.WebHost.UseUrls("http://0.0.0.0:7100"); // Set the listening port for WebHost production mode
-	app.UseExceptionHandler("/Error");  // Uses a friendly error page in production mode
-	app.UseHsts(); // Use HSTS in production mode
+	app.UseResponseCompression();                       // Middleware to enable response compression
+	builder.WebHost.UseUrls("http://0.0.0.0:7100");     // Set the listening port for WebHost production mode
+	app.UseExceptionHandler("/Error");                  // Uses a friendly error page in production mode
+	app.UseHsts();                                      // Use HSTS in production mode
 }
 
 try
@@ -129,8 +147,6 @@ try
                 "public,max-age=" + durationInSeconds;
         }
     });
-
-	app.UseResponseCompression();       // Middleware to enable response compression
 
 	var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("es") }; // Middleware to manage request localization
 	app.UseRequestLocalization(new RequestLocalizationOptions

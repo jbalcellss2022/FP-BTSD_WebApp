@@ -72,8 +72,13 @@ namespace PresentationLayer.Controllers
 		[AllowAnonymous]
 		public IActionResult Logout()
 		{
-			HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // Clear the existing external cookie to ensure a clean login process
-			return RedirectToAction("Index", "Dashboard");
+			// Clear the existing cookie to ensure a clean NEW login process
+			if (httpContextAccessor.HttpContext != null)
+			{
+				HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+				return RedirectToAction("Index", "Dashboard");
+			}
+			else return StatusCode(StatusCodes.Status400BadRequest);
 		}
 
 		[HttpPost]
@@ -81,10 +86,10 @@ namespace PresentationLayer.Controllers
 		public async Task<IActionResult> MakeLogout()
 		{
 			var authBool = "0";
-			
 			if (httpContextAccessor.HttpContext != null)
 			{
-                await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+				// Clear the existing cookie to ensure a clean NEW login process
+				await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 foreach (var cookie in HttpContext.Request.Cookies) { Response.Cookies.Delete(cookie.Key); }
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
                 await Task.Run(() => { 

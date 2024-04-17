@@ -1,70 +1,74 @@
-﻿@model DataAccessLayer.Classes.AuthUserDTO
+﻿@model DataAccessLayer.Classes.LoginUserDTO
 
 <!DOCTYPE HTML>
-<html lang="en">
+<html>
 <body>
 	<div class="limiter">
 		<div class="container-login100">
-			<div class="wrap-login100">
-				<form class="login100-form validate-form" method="post" asp-controller="SignIn" asp-action="Login">
+				<div id="loaderlayout" style="display:block"></div>
+				<div class="wrap-login100">
+					<form id="loginForm" class="login100-form validate-form" method="post" asp-controller="SignIn" asp-action="Login">
 
-					<span class="login100-form-title p-b-15">
-		  				<img src="~/lib/login/images/qrfy.jpg" alt="QRFY Logo" height="150">
-					</span>
-
-					<span class="login100-form-title p-b-50">
-						Sign in whith your email
-					</span>
-
-					<div class="wrap-input100 validate-input" data-validate = "Invalid email address, please provide a valid address in the format: email@domain.com">
-						<input asp-for="Username" id="Username" class="input100" type="email" name="Username" autocomplete="username" title="Please provide a valid email address in the format: email@domain.com">
-						<span class="focus-input100" data-placeholder="Email"></span>
-					</div>
-
-					<div class="wrap-input100 validate-input" data-validate="Enter a valid password with the following pattern: Minimum 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character.">						
-						<span class="btn-show-pass">
-							<i class="zmdi zmdi-eye"></i>
+						<span class="login100-form-title p-b-15">
+		  					<img src="~/lib/login/images/qrfy.jpg" alt="QRFY Logo" height="150">
 						</span>
-						<input asp-for="Password" id="Password" class="input100" type="password" name="Password" autocomplete="current-password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
-						<span class="focus-input100" data-placeholder="Password"></span>
-					</div>
 
-					<div class="container-login100-form-btn">
-						<div class="wrap-login100-form-btn">
-							<div class="login100-form-bgbtn"></div>
-							<button class="login100-form-btn">
-								Login
-							</button>
+						<span class="login100-form-title p-b-50">
+							Sign in whith your email
+						</span>
+
+						<div class="wrap-input100 validate-input m-b-30" data-validate="Invalid email address, please provide a valid address in the format: email@domain.com">
+							<input asp-for="Username" id="Username" class="input100" type="email" name="Username" autocomplete="username" title="Please provide a valid email address in the format: email@domain.com">
+							<span class="focus-input100" data-placeholder="Email"></span>
 						</div>
-					</div>
 
-					<div class="text-center p-t-20">
-					  <label class="txt1">
-							<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep">
-						Keep me signed in
-					  </label>
-					</div>
+						<div class="wrap-input100 validate-input" data-validate="Enter a valid password with the following pattern: Minimum 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character.">
+							<span class="btn-show-pass">
+								<i class="zmdi zmdi-eye"></i>
+							</span>
+							<input asp-for="Password" id="Password" class="input100" type="password" name="Password" autocomplete="current-password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
+							<span class="focus-input100" data-placeholder="Password"></span>
+						</div>
 
-					<div class="text-center p-t-15">
-						<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
-							¿Forgot your password?
-							<i class="fa fa-share-square-o" aria-hidden="true"></i>
-						</a>
-					</div>
+						<div asp-validation-summary="All" class="text-danger m-t-15 m-b-15"></div>
 
-					<div class="text-center p-t-1">
-						<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
-							Create an account to use QRFY services 
-							<i class="fa fa-external-link-square" aria-hidden="true"></i>
-						</a>
-					</div>
-				</form>
-			</div>
+						<div class="container-login100-form-btn">
+							<div class="wrap-login100-form-btn">
+								<div class="login100-form-bgbtn"></div>
+								<button id="loginButton" class="login100-form-btn">
+									Login
+								</button>
+							</div>
+						</div>
+
+						<div class="text-center p-t-20">
+						  <label class="txt1">
+								<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep">
+							Keep me signed in
+						  </label>
+						</div>
+
+						<div class="text-center p-t-15">
+							<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
+								¿Forgot your password?
+								<i class="fa fa-share-square-o" aria-hidden="true"></i>
+							</a>
+						</div>
+
+						<div class="text-center p-t-1">
+							<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
+								Create an account to use QRFY services 
+								<i class="fa fa-external-link-square" aria-hidden="true"></i>
+							</a>
+						</div>
+					</form>
+				</div>
 		</div>
 	</div>
 
 	<div id="dropDownSelect1"></div>
 	
+	<script asp-append-version="true" src="~/js/iLabSpinner.js"></script>
 	<script src="~/lib/login/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<script src="~/lib/login/vendor/animsition/js/animsition.min.js"></script>
 	<script src="~/lib/login/vendor/bootstrap/js/popper.js"></script>
@@ -74,5 +78,24 @@
 	<script src="~/lib/login/vendor/daterangepicker/daterangepicker.js"></script>
 	<script src="~/lib/login/vendor/countdowntime/countdowntime.js"></script>
 	<script src="~/lib/login/js/main.js"></script>
+	<script src="~/lib/spin/spin.js"></script>
 </body>
 </html>
+
+<script>
+	iLabSpinner = Rats.UI.LoadAnimation.start();
+	$(document).ready(function () {
+		$('#loaderlayout').css("display", "none");
+		iLabSpinner.stop();
+		$("#page-wrapper").css("display", "block");
+	});
+
+	document.addEventListener('DOMContentLoaded', function() {
+		var loginForm = document.getElementById('loginForm');
+		loginForm.addEventListener('submit', function(event) {
+			var iLabSpinner = Rats.UI.LoadAnimation.start();
+			$('#loaderlayout').css("display", "block");
+			$("#page-wrapper").css("display", "block");
+		});
+	});
+</script>

@@ -9,7 +9,7 @@ namespace DataAccessLayer.Contracts
 		/// </summary>
 		/// <param name="id">The id code of the product you want to obtain. </param>
 		/// <returns>An appProduct object that has been located. Otherwise null.</returns>
-		appUser GetUserByEmail(string Username);
+		appUser? GetUserByEmail(string Username);
 
 	}
 }

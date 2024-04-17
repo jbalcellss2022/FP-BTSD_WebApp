@@ -221,7 +221,6 @@ iframe {
   width: 100%;
   position: relative;
   border-bottom: 2px solid #adadad;
-  margin-bottom: 30px;
 }
 
 .input100 {
@@ -509,4 +508,13 @@ iframe {
 	.wrap-login100 {
 		width: 640px;
 	}
+}
+
+.text-danger{
+	font-size: 0.8rem;
+}
+
+.gray-bg,
+.bg-muted {
+	background-color: #f3f3f4;
 }

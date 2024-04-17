@@ -2,38 +2,25 @@
 using DataAccessLayer.Classes;
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Models;
+using static BCrypt.Net.BCrypt;
 
 namespace BusinessLogicLayer.Services
 {
-	public class AuthService : IAuthService
+	public class AuthService(IUserRepository UserRepository) : IAuthService
 	{
-		private readonly IUserRepository userRepository;
+		private readonly IUserRepository userRepository = UserRepository;
 
-		public AuthService(IUserRepository UserRepository)
+        public bool CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
-			userRepository = UserRepository;
-		}
-
-		public UserDTO CheckUserAuth(AuthUserDTO loginUserDTO)
-		{
-			UserDTO userDTO = null;
-
-			string hash1 = BCrypt.Net.BCrypt.HashPassword("S43524410s");
-			string hash2 = BCrypt.Net.BCrypt.HashPassword("qrfydemo2024");
-
-			appUser user = userRepository.GetUserByEmail(loginUserDTO.Username);
+            appUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
 			if (user != null) {
-				if (BCrypt.Net.BCrypt.Verify(loginUserDTO.Password, hash1))
+				if (Verify(loginUserDTO.Password, user.password))
 				{
-					userDTO = new(){ 
-						Username = user.login,
-						KeepSigned = loginUserDTO.KeepSigned,
-						isAdmin = true
-					};
+					return true;
 				}
 			}
 
-			return userDTO;
+			return false;
 		}
 	}
 }

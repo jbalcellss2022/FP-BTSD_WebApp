@@ -9,7 +9,7 @@ namespace BusinessLogicLayer.Interfaces
 		/// </summary>
 		/// <param name="loginUserDto"></param>
 		/// <returns>Returns an object of type UserDTO if authentication is successful. Otherwise it returns null</returns>
-		UserDTO CheckUserAuth(AuthUserDTO loginUserDTO);
+		bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
 	}
 }

@@ -4,55 +4,53 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 using System.Security.Claims;
 using System.Security.Principal;
 
 namespace PresentationLayer.Controllers
 {
-	[Authorize]
+    [Authorize]
     [Route("[controller]/[action]")]
-    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService AuthService) : Controller
+    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
-            var ProcesDebug = false;
-            if (Debugger.IsAttached && ProcesDebug) // Debugger Login bypass
-            {
-				AuthUserDTO authUser = new() {
-					Username = "admin@qrfy.es",
-					Password = "43524410",
-					KeepSigned = true
-				};
-				return RedirectToAction("Index", "Home");
-            }
-            else return View("Login", new AuthUserDTO());
+            ModelState.Clear();
+            return View("Login", new LoginUserDTO());
         }
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Login(AuthUserDTO authUser)
+		public IActionResult Login(LoginUserDTO loginUserDTO)
 		{
 			if (ModelState.IsValid)
 			{
-				if (AuthService.CheckUserAuth(authUser) != null)
+                ModelState.Clear();
+                if (authService.CheckUserAuth(loginUserDTO))
 				{
+					// TODO: Create and Get Claims from repository in BL
 					var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-					identity.AddClaim(new Claim(ClaimTypes.Name, authUser.Username));
-					identity.AddClaim(new Claim("Usuario", authUser.Username));
-					HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = authUser.KeepSigned });
-					return RedirectToAction("Index", "Home");
+						identity.AddClaim(new Claim(ClaimTypes.Name, loginUserDTO.Username!));
+						identity.AddClaim(new Claim("Usuario", loginUserDTO.Username!));
+					// TODO: Use AuthorizeUSer in BL Service
+					HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+
+					return RedirectToAction("Index", "Dashboard");
 				}
 				else
 				{
-					return View();
+                    ModelState.Clear();
+                    ModelState.AddModelError(string.Empty, "Unable to log in, please check your login details.");
+                    return View("Login", loginUserDTO);
 				}
 			}
 			else
 			{
-				return View();
+				ModelState.Clear();
+				ModelState.AddModelError(string.Empty, "Unable to log in, please check your login details.");
+				return View("Login", loginUserDTO);
 			}
 		}
 
@@ -61,7 +59,7 @@ namespace PresentationLayer.Controllers
 		public IActionResult Logout()
 		{
 			HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme); // Clear the existing external cookie to ensure a clean login process
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "Dashboard");
 		}
 
 		[HttpPost]
@@ -70,13 +68,20 @@ namespace PresentationLayer.Controllers
 		{
 			var authBool = "0";
 			
-			await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-			foreach (var cookie in HttpContext.Request.Cookies) { Response.Cookies.Delete(cookie.Key); }
-			HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
-			await Task.Run(() => { if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) { authBool = "1"; } });
+			if (httpContextAccessor.HttpContext != null)
+			{
+                await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                foreach (var cookie in HttpContext.Request.Cookies) { Response.Cookies.Delete(cookie.Key); }
+                HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
+                await Task.Run(() => { 
+					if (httpContextAccessor.HttpContext.User.Identity != null)
+						if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) { authBool = "1"; } 
+				});
 
-			return StatusCode(200, authBool);
-		}
+                return StatusCode(StatusCodes.Status200OK, authBool);
+            }
+			else return StatusCode(StatusCodes.Status400BadRequest, authBool);
+        }
 
 	}
 }

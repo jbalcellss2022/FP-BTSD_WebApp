@@ -1,9 +1,11 @@
 using BusinessLogicLayer;
+using DataAccessLayer.Data;
 using DeviceDetectorNET.Parser.Device;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using NLog;
@@ -12,8 +14,8 @@ using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
-builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
+//builder.Services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
+//builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
@@ -28,7 +30,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
         options.LoginPath = new PathString("/SignIn/Login");
         options.LogoutPath = new PathString("/SignIn/Login");
         options.AccessDeniedPath = new PathString("/SignIn/Login");
@@ -39,7 +41,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     options.LoginPath = new PathString("/SignIn/Login");
     options.LogoutPath = new PathString("/SignIn/Login");
     options.AccessDeniedPath = new PathString("/SignIn/Login");
@@ -50,13 +52,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.Configure<ForwardedHeadersOptions>(options => { options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto; });
 
-/*
-builder.Services.AddDbContext<BBDDContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConnectionString"))
+builder.Services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
     .EnableSensitiveDataLogging(true)
     .EnableDetailedErrors());
-*/
 
-BLServiceCollection.GetServiceCollection("connString", builder.Services, (IConfigurationRoot)builder.Configuration);
+BLServiceCollection.GetServiceCollection(builder.Services, (IConfigurationRoot)builder.Configuration);
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -101,19 +101,6 @@ else
 
 try
 {
-    /*
-    // Middleware to show specific error pages
-	app.UseStatusCodePages(async context =>
-	{
-		var request = context.HttpContext.Request;
-		var response = context.HttpContext.Response;
-		if (response.StatusCode == 404)
-		{
-			response.Redirect("/Home/Error");   // Redirect to error page if status code is 404
-		}
-	});
-    */
-
     // Middleware to forward headers
 	app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
     {
@@ -133,15 +120,19 @@ try
         }
     });
     
-    app.UseResponseCompression();       // Middleware to enable response compression
+    //app.UseResponseCompression();       // Middleware to enable response compression
 	app.UseCookiePolicy();              // Middleware to manage cookies
     app.UseAuthentication();            // Middleware to manage authentication
     app.UseSession();                   // Middleware to manage session
     app.UseCors("AllowAll");            // Middleware to manage CORS
     app.UseRouting();                   // Middleware to manage routing
-    app.MapRazorPages();                // Middleware to manage Razor Pages
-    app.MapDefaultControllerRoute();    // Middleware to manage default controller route
     app.UseAuthorization();             // Middleware to manage authorization
+    app.MapRazorPages();                // Middleware to manage Razor Pages
+
+    // Middleware to manage default controller route
+    app.MapControllerRoute(
+        name: "default", 
+        pattern: "{controller=Dashboard}/{action=Index}/{id?}"); 
 
     app.Run();
 }

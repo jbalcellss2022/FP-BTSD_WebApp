@@ -5,16 +5,15 @@ namespace BusinessLogicLayer
 {
 	public static class BLServiceCollection
 	{
-		public static IServiceCollection GetServiceCollection(string entityConnString, IServiceCollection services = null, IConfigurationRoot configuration = null)
+		public static IServiceCollection GetServiceCollection(IServiceCollection? services = null, IConfigurationRoot? configuration = null)
 		{
-			if (services == null)
-				services = new ServiceCollection();
+			services ??= new ServiceCollection();
 
 			//SERVICES 
-			services.AddBLInjectionExtensions(configuration);
+			services.AddBLInjectionExtensions(configuration!);
 
 			//REPOSITORIES
-			services.AddDALInjectionExtensions(configuration);
+			services.AddDALInjectionExtensions(configuration!);
 
 			return services;
 		}

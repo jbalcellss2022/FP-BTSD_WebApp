@@ -11,13 +11,14 @@
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     <EnableNETAnalyzers>False</EnableNETAnalyzers>
     <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <SatelliteResourceLanguages>es</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="31.0.3" />
+    <PackageReference Include="CsvHelper" Version="31.0.4" />
     <PackageReference Include="DeviceDetector.NET" Version="6.3.3" />
     <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
@@ -27,7 +28,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.4" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="NLog" Version="5.2.8" />
     <PackageReference Include="NLog.Database" Version="5.2.8" />
     <PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
@@ -49,7 +49,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
-    <Exec Command="if $(Configuration) == Deploy-PL cmd /c del &quot;BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-PL psftp root@79.143.89.216 -P 43522 -b host_upload.txt -i sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-PL plink -batch -ssh root@79.143.89.216 -P 43522 -i sshkey.ppk -m host_remotecmd.txt" />
+    <Exec Command="if $(Configuration) == Deploy-PL cmd /c del &quot;BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Resources.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;Resources.zip&quot; &quot;$(SolutionDir)\Resources\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-lib.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-lib.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\lib\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-inspinia.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-inspinia.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\inspinia\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-regexes.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-regexes.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\regexes\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-geoip2.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-geoip2.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\geoip2\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-PL psftp root@79.143.89.216 -P 43522 -b host_upload.txt -i sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-PL plink -batch -ssh root@79.143.89.216 -P 43522 -i sshkey.ppk -m host_remotecmd.txt" />
   </Target>
 
 </Project>

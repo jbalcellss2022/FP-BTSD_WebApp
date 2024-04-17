@@ -61,7 +61,7 @@ namespace PresentationLayer.Controllers
 					return View("Login", loginUserDTO);
 				}
 			}
-			catch (Exception ex) {
+			catch (Exception) {
 				ModelState.Clear();
 				ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
 				return View("Login", loginUserDTO);

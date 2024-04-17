@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using NLog;
 using System.Globalization;
+using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 using System.Resources;
@@ -15,8 +17,8 @@ using System.Resources;
 var builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services; 
 
-//services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
-//services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
+services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
+services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
 
 services.AddHttpClient();                                                   // HttpClient
 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();         // HttpContextAccessor
@@ -90,6 +92,10 @@ LogManager.Configuration.Variables["smptEmail"] = "";                   // Set S
 LogManager.Configuration.Variables["smptUser"] = "";                    // Set SMTP User for NLog
 LogManager.Configuration.Variables["smptPassword"] = "";                // Set SMTP password for NLog
 
+logger.Info("init");
+logger.Warn("warn");
+logger.Error("Error");
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -124,15 +130,9 @@ try
         }
     });
 
-	//app.UseResponseCompression();       // Middleware to enable response compression
+	app.UseResponseCompression();       // Middleware to enable response compression
 
-	// Middleware to manage request localization
-	var supportedCultures = new[]
-   {
-	    new CultureInfo("en"),
-	    new CultureInfo("es")
-   };
-
+	var supportedCultures = new[] { new CultureInfo("en"), new CultureInfo("es") }; // Middleware to manage request localization
 	app.UseRequestLocalization(new RequestLocalizationOptions
 	{
 		DefaultRequestCulture = new RequestCulture("en"),
@@ -148,12 +148,8 @@ try
     app.UseAuthorization();             // Middleware to manage authorization
     app.MapRazorPages();                // Middleware to manage Razor Pages
 
-    // Middleware to manage default controller route
-    app.MapControllerRoute(
-        name: "default", 
-        pattern: "{controller=Dashboard}/{action=Index}/{id?}"); 
-
-    app.Run();
+    app.MapControllerRoute( name: "default", pattern: "{controller=Dashboard}/{action=Index}/{id?}" ); // Middleware to manage default controller route 
+	app.Run();
 }
 catch (Exception ex)
 {

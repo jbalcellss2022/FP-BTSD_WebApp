@@ -441,3 +441,7 @@ packages
 
 obj/
 bin/
+/PresentationLayer/wwwroot-inspinia.zip
+/PresentationLayer/wwwroot-lib.zip
+/PresentationLayer/wwwroot-geoip2.zip
+/PresentationLayer/wwwroot-regexes.zip

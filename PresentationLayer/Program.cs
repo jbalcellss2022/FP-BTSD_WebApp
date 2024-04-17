@@ -1,33 +1,37 @@
 using BusinessLogicLayer;
 using DataAccessLayer.Data;
-using DeviceDetectorNET.Parser.Device;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Net.Http.Headers;
 using NLog;
-using System.IO.Compression;
+using System.Globalization;
 using System.Net;
+using System.Reflection;
+using System.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
+IServiceCollection services = builder.Services; 
 
-//builder.Services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
-//builder.Services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
-builder.Services.AddHttpClient();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+//services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
+//services.AddResponseCompression(options => { options.EnableForHttps = true; options.Providers.Add<GzipCompressionProvider>(); });
+
+services.AddHttpClient();                                                   // HttpClient
+services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();         // HttpContextAccessor
+
+builder.Services.AddLocalization();
 
 // Cookie Management
-builder.Services.Configure<CookiePolicyOptions>(options =>
+services.Configure<CookiePolicyOptions>(options =>
 {
     // This lambda determines whether user consent for non-essential cookies is needed for a given request.
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
 });
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
@@ -39,7 +43,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
 
-builder.Services.ConfigureApplicationCookie(options =>
+services.ConfigureApplicationCookie(options =>
 {
     options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
     options.LoginPath = new PathString("/SignIn/Login");
@@ -50,31 +54,31 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
-builder.Services.Configure<ForwardedHeadersOptions>(options => { options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto; });
+services.Configure<ForwardedHeadersOptions>(options => { options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto; });
 
-builder.Services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
+services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
     .EnableSensitiveDataLogging(true)
     .EnableDetailedErrors());
 
 BLServiceCollection.GetServiceCollection(builder.Services, (IConfigurationRoot)builder.Configuration);
 
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
-builder.Services.AddCors(options =>
+services.AddRazorPages();
+services.AddControllersWithViews();
+services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
     builder =>
     {
         builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .SetIsOriginAllowed((host) => true);
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .SetIsOriginAllowed((host) => true);
     });
 });
-builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, opts => { opts.ResourcesPath = "Resources"; });
+services.AddSession();
+services.AddHttpContextAccessor();
+services.AddMvc();
 
 var app = builder.Build();
 
@@ -119,8 +123,23 @@ try
                 "public,max-age=" + durationInSeconds;
         }
     });
-    
-    //app.UseResponseCompression();       // Middleware to enable response compression
+
+	//app.UseResponseCompression();       // Middleware to enable response compression
+
+	// Middleware to manage request localization
+	var supportedCultures = new[]
+   {
+	    new CultureInfo("en"),
+	    new CultureInfo("es")
+   };
+
+	app.UseRequestLocalization(new RequestLocalizationOptions
+	{
+		DefaultRequestCulture = new RequestCulture("en"),
+		SupportedCultures = supportedCultures,
+		SupportedUICultures = supportedCultures,
+	});
+
 	app.UseCookiePolicy();              // Middleware to manage cookies
     app.UseAuthentication();            // Middleware to manage authentication
     app.UseSession();                   // Middleware to manage session

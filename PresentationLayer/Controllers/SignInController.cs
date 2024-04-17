@@ -4,6 +4,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
+using Microsoft.Extensions.Localization;
+using PresentationLayer;
+using Resources;
+using System.Globalization;
+using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
 
@@ -11,7 +17,7 @@ namespace PresentationLayer.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService) : Controller
+    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService, IStringLocalizer<BasicResources> LocalizeString) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
@@ -42,14 +48,14 @@ namespace PresentationLayer.Controllers
 				else
 				{
                     ModelState.Clear();
-                    ModelState.AddModelError(string.Empty, "Unable to log in, please check your login details.");
+					ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
                     return View("Login", loginUserDTO);
 				}
 			}
 			else
 			{
 				ModelState.Clear();
-				ModelState.AddModelError(string.Empty, "Unable to log in, please check your login details.");
+				ModelState.AddModelError(string.Empty, "LOGIN_ERROR2");
 				return View("Login", loginUserDTO);
 			}
 		}
@@ -82,6 +88,5 @@ namespace PresentationLayer.Controllers
             }
 			else return StatusCode(StatusCodes.Status400BadRequest, authBool);
         }
-
 	}
 }

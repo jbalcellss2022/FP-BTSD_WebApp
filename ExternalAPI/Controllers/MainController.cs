@@ -59,7 +59,7 @@ namespace ExternalAPI.Controllers
         [HttpPost("authenticate")]
         public ObjectResult Authenticate([FromForm] UserAuth userParam)
         {
-            object user = null; // ctxUserService.Authenticate(userParam.Username, userParam.Password);
+			UserAuth? user = null; // ctxUserService.Authenticate(userParam.Username, userParam.Password);
             if (user != null)
             {
                 return this.StatusCode((int)HttpStatusCode.OK, user);

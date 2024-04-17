@@ -21,7 +21,7 @@ namespace ExternalAPI.Classes
 
         public class UserProducts
         {
-            public List<appProduct> Products { get; set; }
+            public List<appProduct>? Products { get; set; }
         }
     }
 }

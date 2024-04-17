@@ -6,6 +6,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-PresentationLayer-a32383f8-3e08-456a-b578-c37074ca9605</UserSecretsId>
     <Configurations>Debug;Release;Deploy-PL</Configurations>
+    <Title>QRFY Web Application</Title>
+    <NeutralLanguage>en</NeutralLanguage>
+    <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
+    <EnableNETAnalyzers>False</EnableNETAnalyzers>
+    <RunAnalyzersDuringLiveAnalysis>False</RunAnalyzersDuringLiveAnalysis>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +25,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.4" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
     <PackageReference Include="NLog" Version="5.2.8" />
     <PackageReference Include="NLog.Database" Version="5.2.8" />

@@ -18,14 +18,13 @@ function OnLoadSecurity() {
     
     url = "/securityhub"; // Token control to generate hub URL
     token = GetTokenId();
+    console.log("QRFY. SignalR Session Token", token);
     if (token !== "" && token !== null && token !== undefined) { url = "/securityhub?tokenId=" + token; }
 
     // Create Hub connection
     let connection;
-    let signalR;
     try {
-        signalR = require("@microsoft/signalr");
-        console.log('QRFY. SignalR is installed. Starting Hub..');
+        console.log('QRFY. Starting SignalR Hub.');
         try {
             connection = new signalR
                 .HubConnectionBuilder()
@@ -40,12 +39,10 @@ function OnLoadSecurity() {
             // ######## Receive methods from the Hub "connection.on" always before start() !Important  ###### //
             // ############################################################################################## //
 
+            connection.on("SetSessionTokenId", (connectionId) => { SetTokenId(connection, connectionId); });
             connection.on("ReceiveMessage", (user, message) => { console.log(user, message); });
-
-            connection.on("SetConnectionId", (connectionId) => { SetTokenId(connection, connectionId); });
-
             connection.on("GetProgressStatus", (type, status, message1, message2) => { SetProgressStatus(type, status, message1, message2); });
-
+            
             start(connection, url);
             connection.onclose(async (error) => { console.log("QRFY. SignalR OnClose: Trying to reconnect to SecurityHub..."); await start(connection, url); });  // Always try reconnection
 
@@ -60,7 +57,7 @@ function OnLoadSecurity() {
         } 
     }
     catch (error) {
-        console.log('QRFY. SignalR is not installed.');
+        console.log('QRFY. SignalR is not installed. ', error);
     }
 }
 
@@ -74,7 +71,7 @@ async function start(connection, url) {
             connection.invoke('GetConnectionId')
                 .then(function (connectionId){
                     SetTokenId(connection, connectionId);
-                    console.log("QRFY. SignalR Connected to SecurityHub => Token: ", GetTokenId(), " ConnectionId: ", connectionId);
+                    console.log("QRFY. SignalR Connected to SecurityHub with Token: [" + GetTokenId() + "] & ConnectionId: [" + connectionId + "]");
                 });
             connection.invoke('SetProgramHistory', GetTokenId(), window.location.href);
         } else {
@@ -122,6 +119,7 @@ function AuthResetTimer() {
     //console.log("QRFY. Resetting inativity Time:", timeInactivity);
     clearTimeout(timeInactivity);
     timeInactivity = setTimeout(AuthLogout, 300000);    // 5 Minutes
+
     //timeInactivity = setTimeout(AuthLogout, 1800000);   // 30 Minutes
     //timeInactivity = setTimeout(AuthLogout, 15000);     // 15 Secs
 }
@@ -129,9 +127,11 @@ function AuthResetTimer() {
 function AuthInactivityTime(){
     // DOM Events
     document.onmousemove = AuthResetTimer;                      // on mouse move
-    document.onkeypress = AuthResetTimer;                       // on keypress
+    document.onkeydown = AuthResetTimer;                        // on onkeydown
+    document.onkeyup = AuthResetTimer;                          // on onkeyup
     document.ontouchstart = AuthResetTimer;                     // on touchpad clicks
-    document.onclick = AuthResetTimer;                          
-    document.onkeypress = AuthResetTimer;                       // on keypress
+    document.onclick = AuthResetTimer;                          // Reset timer    
+    document.onkeydown = AuthResetTimer;                        // on onkeydown
+    document.onkeyup = AuthResetTimer;                          // on onkeyup
     document.addEventListener('scroll', AuthResetTimer, true);  // on scroll, improved
 }

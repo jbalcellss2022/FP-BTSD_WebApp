@@ -30,23 +30,23 @@ namespace PresentationLayer.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public IActionResult Login(LoginUserDTO loginUserDTO)
+        public async Task<IActionResult> Login(LoginUserDTO loginUserDTO)
 		{
 			try
 			{
 				if (ModelState.IsValid)
 				{
 					ModelState.Clear();
-					if (authService.CheckUserAuth(loginUserDTO))
+					if (await authService.CheckUserAuth(loginUserDTO))
 					{
-                        userDDService.AddUserDeviceDetector(loginUserDTO.Username!);
+                        await userDDService.AddUserDeviceDetector(loginUserDTO.Username!);
 
                         // TODO: Create and Get Claims from repository in BL
                         var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 						identity.AddClaim(new Claim(ClaimTypes.Name, loginUserDTO.Username!));
 						identity.AddClaim(new Claim("Usuario", loginUserDTO.Username!));
 						// TODO: Use AuthorizeUSer in BL Service
-						HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
 
 						return RedirectToAction("Index", "Dashboard");
 					}
@@ -73,12 +73,12 @@ namespace PresentationLayer.Controllers
 
 		[HttpGet]
 		[AllowAnonymous]
-		public IActionResult Logout()
+        public async Task<IActionResult> Logout()
 		{
 			// Clear the existing cookie to ensure a clean NEW login process
 			if (httpContextAccessor.HttpContext != null)
 			{
-				HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+				await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 				return RedirectToAction("Index", "Dashboard");
 			}
 			else return StatusCode(StatusCodes.Status400BadRequest);
@@ -86,7 +86,7 @@ namespace PresentationLayer.Controllers
 
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<IActionResult> MakeLogout()
+        public async Task<IActionResult> MakeLogout()
 		{
 			var authBool = "0";
 			if (httpContextAccessor.HttpContext != null)

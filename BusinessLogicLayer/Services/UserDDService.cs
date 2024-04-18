@@ -10,6 +10,7 @@ using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 
@@ -48,10 +49,12 @@ namespace BusinessLogicLayer.Services
             }
         }
 
-        public void AddUserDeviceDetector(string? userId)
+        public async Task<bool> AddUserDeviceDetector(string? userId)
         {
             UserDDDTO userDDDTO = GetUserDeviceDetector(userRepository.GetUserIdByEmail(userId!));
-            userRepository.AddUserDD(userDDDTO);
+            await userRepository.AddUserDD(userDDDTO);
+
+            return true;
         }
 
         private UserDDDTO GetUserDeviceDetector(Guid? userId)

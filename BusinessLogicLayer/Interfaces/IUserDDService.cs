@@ -1,6 +1,4 @@
-﻿using DataAccessLayer.Classes;
-
-namespace BusinessLogicLayer.Interfaces
+﻿namespace BusinessLogicLayer.Interfaces
 {
     public interface IUserDDService
     {
@@ -16,7 +14,6 @@ namespace BusinessLogicLayer.Interfaces
         /// </summary>
         /// <param name="userId">Username value as a string.</param>
         /// <returns></returns>
-        public void AddUserDeviceDetector(string userId);
-
+        public Task<bool> AddUserDeviceDetector(string? userId);
     }
 }

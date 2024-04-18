@@ -3,6 +3,7 @@ using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using DataAccessLayer.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using NLog;
+using SecurityHubs.Hubs;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -99,6 +101,13 @@ services.AddCors(options =>
         .SetIsOriginAllowed((host) => true);
     });
 });
+
+services.AddSignalR(config => {
+    config.EnableDetailedErrors = true;
+    config.ClientTimeoutInterval = TimeSpan.FromSeconds(60);
+    config.KeepAliveInterval = TimeSpan.FromSeconds(30);
+});
+
 services.AddSession();
 services.AddHttpContextAccessor();
 services.AddMvc();
@@ -176,6 +185,16 @@ try
     app.UseRouting();                   // Middleware to manage routing
     app.UseAuthorization();             // Middleware to manage authorization
     app.MapRazorPages();                // Middleware to manage Razor Pages
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapHub<SecurityHub>("/securityhub", options =>
+        {
+            options.Transports = HttpTransportType.LongPolling | HttpTransportType.ServerSentEvents;
+            options.LongPolling.PollTimeout = TimeSpan.FromSeconds(180);
+            options.WebSockets.CloseTimeout = TimeSpan.FromSeconds(180);
+        });
+    });
 
     app.MapControllerRoute( name: "default", pattern: "{controller=Dashboard}/{action=Index}/{id?}" ); // Middleware to manage default controller route 
 	app.Run();

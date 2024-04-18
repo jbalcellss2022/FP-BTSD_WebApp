@@ -2,16 +2,17 @@
 using DataAccessLayer.Contracts;
 using DataAccessLayer.Data;
 using DataAccessLayer.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories
 {
     public class UserRepository(BBDDContext bbddcontext) : IUserRepository
 	{
-        public appUser? GetUserByEmail(string Username)
+        public async Task<appUser?> GetUserByEmail(string Username)
         {
             if (bbddcontext != null && bbddcontext.appUsers != null)
             {
-                appUser? user = bbddcontext.appUsers.FirstOrDefault(appUser => appUser.login == Username);
+                appUser? user = await bbddcontext.appUsers.FirstOrDefaultAsync(appUser => appUser.login == Username);
                 return user;
             }
 
@@ -30,7 +31,7 @@ namespace DataAccessLayer.Repositories
             return userId;
         }
 
-        public Task<int> AddUserDD(UserDDDTO userDDDTO)
+        public async Task<bool> AddUserDD(UserDDDTO userDDDTO)
         {
             appUsersStat appUsersStat = new()
             {
@@ -51,7 +52,9 @@ namespace DataAccessLayer.Repositories
                 IsoDateM = DateTime.Now,
             };
             bbddcontext.Update(appUsersStat);
-            return bbddcontext.SaveChangesAsync();
+            await bbddcontext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

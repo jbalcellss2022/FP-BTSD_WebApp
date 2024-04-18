@@ -17,6 +17,10 @@
         <link rel="stylesheet" href="~/inspinia/lib/font-awesome/css/font-awesome.css" />
         <link rel="stylesheet" href="~/inspinia/css/animate.css" />
         <link rel="stylesheet" href="~/inspinia/css/style.css" asp-append-version="true" />
+
+        <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/security.js" asp-append-version="true"></script>
+
     </environment>
 
     <environment names="Staging,Production">
@@ -67,10 +71,8 @@
         <script src="~/inspinia/lib/slimScroll/jquery.slimscroll.js"></script>
         <script src="~/inspinia/lib/pace/pace.js"></script>
         <script src="~/inspinia/js/script.js" asp-append-version="true"></script>
-
         <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
         <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
-        <script src="~/js/security.js" asp-append-version="true"></script>
 
         <!-- Only for demo purpose -->
         <script src="~/inspinia/js/skin.config.js"></script>
@@ -87,7 +89,6 @@
 
         <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
         <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
-        <script src="~/js/security.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("scripts", required: false)

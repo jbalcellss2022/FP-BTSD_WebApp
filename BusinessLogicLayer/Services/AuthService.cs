@@ -10,9 +10,9 @@ namespace BusinessLogicLayer.Services
 	{
 		private readonly IUserRepository userRepository = UserRepository;
 
-        public bool CheckUserAuth(LoginUserDTO loginUserDTO)
+        public async Task<bool> CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
-			appUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
+			appUser? user = await userRepository.GetUserByEmail(loginUserDTO.Username!);
 			if (user != null) {
 				if (Verify(loginUserDTO.Password, user.password))
 				{

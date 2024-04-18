@@ -1,4 +1,5 @@
-﻿using DataAccessLayer.Models;
+﻿using DataAccessLayer.Classes;
+using DataAccessLayer.Models;
 
 namespace DataAccessLayer.Contracts
 {
@@ -11,5 +12,9 @@ namespace DataAccessLayer.Contracts
 		/// <returns>An appProduct object that has been located. Otherwise null.</returns>
 		appUser? GetUserByEmail(string Username);
 
-	}
+        Guid GetUserIdByEmail(string Username);
+
+        Task<int> AddUserDD(UserDDDTO userDDDTO);
+
+    }
 }

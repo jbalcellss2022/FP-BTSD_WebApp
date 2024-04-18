@@ -1,4 +1,6 @@
 using BusinessLogicLayer;
+using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -15,7 +17,7 @@ using System.Reflection;
 using System.Resources;
 
 var builder = WebApplication.CreateBuilder(args);
-IServiceCollection services = builder.Services; 
+IServiceCollection services = builder.Services;
 
 services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
 services.AddResponseCompression(
@@ -39,6 +41,8 @@ builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
 
 services.AddHttpClient();                                                   // HttpClient
 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();         // HttpContextAccessor
+
+services.AddScoped<IUserDDService, UserDDService>();         
 
 builder.Services.AddLocalization();
 
@@ -112,6 +116,15 @@ LogManager.Configuration.Variables["smptPassword"] = "";                // Set S
 logger.Info("init");
 logger.Warn("warn");
 logger.Error("Error");
+
+// Device Detector Start
+using (var serviceScope = app.Services.CreateScope())
+{
+    var servicesDD = serviceScope.ServiceProvider;
+    var DeviceDetectorService = servicesDD.GetRequiredService<IUserDDService>();
+
+    DeviceDetectorService!.StartDeviceDetector();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -10,8 +10,9 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			// SERVICES 
 			services.AddScoped<IAuthService, AuthService>();
+            //services.AddScoped<IUserDDService, UserDDService>();
 
-			return services;
+            return services;
 		}
 	}
 }

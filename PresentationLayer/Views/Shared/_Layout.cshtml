@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="~/inspinia/css/style.css" asp-append-version="true" />
     </environment>
 </head>
-<body class="fixed-nav fixed-nav-basic pace-done">
+<body class="fixed-nav fixed-nav-basic pace-done fixed-sidebar">
     <environment names="Development">
         <!-- Skin configuration box -->
         @* <partial name="_SkinConfig" /> *@
@@ -67,6 +67,11 @@
         <script src="~/inspinia/lib/slimScroll/jquery.slimscroll.js"></script>
         <script src="~/inspinia/lib/pace/pace.js"></script>
         <script src="~/inspinia/js/script.js" asp-append-version="true"></script>
+
+        <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
+        <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
+        <script src="~/js/security.js" asp-append-version="true"></script>
+
         <!-- Only for demo purpose -->
         <script src="~/inspinia/js/skin.config.js"></script>
     </environment>
@@ -79,6 +84,10 @@
         <script src="~/inspinia/lib/slimScroll/jquery.slimscroll.min.js"></script>
         <script src="~/inspinia/lib/pace/pace.min.js"></script>
         <script src="~/inspinia/js/script.js" asp-append-version="true"></script>
+
+        <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
+        <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
+        <script src="~/js/security.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("scripts", required: false)

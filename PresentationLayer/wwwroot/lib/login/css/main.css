@@ -289,7 +289,7 @@ iframe {
 }
 
 .input100:focus + .focus-input100::after {
-  top: -15px;
+  top: -20px;
 }
 
 .input100:focus + .focus-input100::before {
@@ -297,7 +297,7 @@ iframe {
 }
 
 .has-val.input100 + .focus-input100::after {
-  top: -15px;
+  top: -20px;
 }
 
 .has-val.input100 + .focus-input100::before {

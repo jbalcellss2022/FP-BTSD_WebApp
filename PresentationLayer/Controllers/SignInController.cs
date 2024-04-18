@@ -1,4 +1,5 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Services;
 using DataAccessLayer.Classes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,7 +18,7 @@ namespace PresentationLayer.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService, IStringLocalizer<BasicResources> LocalizeString) : Controller
+    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService, IUserDDService userDDService, IStringLocalizer<BasicResources> LocalizeString) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
@@ -38,8 +39,10 @@ namespace PresentationLayer.Controllers
 					ModelState.Clear();
 					if (authService.CheckUserAuth(loginUserDTO))
 					{
-						// TODO: Create and Get Claims from repository in BL
-						var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
+                        userDDService.AddUserDeviceDetector(loginUserDTO.Username!);
+
+                        // TODO: Create and Get Claims from repository in BL
+                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
 						identity.AddClaim(new Claim(ClaimTypes.Name, loginUserDTO.Username!));
 						identity.AddClaim(new Claim("Usuario", loginUserDTO.Username!));
 						// TODO: Use AuthorizeUSer in BL Service

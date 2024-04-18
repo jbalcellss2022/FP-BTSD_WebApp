@@ -143,18 +143,17 @@ public partial class BBDDContext : DbContext
             entity.HasKey(e => e.id).HasName("PK_sysUserConn");
 
             entity.Property(e => e.id).HasComment("Auto ID");
-            entity.Property(e => e.userData).HasComment("Connection Device, City, OS...");
-            entity.Property(e => e.userDateTime)
-                .HasComment("DateTime of the connection")
-                .HasColumnType("datetime");
-            entity.Property(e => e.userIPv4)
+            entity.Property(e => e.IPv4)
                 .HasMaxLength(32)
                 .IsUnicode(false)
                 .HasComment("Connection IPv4");
-            entity.Property(e => e.userIPv6)
+            entity.Property(e => e.IPv6)
                 .HasMaxLength(128)
                 .IsUnicode(false)
                 .HasComment("Connection IPv6");
+            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
+            entity.Property(e => e.Location).HasComment("Connection Device, City, OS...");
             entity.Property(e => e.userId).HasComment("UserId");
 
             entity.HasOne(d => d.user).WithMany(p => p.appUsersStats)

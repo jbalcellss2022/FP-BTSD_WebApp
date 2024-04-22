@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DataAccessLayer.Classes.LoginUserDTO" Collapsed="true">
+    <Position X="16.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAUAAAAAAAAAAAAACAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\LoginUserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Classes.UserDDDTO" Collapsed="true">
+    <Position X="29.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIIAKACAAAAAAAAAgIAAACACAAACAAA=</HashCode>
+      <FileName>Classes\UserDDDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Classes.UserDTO" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAUAAAAAACAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\UserDTO.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Data.BBDDContext" Collapsed="true">
+    <Position X="36.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAQARAAAAAAkAAAEAAAAAgQAAAAAAAEggA=</HashCode>
+      <FileName>Data\BBDDContext.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.appLogger" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAACAAAAAAAAAAAAAAAAAAAAIAAAyA=</HashCode>
+      <FileName>Models\appLogger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.AppProduct" Collapsed="true">
+    <Position X="9.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAAAgAQAKAAACAAAIAAAAAAAAAAAAAAAAwA=</HashCode>
+      <FileName>Models\AppProduct.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.AppUser" Collapsed="true">
+    <Position X="18.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACgAAAAAAAAAQAACAAEAAAAAAIEAAgwAAAAAgAAkAA=</HashCode>
+      <FileName>Models\AppUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.AppUsersRole" Collapsed="true">
+    <Position X="23" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAAAAyA=</HashCode>
+      <FileName>Models\AppUsersRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.AppUsersStat" Collapsed="true">
+    <Position X="32" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>OggAAAAAAgAAAAoACAIIAAAAAAAAAAoAAAAAAAAAAwA=</HashCode>
+      <FileName>Models\AppUsersStat.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.sysActionType" Collapsed="true">
+    <Position X="34.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAACAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Models\sysActionType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.sysCodeType" Collapsed="true">
+    <Position X="5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAIAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Models\sysCodeType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.sysLogger" Collapsed="true">
+    <Position X="11.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAIAAgAAAAAACAAAAAACAAABCABAIAAAAAA=</HashCode>
+      <FileName>Models\sysLogger.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.sysRole" Collapsed="true">
+    <Position X="20.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAABAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>Models\sysRole.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Models.sysValue" Collapsed="true">
+    <Position X="25.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAIAAAAAAAAAAAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\sysValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.ProductRepository&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="27.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAQAAAAAAAAEAAAAACgAAAAAAAIA=</HashCode>
+      <FileName>Repositories\ProductRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DataAccessLayer.Repositories.UserRepository" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="7.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAgAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Repositories\UserRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Extensions.DependencyInjection.DALInjectionExtensions" Collapsed="true">
+    <Position X="14" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DALInjectionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object" Collapsed="true">
+    <Position X="17.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="DataAccessLayer.Contracts.IProductRepository&lt;T&gt;" Collapsed="true">
+    <Position X="36.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAgAAAAAAAIA=</HashCode>
+      <FileName>Contracts\IProductRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DataAccessLayer.Contracts.IUserRepository" Collapsed="true">
+    <Position X="38.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAgAABAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Contracts\IUserRepository.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

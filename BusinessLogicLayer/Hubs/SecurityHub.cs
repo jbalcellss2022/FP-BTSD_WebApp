@@ -8,26 +8,13 @@ using NLog;
 namespace SecurityHubs.Hubs
 {
     [Authorize]
-    public class SecurityHub : Hub
+    public class SecurityHub(IHttpContextAccessor httpContextAccessor): Hub
     {
-        private readonly IConfiguration ctxConfiguration;
-        private readonly IWebHostEnvironment ctxEnvironment;
-        private readonly HttpContext httpContext;
-
-        private readonly static Logger logger = LogManager.GetLogger("SecurityHub");
         private static int userCount = 0;
 
         //########################################//
         //############## Security hub ############//
         //########################################//
-
-        // ############# Constructor #############  
-        public SecurityHub(IConfiguration Configuration, IWebHostEnvironment Environment, IHttpContextAccessor HttpContextAccessor)
-        {
-            ctxEnvironment = Environment;
-            ctxConfiguration = Configuration;
-            httpContext = HttpContextAccessor.HttpContext!;
-        }
 
         // ############# Overridable hub methods #############  
         public override async Task OnConnectedAsync()
@@ -37,8 +24,8 @@ namespace SecurityHubs.Hubs
 
             userCount++;
             var ConnectionId = Context.ConnectionId;
-            var Agent = httpContext!.Request.Headers["user-agent"];
-            var ConnectionToken = httpContext.Request.Query["tokenId"].ToString();
+            var Agent = httpContextAccessor!.HttpContext!.Request.Headers.UserAgent;
+            var ConnectionToken = httpContextAccessor.HttpContext!.Request.Query["tokenId"].ToString();
 
             await Clients.Client(ConnectionId).SendAsync("SetSessionTokenId", ConnectionId); // Execute method "SetSessionTokenId" through client method "SetSessionTokenId"
 
@@ -61,16 +48,19 @@ namespace SecurityHubs.Hubs
         public void ClientDisconnectAsync() {  
             Task.Run(async () => { await OnDisconnectedAsync(null!); }); 
         }
-        public string GetConnectionId() { 
-            return Context.ConnectionId; 
-        }
+
+        public string GetConnectionId() => Context.ConnectionId;
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Needs access to instance-level Context property provided by SignalR Hub.")]
         public int GetConnectedUsers() { 
             return userCount; 
         }
-
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Needs access to instance-level Context property provided by SignalR Hub.")]
         public async Task SetProgramHistory( string SRConnectionToken, string ProgramaHistory) {
             await Task.Run(() => {
-                
+                // dummy
+                string srconn = SRConnectionToken;
+                string programhst = ProgramaHistory;
             });
         }
 

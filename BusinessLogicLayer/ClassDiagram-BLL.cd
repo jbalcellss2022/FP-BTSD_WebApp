@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="SecurityHubs.Hubs.SecurityHub">
+    <Position X="0.75" Y="10" Width="3" />
+    <TypeIdentifier>
+      <HashCode>MAAQAAAAAAIAAAACQAAAQJACACAAAAAABAAAAQAABAA=</HashCode>
+      <FileName>Hubs\SecurityHub.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.AuthService" BaseTypeListCollapsed="true">
+    <Position X="1.5" Y="4" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAIAAAAA=</HashCode>
+      <FileName>Services\AuthService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.1" />
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.ProductService">
+    <Position X="6.25" Y="4" Width="3.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Services\ProductService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusinessLogicLayer.Services.UserDDService" BaseTypeListCollapsed="true">
+    <Position X="14.75" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAACAAgABQAAAAAACAAAIAAAAA=</HashCode>
+      <FileName>Services\UserDDService.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Microsoft.Extensions.DependencyInjection.BLInjectionExtensions">
+    <Position X="10.75" Y="4" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>BLInjectionExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BusinessLogicLayer.BLServiceCollection">
+    <Position X="18.75" Y="4" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BLServiceCollection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="System.Object">
+    <Position X="10.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.SignalR.Hub">
+    <Position X="1" Y="6.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Interface Name="BusinessLogicLayer.Interfaces.IAuthService" Collapsed="true">
+    <Position X="22.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IAuthService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="BusinessLogicLayer.Interfaces.IUserDDService" Collapsed="true">
+    <Position X="24.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAABAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Interfaces\IUserDDService.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

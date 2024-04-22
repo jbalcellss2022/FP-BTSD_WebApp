@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using DataAccessLayer.Models;
+﻿using Entities.Models;
+using System.ComponentModel;
 
 namespace ExternalAPI.Classes
 {
@@ -21,7 +21,7 @@ namespace ExternalAPI.Classes
 
         public class UserProducts
         {
-            public List<appProduct>? Products { get; set; }
+            public List<AppProduct>? Products { get; set; }
         }
     }
 }

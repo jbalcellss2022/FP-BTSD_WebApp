@@ -1,4 +1,4 @@
-﻿namespace DataAccessLayer.Classes
+﻿namespace Entities.DTOs
 {
 	public class UserDTO
 	{

@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using AspNetCoreRateLimit;
+using ExternalAPI.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;

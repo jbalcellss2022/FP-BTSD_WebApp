@@ -2,16 +2,18 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
+namespace ExternalAPI.Filters
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
     {
-        var noAuthRequired = context.ApiDescription.CustomAttributes().Any(attr => attr.GetType() == typeof(AllowAnonymousAttribute));
-
-        if (!noAuthRequired)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            operation.Security = new List<OpenApiSecurityRequirement>
+            var noAuthRequired = context.ApiDescription.CustomAttributes().Any(attr => attr.GetType() == typeof(AllowAnonymousAttribute));
+
+            if (!noAuthRequired)
             {
+                operation.Security =
+            [
                 new OpenApiSecurityRequirement
                 {
                     {
@@ -26,7 +28,8 @@ public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
                         new List<string>()
                     }
                 }
-            };
+            ];
+            }
         }
     }
 }

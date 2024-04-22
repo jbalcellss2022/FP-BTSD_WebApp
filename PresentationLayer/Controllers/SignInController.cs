@@ -1,6 +1,6 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
-using DataAccessLayer.Classes;
+using Entities.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,7 @@ namespace PresentationLayer.Controllers
 				if (ModelState.IsValid)
 				{
 					ModelState.Clear();
-					if (await authService.CheckUserAuth(loginUserDTO))
+					if (authService.CheckUserAuth(loginUserDTO))
 					{
                         await userDDService.AddUserDeviceDetector(loginUserDTO.Username!);
 
@@ -56,7 +56,7 @@ namespace PresentationLayer.Controllers
 						ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
 						return View("Login", loginUserDTO);
 					}
-				}
+                }
 				else
 				{
 					ModelState.Clear();

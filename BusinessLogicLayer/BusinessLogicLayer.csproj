@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Classes\" />
     <Folder Include="Extensions\" />
     <Folder Include="Helpers\" />
     <Folder Include="Hubs\" />

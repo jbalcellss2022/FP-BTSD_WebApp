@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccessLayer.Models;
+namespace Entities.Models;
 
 /// <summary>
 /// Settings and Configuration values table
 /// </summary>
-public partial class sysValue
+public partial class SysValue
 {
     /// <summary>
     /// Setting Key
     /// </summary>
-    public string setting { get; set; } = null!;
+    public string Setting { get; set; } = null!;
 
     /// <summary>
     /// Seeting Value
     /// </summary>
-    public string? value { get; set; }
+    public string? Value { get; set; }
 
     /// <summary>
     /// Key-Value description
     /// </summary>
-    public string? description { get; set; }
+    public string? Description { get; set; }
 }

@@ -1,7 +1,7 @@
 ﻿using BusinessLogicLayer.Interfaces;
-using DataAccessLayer.Classes;
-using DataAccessLayer.Contracts;
-using DataAccessLayer.Models;
+using DataAccessLayer.Interfaces;
+using Entities.DTOs;
+using Entities.Models;
 using static BCrypt.Net.BCrypt;
 
 namespace BusinessLogicLayer.Services
@@ -10,11 +10,11 @@ namespace BusinessLogicLayer.Services
 	{
 		private readonly IUserRepository userRepository = UserRepository;
 
-        public async Task<bool> CheckUserAuth(LoginUserDTO loginUserDTO)
+        public bool CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
-			appUser? user = await userRepository.GetUserByEmail(loginUserDTO.Username!);
+			AppUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
 			if (user != null) {
-				if (Verify(loginUserDTO.Password, user.password))
+				if (Verify(loginUserDTO.Password, user.Password))
 				{
 					return true;
 				}

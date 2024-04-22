@@ -1,18 +1,17 @@
-﻿using DataAccessLayer.Classes;
-using DataAccessLayer.Contracts;
-using DataAccessLayer.Data;
-using DataAccessLayer.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using DataAccessLayer.Interfaces;
+using Entities.Data;
+using Entities.DTOs;
+using Entities.Models;
 
 namespace DataAccessLayer.Repositories
 {
     public class UserRepository(BBDDContext bbddcontext) : IUserRepository
 	{
-        public async Task<appUser?> GetUserByEmail(string Username)
+        public AppUser? GetUserByEmail(string Username)
         {
-            if (bbddcontext != null && bbddcontext.appUsers != null)
+            if (bbddcontext != null && bbddcontext.AppUsers != null)
             {
-                appUser? user = await bbddcontext.appUsers.FirstOrDefaultAsync(appUser => appUser.login == Username);
+                AppUser? user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
                 return user;
             }
 
@@ -22,10 +21,10 @@ namespace DataAccessLayer.Repositories
         public Guid GetUserIdByEmail(string Username)
         {
             Guid userId = Guid.Empty;
-            if (bbddcontext != null && bbddcontext.appUsers != null)
+            if (bbddcontext != null && bbddcontext.AppUsers != null)
             {
-                var user = bbddcontext.appUsers.FirstOrDefault(appUser => appUser.login == Username);
-                if (user != null) userId = user.userId;
+                var user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
+                if (user != null) userId = user.UserId;
             }
 
             return userId;
@@ -33,25 +32,25 @@ namespace DataAccessLayer.Repositories
 
         public async Task<bool> AddUserDD(UserDDDTO userDDDTO)
         {
-            appUsersStat appUsersStat = new()
+            AppUsersStat AppUsersStat = new()
             {
-                userId = userDDDTO.userId,
+                UserId = userDDDTO.UserId,
                 SRconnectionId  = null,
                 SRconnected = true,
-                IPv4 = userDDDTO.ipAddress,
+                IPv4 = userDDDTO.IPAddress,
                 IPv6 = "",
-                Location = userDDDTO.ddCity,
+                Location = userDDDTO.DDCity,
                 DevId = "",
                 DevName = "",
-                DevOS = userDDDTO.ddOs!.Match.Name + " " + userDDDTO.ddOs.Match.Version + " (" + userDDDTO.ddOs.Match.ShortName + "," + userDDDTO.ddOs.Match.Platform + ")",
-                DevBrowser = userDDDTO.ddBrowser!.Match.Name + " (" + userDDDTO.ddBrowser.Match.Version + "," + userDDDTO.ddBrowser.Match.ShortName + "," + userDDDTO.ddBrowser.Match.Type + ")",
-                DevBrand = userDDDTO.ddBrand,
-                DevBrandName = userDDDTO.ddBrand,
-                DevType = userDDDTO.ddtype,
+                DevOS = userDDDTO.DDOs!.Match.Name + " " + userDDDTO.DDOs.Match.Version + " (" + userDDDTO.DDOs.Match.ShortName + "," + userDDDTO.DDOs.Match.Platform + ")",
+                DevBrowser = userDDDTO.DDBrowser!.Match.Name + " (" + userDDDTO.DDBrowser.Match.Version + "," + userDDDTO.DDBrowser.Match.ShortName + "," + userDDDTO.DDBrowser.Match.Type + ")",
+                DevBrand = userDDDTO.DDBrand,
+                DevBrandName = userDDDTO.DDBrand,
+                DevType = userDDDTO.DDtype,
                 IsoDateC = DateTime.Now,
                 IsoDateM = DateTime.Now,
             };
-            bbddcontext.Update(appUsersStat);
+            bbddcontext.Update(AppUsersStat);
             await bbddcontext.SaveChangesAsync();
 
             return true;

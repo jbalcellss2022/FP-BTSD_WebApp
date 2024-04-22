@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccessLayer.Models;
+namespace Entities.Models;
 
-public partial class sysLogger
+public partial class SysLogger
 {
     public int Id { get; set; }
 

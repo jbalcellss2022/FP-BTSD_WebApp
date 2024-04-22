@@ -1,16 +1,16 @@
-﻿using DataAccessLayer.Classes;
-using DataAccessLayer.Models;
+﻿using Entities.DTOs;
+using Entities.Models;
 
-namespace DataAccessLayer.Contracts
+namespace DataAccessLayer.Interfaces
 {
-	public interface IUserRepository
+    public interface IUserRepository
 	{
         /// <summary>
         /// Locate a user by email in the database.
         /// </summary>
         /// <param name="Username">The user email. </param>
         /// <returns>An model class product that has been located. Otherwise null.</returns>
-        public Task<appUser?> GetUserByEmail(string Username);
+        public AppUser? GetUserByEmail(string Username);
 
         /// <summary>
         /// Locate a user by email in the database.

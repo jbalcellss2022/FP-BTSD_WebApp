@@ -1,4 +1,4 @@
-﻿using DataAccessLayer.Classes;
+﻿using Entities.DTOs;
 
 namespace BusinessLogicLayer.Interfaces
 {
@@ -9,7 +9,7 @@ namespace BusinessLogicLayer.Interfaces
         /// </summary>
         /// <param name="loginUserDto">DTO of user login data</param>
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
-        public Task<bool> CheckUserAuth(LoginUserDTO loginUserDTO);
+        public bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
 	}
 }

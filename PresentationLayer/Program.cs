@@ -1,7 +1,7 @@
 using BusinessLogicLayer;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
-using DataAccessLayer.Data;
+using Entities.Data;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -85,7 +85,7 @@ services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Confi
     .EnableSensitiveDataLogging(true)
     .EnableDetailedErrors());
 
-BLServiceCollection.GetServiceCollection(builder.Services, (IConfigurationRoot)builder.Configuration);
+BLServiceCollection.GetServiceCollection(builder.Services);
 
 services.AddRazorPages();
 services.AddControllersWithViews();

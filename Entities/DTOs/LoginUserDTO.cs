@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace DataAccessLayer.Classes
+namespace Entities.DTOs
 {
     public class LoginUserDTO
     {

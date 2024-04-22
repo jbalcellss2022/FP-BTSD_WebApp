@@ -1,14 +1,12 @@
-﻿using DataAccessLayer.Contracts;
-using DataAccessLayer.Models;
+﻿using DataAccessLayer.Interfaces;
 using DataAccessLayer.Repositories;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-	public static class DALInjectionExtensions
+    public static class DALInjectionExtensions
 	{
 
-		public static IServiceCollection AddDALInjectionExtensions(this IServiceCollection services, IConfigurationRoot configuration)
+		public static IServiceCollection AddDALInjectionExtensions(this IServiceCollection services)
 		{
 			// REPOSITORIES
 			services.AddScoped<IUserRepository, UserRepository>();

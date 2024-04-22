@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace DataAccessLayer.Models;
+namespace Entities.Models;
 
-public partial class appUsersStat
+public partial class AppUsersStat
 {
     /// <summary>
     /// Auto ID
     /// </summary>
-    public int id { get; set; }
+    public int Id { get; set; }
 
     /// <summary>
     /// UserId
     /// </summary>
-    public Guid? userId { get; set; }
+    public Guid? UserId { get; set; }
 
     public string? SRconnectionId { get; set; }
 
@@ -52,5 +52,5 @@ public partial class appUsersStat
 
     public DateTime? IsoDateM { get; set; }
 
-    public virtual appUser? user { get; set; }
+    public virtual AppUser? User { get; set; }
 }

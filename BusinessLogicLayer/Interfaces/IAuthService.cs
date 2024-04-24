@@ -11,5 +11,5 @@ namespace BusinessLogicLayer.Interfaces
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
         public bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
-	}
+    }
 }

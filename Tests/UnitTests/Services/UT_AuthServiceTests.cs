@@ -7,7 +7,7 @@ using Moq;
 
 namespace Tests.UnitTests.Services
 {
-	[TestFixture()]
+    [TestFixture()]
     public class UT_AuthServiceTests
     {
         [Test()]
@@ -16,10 +16,13 @@ namespace Tests.UnitTests.Services
 			var mockUserRepository = new Mock<IUserRepository>();
 			mockUserRepository.Setup(repo => repo.GetUserByEmail("test@qrfy.es"))
 				.Returns(new AppUser { Login = "test@qrfy.es", Password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
-			var mockAuthService = new Mock<IAuthService>();
-			mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
-			var service = new AuthService(mockUserRepository.Object);
-			var result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "fakepassword" });
+
+            var mockEncryptionService = new Mock<IEncryptionService>();
+            mockEncryptionService.Setup(enc => enc.CheckBCryptPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            var mockAuthService = new Mock<IAuthService>();
+            mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
+            var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object);
+            var result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "fakepassword" });
 
 			Assert.That(result, Is.False);
         }
@@ -27,17 +30,18 @@ namespace Tests.UnitTests.Services
 		[Test()]
 		public void CheckUserAuthTest_OK()
 		{
-			/*
 			var mockUserRepository = new Mock<IUserRepository>();
 			mockUserRepository.Setup(repo => repo.GetUserByEmail("test@qrfy.es"))
-				.Returns(new AppUser { login = "test@qrfy.es", password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
-			var mockAuthService = new Mock<IAuthService>();
-			mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
-			var service = new AuthService(mockUserRepository.Object);
+				.Returns(new AppUser { Login = "test@qrfy.es", Password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
+
+            var mockEncryptionService = new Mock<IEncryptionService>();
+            mockEncryptionService.Setup(enc => enc.CheckBCryptPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            var mockAuthService = new Mock<IAuthService>();
+            mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
+			var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object);
 			bool result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "*qrfydemo2024" });
 
 			Assert.That(result, Is.True);
-			*/
 		}
-	}
+    }
 }

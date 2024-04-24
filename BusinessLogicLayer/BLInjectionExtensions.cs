@@ -9,6 +9,7 @@ namespace Microsoft.Extensions.DependencyInjection
 		{
 			// SERVICES 
 			services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IEncryptionService, EncryptionService>();
             //services.AddScoped<IUserDDService, UserDDService>();
 
             return services;

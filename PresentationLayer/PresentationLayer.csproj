@@ -27,6 +27,7 @@
     <PackageReference Include="CsvHelper" Version="31.0.4" />
     <PackageReference Include="DeviceDetector.NET" Version="6.3.3" />
     <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
@@ -53,6 +54,10 @@
   <ItemGroup>
     <Content Update="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Views\SignIn\PasswordRecovery.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 

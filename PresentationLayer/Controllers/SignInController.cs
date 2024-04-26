@@ -4,21 +4,33 @@ using Entities.DTOs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Localization;
 using PresentationLayer;
 using Resources;
+using System;
 using System.Globalization;
+using System.Net;
 using System.Reflection;
 using System.Security.Claims;
 using System.Security.Principal;
+using System.Text;
 
 namespace PresentationLayer.Controllers
 {
     [Authorize]
     [Route("[controller]/[action]")]
-    public class SignInController(IHttpContextAccessor httpContextAccessor, IAuthService authService, IUserDDService userDDService, IStringLocalizer<BasicResources> LocalizeString) : Controller
+    public class SignInController(
+		IHttpContextAccessor httpContextAccessor, 
+		IAuthService authService, 
+		IUserDDService userDDService, 
+		IStringLocalizer<BasicResources> LocalizeString,
+		INotificationService notificationService,
+        IWebHostEnvironment hostingEnvironment
+        ) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
@@ -104,5 +116,55 @@ namespace PresentationLayer.Controllers
             }
 			else return StatusCode(StatusCodes.Status400BadRequest, authBool);
         }
-	}
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult PasswordRecovery()
+        {
+            ModelState.Clear();
+            return View("PasswordRecovery", new LoginUserDTO());
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> PasswordRecoverySentLink()
+        {
+            ModelState.Clear();
+
+            // Send mail with token
+            var newToken = "";
+            var newTokenURL = "";
+
+            newToken = Guid.NewGuid().ToString("n") + Guid.NewGuid().ToString("n");
+
+            var request = httpContextAccessor.HttpContext!.Request;
+            //newTokenURL = request.Scheme + "://" + request.Host.ToUriComponent() + "/Account/ResetPassword/" + WebUtility.UrlEncode(newToken);
+            var rawurl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
+            var uri = new Uri(rawurl);
+            newTokenURL = uri.GetComponents(UriComponents.Scheme | UriComponents.Host | UriComponents.Port, UriFormat.UriEscaped) + "/Account/ResetPassword/" + WebUtility.UrlEncode(newToken);
+            /*
+            authUser.TokenID = newToken;
+            authUser.TokenIssuedUTC = DateTime.UtcNow;
+            authUser.TokenExpiresUTC = DateTime.UtcNow.AddMinutes(15);
+            ctxBBDD.DB_CfgCompanies.Update(authUser);
+            ctxBBDD.SaveChanges();
+            */
+            var pathToFile = hostingEnvironment.WebRootPath
+                                        + Path.DirectorySeparatorChar.ToString()
+                                        + "emailTemplates"
+                                        + Path.DirectorySeparatorChar.ToString()
+                                        + "resetpassword.html";
+            var bodyHtml = new StringBuilder();
+            using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
+            {
+                bodyHtml.Append(sourceReader.ReadToEnd());
+            }
+            bodyHtml.Replace("{{username}}", "pepe");
+            bodyHtml.Replace("{{userTokenURL}}", newTokenURL);
+
+            await notificationService.EmailNotification("QRFY Support", "jbalcellss@uoc.edu", "", "QRFY Password recovery", bodyHtml.ToString(), "");
+            return View("PasswordRecoverySentLink", new LoginUserDTO());
+        }
+
+    }
 }

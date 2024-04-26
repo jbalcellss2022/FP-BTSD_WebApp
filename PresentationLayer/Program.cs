@@ -56,6 +56,12 @@ services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
 });
 
+services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = "921489646010-4uikhoc5n32g7u24m14qtudj29a6jj8m.apps.googleusercontent.com";
+    googleOptions.ClientSecret = "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";
+});
+
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -115,12 +121,13 @@ services.AddMvc();
 var app = builder.Build();
 
 Logger logger = LogManager.GetLogger("");                               // Get NLog logger
-LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";       // Set NLog filename pre/suffix
-LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
-LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
-LogManager.Configuration.Variables["smptEmail"] = "";                   // Set SMTP Email for NLog
-LogManager.Configuration.Variables["smptUser"] = "";                    // Set SMTP User for NLog
-LogManager.Configuration.Variables["smptPassword"] = "";                // Set SMTP password for NLog
+LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";   // Set NLog filename pre/suffix
+
+LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["Encryption:smtpServer"];  // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smptPort"] = builder.Configuration["Encryption:smtpPort"];      // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smptEmail"] = builder.Configuration["Encryption:smtpEmail"];    // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smptUser"] = builder.Configuration["Encryption:smtpUser"];      // Set SMTP User for NLog
+LogManager.Configuration.Variables["smptPassword"] = builder.Configuration["Encryption:smtpPass"];  // Set SMTP password for NLog
 
 logger.Info("init");
 logger.Warn("warn");

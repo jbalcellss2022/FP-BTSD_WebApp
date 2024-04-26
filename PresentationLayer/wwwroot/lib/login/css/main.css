@@ -518,3 +518,7 @@ iframe {
 .bg-muted {
 	background-color: #f3f3f4;
 }
+
+.recovertext{
+	width: 100%!important;
+}

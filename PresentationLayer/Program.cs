@@ -1,4 +1,4 @@
-using BusinessLogicLayer;
+using BusinessLogicLayer.Classes;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using Entities.Data;
@@ -58,8 +58,8 @@ services.Configure<CookiePolicyOptions>(options =>
 
 services.AddAuthentication().AddGoogle(googleOptions =>
 {
-    googleOptions.ClientId = "921489646010-4uikhoc5n32g7u24m14qtudj29a6jj8m.apps.googleusercontent.com";
-    googleOptions.ClientSecret = "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";
+    googleOptions.ClientId = builder.Configuration["GoogleOAuth:ClientId"]!;
+    googleOptions.ClientSecret = builder.Configuration["GoogleOAuth:ClientSecret"]!;
 });
 
 services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -93,8 +93,12 @@ services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Confi
 
 BLServiceCollection.GetServiceCollection(builder.Services);
 
-services.AddRazorPages();
 services.AddControllersWithViews();
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
+}
+
 services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",

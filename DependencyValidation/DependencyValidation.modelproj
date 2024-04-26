@@ -42,6 +42,10 @@
       <Name>DataAccessLayer</Name>
       <Project>{9f77c133-d311-4a92-a1cb-b3ed9b847033}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Entities\Entities.csproj">
+      <Name>Entities</Name>
+      <Project>{cc63a91f-5c08-4d66-8a04-2f32d29abe96}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
 </Project>

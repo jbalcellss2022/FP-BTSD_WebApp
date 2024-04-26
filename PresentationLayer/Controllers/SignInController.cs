@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Localization;
+using Microsoft.IdentityModel.Tokens;
 using PresentationLayer;
 using Resources;
 using System;
@@ -46,7 +47,7 @@ namespace PresentationLayer.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+				if (ModelState.IsValid || !loginUserDTO.AuthToken.IsNullOrEmpty())
 				{
 					ModelState.Clear();
 					if (authService.CheckUserAuth(loginUserDTO))

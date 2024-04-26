@@ -49,11 +49,19 @@ public partial class AppUser
 
     public bool Is2FAEnabled { get; set; }
 
+#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppLogger> AppLoggers { get; set; } = new List<AppLogger>();
+#pragma warning restore IDE0028 // Simplify collection initialization
 
+#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppProduct> AppProducts { get; set; } = new List<AppProduct>();
+#pragma warning restore IDE0028 // Simplify collection initialization
 
+#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppUsersRole> AppUsersRoles { get; set; } = new List<AppUsersRole>();
+#pragma warning restore IDE0028 // Simplify collection initialization
 
+#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppUsersStat> AppUsersStats { get; set; } = new List<AppUsersStat>();
+#pragma warning restore IDE0028 // Simplify collection initialization
 }

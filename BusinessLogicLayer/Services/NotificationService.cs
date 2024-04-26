@@ -3,7 +3,6 @@ using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 using NLog;
@@ -12,12 +11,12 @@ namespace BusinessLogicLayer.Services
 {
     internal class NotificationService : INotificationService
     {
-        private readonly IConfiguration ctxConfiguration;
-        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+        //private readonly IConfiguration ctxConfiguration;
+        //private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
         void OnMessageSent(object sender, MessageSentEventArgs e)
         {
-            var responseCode = e.Response.Split(' ')[0];
+            //var responseCode = e.Response.Split(' ')[0];
             /*
             if (responseCode.StartsWith("2"))
                 emailLoggerDTO.EmailError = false;
@@ -51,7 +50,7 @@ namespace BusinessLogicLayer.Services
                     //DebuggerIsActive = true;
 
                     // To: first contact
-                    List<string> ToList = new();
+                    List<string> ToList = [];
                     if (DebuggerIsActive)
                     {
                         string ToDebug = "jordi@roistech.com";
@@ -60,11 +59,11 @@ namespace BusinessLogicLayer.Services
                     }
                     else
                     {
-                        ToList = ParamTo.Split(",").ToList();
+                        ToList = [.. ParamTo.Split(",")];
                         message.To.Add(new MailboxAddress(ToList[0].ToString(), ToList[0].ToString()));
                     }
 
-                    List<string> BccList = new();
+                    List<string> BccList = [];
                     if (DebuggerIsActive)
                     {
                         string BccDebug = "jordi@sapps.es";
@@ -85,7 +84,7 @@ namespace BusinessLogicLayer.Services
                         // Bcc:
                         if (ParamBcc != null)
                         {
-                            BccList = ParamBcc.Split(",").ToList();
+                            BccList = [.. ParamBcc.Split(",")];
                             for (int i = 0; i < BccList.Count; i++)
                             {
                                 if (BccList[i] != null && BccList[i] != "")
@@ -123,11 +122,11 @@ namespace BusinessLogicLayer.Services
 
                     try
                     {
-                        smtpClient.MessageSent += OnMessageSent;
+                        smtpClient.MessageSent += OnMessageSent!;
                         await smtpClient.SendAsync(message);
                         resultProcess = true;
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         resultProcess = false;
                     }
@@ -137,7 +136,7 @@ namespace BusinessLogicLayer.Services
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 resultProcess = false;
             }

@@ -2,6 +2,7 @@
 using DataAccessLayer.Interfaces;
 using Entities.DTOs;
 using Entities.Models;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BusinessLogicLayer.Services
 {
@@ -9,7 +10,13 @@ namespace BusinessLogicLayer.Services
 	{
         public bool CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
-			AppUser? user = userRepository.GetUserByEmail(loginUserDTO.Username!);
+			if (!loginUserDTO.AuthToken.IsNullOrEmpty())
+			{
+
+			}
+			string UserNameEmail = loginUserDTO.Username!;
+
+            AppUser? user = userRepository.GetUserByEmail(UserNameEmail);
 			if (user != null) {
 				if (encryption.CheckBCryptPassword(loginUserDTO.Password!, user.Password))
 				{

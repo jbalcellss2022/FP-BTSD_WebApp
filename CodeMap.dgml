@@ -160,7 +160,7 @@
     <Node Id="@194" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.Extensions.Configuration.Ini, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.4\ref\net8.0\Microsoft.Extensions.Configuration.Ini.dll" Group="Collapsed" Label="Microsoft.Extensions.Configuration.Ini.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@196" Category="CodeSchema_Assembly" Bounds="136.37011392939,330,135.03,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPath)" Group="Collapsed" Label="ExternalAPI.dll">
+    <Node Id="@196" Category="CodeSchema_Assembly" Bounds="146.246208084858,330,135.03,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPath)" Group="Collapsed" Label="ExternalAPI.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@198" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.OpenApi, Version=1.3.1.0, Culture=neutral, PublicKeyToken=3f5743946376f042" DelayedChildNodesState="NotFetched" FilePath="C:\Users\jordi\.nuget\packages\microsoft.openapi\1.3.1\lib\netstandard2.0\Microsoft.OpenApi.dll" Group="Collapsed" Label="Microsoft.OpenApi.dll" UseManualLocation="True">
@@ -538,10 +538,10 @@
     <Node Id="@42" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Swashbuckle.AspNetCore.ReDoc, Version=6.5.0.0, Culture=neutral, PublicKeyToken=52663dc7937b1e15" DelayedChildNodesState="NotFetched" FilePath="C:\Users\jordi\.nuget\packages\swashbuckle.aspnetcore.redoc\6.5.0\lib\net7.0\Swashbuckle.AspNetCore.ReDoc.dll" Group="Collapsed" Label="Swashbuckle.AspNetCore.ReDoc.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@420" Category="CodeSchema_Assembly" Bounds="99.6242162601764,275,169.79,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPath)" Group="Collapsed" Label="PresentationLayer.dll">
+    <Node Id="@420" Category="CodeSchema_Assembly" Bounds="99.207127356211,220,169.79,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPath)" Group="Collapsed" Label="PresentationLayer.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@422" Category="CodeSchema_Assembly" Bounds="129.825368218537,55.0000000000001,163.476666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPath)" Group="Collapsed" Label="DataAccessLayer.dll">
+    <Node Id="@422" Category="CodeSchema_Assembly" Bounds="136.612659623945,55,163.476666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPath)" Group="Collapsed" Label="DataAccessLayer.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@424" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="System.Xml.XmlSerializer, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.4\ref\net8.0\System.Xml.XmlSerializer.dll" Group="Collapsed" Label="System.Xml.XmlSerializer.dll" UseManualLocation="True">
@@ -589,7 +589,7 @@
     <Node Id="@450" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="System.Runtime.InteropServices, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.4\ref\net8.0\System.Runtime.InteropServices.dll" Group="Collapsed" Label="System.Runtime.InteropServices.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@452" Category="CodeSchema_Assembly" Bounds="0,185.507518892294,128.583333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(af461dd6-395d-4a91-867f-c606161dfee1.OutputPath)" Group="Collapsed" Label="Resources.dll">
+    <Node Id="@452" Category="CodeSchema_Assembly" Bounds="2.8421709430404E-14,151.465371320667,128.583333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(af461dd6-395d-4a91-867f-c606161dfee1.OutputPath)" Group="Collapsed" Label="Resources.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@454" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.AspNetCore.HttpOverrides, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.4\ref\net8.0\Microsoft.AspNetCore.HttpOverrides.dll" Group="Collapsed" Label="Microsoft.AspNetCore.HttpOverrides.dll" UseManualLocation="True">
@@ -619,7 +619,7 @@
     <Node Id="@468" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.TestPlatform.CommunicationUtilities, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DelayedChildNodesState="NotFetched" FilePath="C:\Users\jordi\.nuget\packages\microsoft.testplatform.testhost\17.9.0\lib\netcoreapp3.1\Microsoft.TestPlatform.CommunicationUtilities.dll" Group="Collapsed" Label="Microsoft.TestPlatform.CommunicationUtilities.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@470" Category="CodeSchema_Assembly" Bounds="147.713008061384,0,113.656666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(cc63a91f-5c08-4d66-8a04-2f32d29abe96.OutputPath)" Group="Collapsed" Label="Entities.dll">
+    <Node Id="@470" Category="CodeSchema_Assembly" Bounds="155.549470764599,0,113.656666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(cc63a91f-5c08-4d66-8a04-2f32d29abe96.OutputPath)" Group="Collapsed" Label="Entities.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@472" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.Extensions.Configuration.EnvironmentVariables, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.4\ref\net8.0\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" Group="Collapsed" Label="Microsoft.Extensions.Configuration.EnvironmentVariables.dll" UseManualLocation="True">
@@ -976,7 +976,7 @@
     <Node Id="@682" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.AspNetCore.Components.Endpoints, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.4\ref\net8.0\Microsoft.AspNetCore.Components.Endpoints.dll" Group="Collapsed" Label="Microsoft.AspNetCore.Components.Endpoints.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@684" Category="CodeSchema_Assembly" Bounds="158.583433333333,220,101.126666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPath)" Group="Collapsed" Label="Tests.dll">
+    <Node Id="@684" Category="CodeSchema_Assembly" Bounds="163.35907195858,275,101.126666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" FilePath="$(725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPath)" Group="Collapsed" Label="Tests.dll">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
     <Node Id="@686" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="System.Net.Requests, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.NETCore.App.Ref\8.0.4\ref\net8.0\System.Net.Requests.dll" Group="Collapsed" Label="System.Net.Requests.dll" UseManualLocation="True">
@@ -1176,10 +1176,10 @@
     <Node Id="@98" Category="CodeSchema_Assembly" CodeSchemaProperty_IsExternal="True" CodeSchemaProperty_StrongName="Microsoft.AspNetCore.Mvc.Core, Version=8.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60" DelayedChildNodesState="NotFetched" FilePath="$(ProgramFiles)\dotnet\packs\Microsoft.AspNetCore.App.Ref\8.0.4\ref\net8.0\Microsoft.AspNetCore.Mvc.Core.dll" Group="Collapsed" Label="Microsoft.AspNetCore.Mvc.Core.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="DependencyValidation\DependencyValidation.modelproj" Category="CodeMap_Project" Bounds="143.04695682367,385,159.753333333333,26.0002002716064" Label="DependencyValidation">
+    <Node Id="DependencyValidation\DependencyValidation.modelproj" Category="CodeMap_Project" Bounds="244.583097531048,385,159.753333333333,26.0002002716064" Label="DependencyValidation" UseManualLocation="True">
       <Category Ref="CodeMap_ModelingProject" />
     </Node>
-    <Node Id="_standardGraphExternalsGroup" Category="Externals" Bounds="139.674135604527,110,86.99,25" Group="Collapsed" Label="Externals" LayoutSettings="List" />
+    <Node Id="_standardGraphExternalsGroup" Category="Externals" Bounds="158.583433333333,110,86.99,25" Group="Collapsed" Label="Externals" LayoutSettings="List" />
   </Nodes>
   <Links>
     <Link Source="@196" Target="@10" Category="CodeMap_ExternalReference" />
@@ -1393,13 +1393,13 @@
     <Link Source="@196" Target="@412" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@414" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@416" Category="CodeMap_ExternalReference" />
-    <Link Source="@196" Target="@418" Category="CodeMap_ProjectReference" Bounds="233.107025146484,198.18913269043,41.4579772949219,131.81086730957" />
+    <Link Source="@196" Target="@418" Category="CodeMap_ProjectReference" Bounds="237.265441894531,196.605209350586,40.6946411132813,133.394790649414" />
     <Link Source="@196" Target="@42" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="20">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_FunctionPointer" />
       <Category Ref="References" />
     </Link>
-    <Link Source="@196" Target="@422" Category="CodeMap_ExternalReference" Bounds="233.107025146484,84.9265975952148,112.223937988281,245.073402404785" />
+    <Link Source="@196" Target="@422" Category="CodeMap_ExternalReference" Bounds="237.265441894531,85.1071090698242,108.065521240234,244.892890930176" />
     <Link Source="@196" Target="@424" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@426" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@428" Category="CodeMap_ExternalReference" />
@@ -1426,7 +1426,7 @@
     <Link Source="@196" Target="@46" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@460" Category="CodeMap_ExternalReference" />
     <Link Source="@196" Target="@464" Category="CodeMap_ExternalReference" />
-    <Link Source="@196" Target="@470" Category="CodeMap_ExternalReference" Bounds="233.107025146484,27.8226718902588,105.114349365234,302.177328109741" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
+    <Link Source="@196" Target="@470" Category="CodeMap_ExternalReference" Bounds="237.265441894531,27.8514823913574,100.245574951172,302.148517608643" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="4">
       <Category Ref="References" />
     </Link>
     <Link Source="@196" Target="@472" Category="CodeMap_ExternalReference" />
@@ -2219,7 +2219,7 @@
       <Category Ref="CodeSchema_FunctionPointer" />
     </Link>
     <Link Source="@420" Target="@418" Category="CodeMap_ProjectReference" Bounds="514.453665491213,-133.13748105367,43.1083690556811,30.524864071175" />
-    <Link Source="@420" Target="@422" Category="CodeMap_ExternalReference" Bounds="133.307723999023,83.3034439086914,38.2057800292969,191.696556091309" />
+    <Link Source="@420" Target="@422" Category="CodeMap_ExternalReference" Bounds="148.449249267578,83.8477172851563,34.7689666748047,136.152282714844" />
     <Link Source="@420" Target="@424" Category="CodeMap_ExternalReference" />
     <Link Source="@420" Target="@426" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
       <Category Ref="CodeSchema_Calls" />
@@ -2249,7 +2249,7 @@
     <Link Source="@420" Target="@444" Category="CodeMap_ExternalReference" />
     <Link Source="@420" Target="@446" Category="CodeMap_ExternalReference" />
     <Link Source="@420" Target="@450" Category="CodeMap_ExternalReference" />
-    <Link Source="@420" Target="@452" Category="CodeMap_ProjectReference" Bounds="88.3041349232745,215.881420249092,79.4221133543718,59.1185797509082" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
+    <Link Source="@420" Target="@452" Category="CodeMap_ProjectReference" Bounds="93.9560214877002,180.934136242952,68.2939300053195,39.0658637570484" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="3">
       <Category Ref="References" />
     </Link>
     <Link Source="@420" Target="@454" Category="CodeMap_ExternalReference" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="13">
@@ -2267,7 +2267,7 @@
       <Category Ref="References" />
     </Link>
     <Link Source="@420" Target="@464" Category="CodeMap_ExternalReference" />
-    <Link Source="@420" Target="@470" Category="CodeMap_ExternalReference" Bounds="124.245040893555,28.2075881958008,46.3435974121094,246.792411804199" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="20">
+    <Link Source="@420" Target="@470" Category="CodeMap_ExternalReference" Bounds="130.807281494141,28.1733074188232,39.9733428955078,191.826692581177" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="20">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="References" />
     </Link>
@@ -2639,7 +2639,7 @@
     <Link Source="@422" Target="@446" Category="CodeMap_ExternalReference" />
     <Link Source="@422" Target="@450" Category="CodeMap_ExternalReference" />
     <Link Source="@422" Target="@456" Category="CodeMap_ExternalReference" />
-    <Link Source="@422" Target="@470" Category="CodeMap_ProjectReference" Bounds="207.277192381977,33.9275259217557,2.69051822508561,21.0724740782444" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="51">
+    <Link Source="@422" Target="@470" Category="CodeMap_ProjectReference" Bounds="214.707064164476,33.9473887694749,2.28638587022411,21.0526112305254" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="51">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_ReturnTypeLink" />
       <Category Ref="References" />
@@ -3307,7 +3307,7 @@
     <Link Source="@684" Target="@414" Category="CodeMap_ExternalReference" />
     <Link Source="@684" Target="@416" Category="CodeMap_ExternalReference" />
     <Link Source="@684" Target="@418" Category="CodeMap_ProjectReference" Bounds="225.120159333219,-133.13748105367,8.87121754426252,21.6708672801777" />
-    <Link Source="@684" Target="@422" Category="CodeMap_ExternalReference" Bounds="134.249664306641,83.3451766967773,51.4551239013672,136.654823303223" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5">
+    <Link Source="@684" Target="@422" Category="CodeMap_ExternalReference" Bounds="232.723892211914,85.1071090698242,112.607070922852,189.892890930176" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="5">
       <Category Ref="References" />
     </Link>
     <Link Source="@684" Target="@424" Category="CodeMap_ExternalReference" />
@@ -3331,7 +3331,7 @@
     <Link Source="@684" Target="@464" Category="CodeMap_ExternalReference" />
     <Link Source="@684" Target="@466" Category="CodeMap_ExternalReference" />
     <Link Source="@684" Target="@468" Category="CodeMap_ExternalReference" />
-    <Link Source="@684" Target="@470" Category="CodeMap_ExternalReference" Bounds="125.155815124512,28.2075881958008,60.5489730834961,191.792411804199" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="9">
+    <Link Source="@684" Target="@470" Category="CodeMap_ExternalReference" Bounds="232.723892211914,27.8514823913574,106.871780395508,247.148517608643" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="9">
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="References" />
     </Link>
@@ -3583,8 +3583,8 @@
       <Category Ref="CodeSchema_Calls" />
       <Category Ref="CodeSchema_ReturnTypeLink" />
     </Link>
-    <Link Source="DependencyValidation\DependencyValidation.modelproj" Target="@418" Category="CodeMap_ProjectReference" Bounds="246.107055664063,198.311538696289,32.4744873046875,186.688461303711" />
-    <Link Source="DependencyValidation\DependencyValidation.modelproj" Target="@422" Category="CodeMap_ProjectReference" Bounds="238.234497070313,84.9265975952148,107.096466064453,300.073402404785" />
+    <Link Source="DependencyValidation\DependencyValidation.modelproj" Target="@418" Category="CodeMap_ProjectReference" Bounds="263.261810302734,198.101486206055,57.2881469726563,186.898849487305" />
+    <Link Source="DependencyValidation\DependencyValidation.modelproj" Target="@422" Category="CodeMap_ProjectReference" Bounds="243.933364868164,85.1011734008789,95.5799713134766,299.89916229248" />
     <Link Source="_standardGraphExternalsGroup" Target="@10" Category="Contains" />
     <Link Source="_standardGraphExternalsGroup" Target="@100" Category="Contains" />
     <Link Source="_standardGraphExternalsGroup" Target="@102" Category="Contains" />
@@ -4007,7 +4007,7 @@
     <Property Id="GraphDirection" DataType="Microsoft.VisualStudio.Diagrams.Layout.LayoutOrientation" />
     <Property Id="Group" Label="Group" Description="Display the node as a group" DataType="Microsoft.VisualStudio.GraphModel.GraphGroupStyle" />
     <Property Id="GroupLabel" DataType="System.String" />
-    <Property Id="Icon" DataType="System.String" />
+    <Property Id="Icon" Label="Icon" Description="Icon" DataType="System.String" />
     <Property Id="IncomingActionLabel" Label="IncomingActionLabel" Description="IncomingActionLabel" DataType="System.String" />
     <Property Id="IsContainment" DataType="System.Boolean" />
     <Property Id="IsEnabled" DataType="System.Boolean" />
@@ -5036,16 +5036,16 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\PresentationLayer\bin\Debug\net8.0\PresentationLayer.dll" />
-    <Path Id="614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/PresentationLayer/bin/Debug/net8.0/PresentationLayer.dll" />
-    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\BusinessLogicLayer\bin\Debug\net8.0\BusinessLogicLayer.dll" />
-    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/BusinessLogicLayer/bin/Debug/net8.0/BusinessLogicLayer.dll" />
-    <Path Id="725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\Tests\bin\Debug\net8.0\Tests.dll" />
-    <Path Id="725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/Tests/bin/Debug/net8.0/Tests.dll" />
-    <Path Id="83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\ExternalAPI\bin\Debug\net8.0\ExternalAPI.dll" />
-    <Path Id="83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/ExternalAPI/bin/Debug/net8.0/ExternalAPI.dll" />
-    <Path Id="9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\DataAccessLayer\bin\Debug\net8.0\DataAccessLayer.dll" />
-    <Path Id="9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/DataAccessLayer/bin/Debug/net8.0/DataAccessLayer.dll" />
+    <Path Id="614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\PresentationLayer\bin\Deploy-PL\net8.0\PresentationLayer.dll" />
+    <Path Id="614a23da-5f4b-45c8-b93d-966e2a76aa9b.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/PresentationLayer/bin/Deploy-PL/net8.0/PresentationLayer.dll" />
+    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\BusinessLogicLayer\bin\Release\net8.0\BusinessLogicLayer.dll" />
+    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/BusinessLogicLayer/bin/Release/net8.0/BusinessLogicLayer.dll" />
+    <Path Id="725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\Tests\bin\Release\net8.0\Tests.dll" />
+    <Path Id="725758a0-a15f-4651-ac38-a8bb80a22ea5.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/Tests/bin/Release/net8.0/Tests.dll" />
+    <Path Id="83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\ExternalAPI\bin\Release\net8.0\ExternalAPI.dll" />
+    <Path Id="83debf9d-99c3-4f0e-abcf-d1ad5b41bc9e.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/ExternalAPI/bin/Release/net8.0/ExternalAPI.dll" />
+    <Path Id="9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\DataAccessLayer\bin\Release\net8.0\DataAccessLayer.dll" />
+    <Path Id="9f77c133-d311-4a92-a1cb-b3ed9b847033.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/DataAccessLayer/bin/Release/net8.0/DataAccessLayer.dll" />
     <Path Id="af461dd6-395d-4a91-867f-c606161dfee1.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\Resources\bin\Debug\net8.0\Resources.dll" />
     <Path Id="af461dd6-395d-4a91-867f-c606161dfee1.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/Resources/bin/Debug/net8.0/Resources.dll" />
     <Path Id="cc63a91f-5c08-4d66-8a04-2f32d29abe96.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\Entities\bin\Debug\net8.0\Entities.dll" />

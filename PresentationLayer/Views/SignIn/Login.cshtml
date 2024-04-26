@@ -1,5 +1,10 @@
 ﻿@model Entities.DTOs.LoginUserDTO
 
+<head>
+	<script src="https://accounts.google.com/gsi/client" async defer {lang: 'en'} onerror="handleError()"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+</head>
+
 <!DOCTYPE HTML>
 <html>
 <body>
@@ -41,6 +46,22 @@
 							</div>
 						</div>
 
+						<div class="container-login100-form-btn">
+							<div id="g_id_onload"
+									data-client_id="921489646010-4uikhoc5n32g7u24m14qtudj29a6jj8m.apps.googleusercontent.com"
+									data-callback="onSignIn">
+							</div>
+							<div class="g_id_signin" style="background: black;"
+									onerror="handleError()"
+									data-type="standard"
+									data-shape="rectangular"
+									data-theme="outline"
+									data-text="sign_in_with"
+									data-size="large">
+							</div>
+						</div>
+						<input type="hidden" id="hiddenAuthToken" name="AuthToken" value="@Model.AuthToken" />
+
 						<div class="text-center p-t-20">
 						  <label class="txt1">
 								<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep">
@@ -79,6 +100,10 @@
 	<script src="~/lib/login/vendor/countdowntime/countdowntime.js"></script>
 	<script src="~/lib/login/js/main.js"></script>
 	<script src="~/lib/spin/spin.js"></script>
+
+	<script 
+		src="https://apis.google.com/js/platform.js?onload=renderButton" async defer>
+	</script>
 </body>
 </html>
 
@@ -92,35 +117,52 @@
 	var regexPattern1 = /^[a-zA-Z0-9._%+-]+@@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	var regexPattern2 = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@@$!%*?&])[A-Za-z\d@@$!%*?&]{8,}$/;
 
+	var loginForm = document.getElementById('loginForm');
+	var username = document.getElementById('Username');
+	var password = document.getElementById('Password');
+	var hiddenAuthToken = document.getElementById('hiddenAuthToken');
+
     function showValidate(input) {
         var thisAlert = $(input).parent();
         $(thisAlert).addClass('alert-validate');
-    }
+	}
+
+	function onSignIn(response) {
+		var token = response.credential;
+		if (token) {
+			hiddenAuthToken.value = token;
+			loginForm.submit();
+		} 
+		else {
+			username.value = ''
+			password.value = '';
+			username.focus();
+		}
+	}
 
 	document.addEventListener('DOMContentLoaded', function() {
 
 		var validationSummary = document.querySelector('div[asp-validation-summary="All"]');
 		if (validationSummary) {
 			validationSummary.style.display = 'none';
-
-		var loginForm = document.getElementById('loginForm');
-		var username = document.getElementById('Username');
-		var password = document.getElementById('Password');
+		}
 
 		loginForm.addEventListener('submit', function(event) {
 
-			if (!regexPattern1.test(username.value)) {
-				iLabSpinner.stop();
-				showValidate(username);
-				event.preventDefault();
-				return;
-			}
+			if (!hiddenAuthToken.value) {
+				if (!regexPattern1.test(username.value)) {
+					iLabSpinner.stop();
+					showValidate(username);
+					event.preventDefault();
+					return;
+				}
 
-			if (!regexPattern2.test(password.value)) {
-				iLabSpinner.stop();
-				showValidate(password);
-				event.preventDefault();
-				return;
+				if (!regexPattern2.test(password.value)) {
+					iLabSpinner.stop();
+					showValidate(password);
+					event.preventDefault();
+					return;
+				}
 			}
 
 			iLabSpinner.stop();
@@ -128,4 +170,12 @@
 			$('#loaderlayout').css("display", "block");
 		});
 	});
+
+	function handleError() { 
+		console.log("Failed to load the Google Identity Services script."); 
+	}
+
+	hiddenAuthToken.value = "";
+	loginForm.submit();
+
 </script>

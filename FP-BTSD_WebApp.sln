@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PresentationLayer", "Presen
 	ProjectSection(ProjectDependencies) = postProject
 		{65FDA8A4-0495-4607-B941-DF92132BECD1} = {65FDA8A4-0495-4607-B941-DF92132BECD1}
 		{AF461DD6-395D-4A91-867F-C606161DFEE1} = {AF461DD6-395D-4A91-867F-C606161DFEE1}
+		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96} = {CC63A91F-5C08-4D66-8A04-2F32D29ABE96}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{9F77C133-D311-4A92-A1CB-B3ED9B847033}"
@@ -23,6 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalAPI", "ExternalAPI\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{65FDA8A4-0495-4607-B941-DF92132BECD1}"
 	ProjectSection(ProjectDependencies) = postProject
+		{AF461DD6-395D-4A91-867F-C606161DFEE1} = {AF461DD6-395D-4A91-867F-C606161DFEE1}
 		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96} = {CC63A91F-5C08-4D66-8A04-2F32D29ABE96}
 	EndProjectSection
 EndProject
@@ -31,6 +33,17 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{CC63A91F-5C08-4D66-8A04-2F32D29ABE96}"
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "DependencyValidation", "DependencyValidation\DependencyValidation.modelproj", "{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34EB65D4-E467-4470-8619-A473341C2D45}"
+	ProjectSection(SolutionItems) = preProject
+		CodeMap.dgml = CodeMap.dgml
+		CodeMap_BL.dgml = CodeMap_BL.dgml
+		CodeMap_DAL.dgml = CodeMap_DAL.dgml
+		CodeMap_EAPI.dgml = CodeMap_EAPI.dgml
+		CodeMap_EF.dgml = CodeMap_EF.dgml
+		CodeMap_PL.dgml = CodeMap_PL.dgml
+		CodeMap_R.dgml = CodeMap_R.dgml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

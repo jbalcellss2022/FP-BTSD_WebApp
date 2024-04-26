@@ -522,3 +522,52 @@ iframe {
 .recovertext{
 	width: 100%!important;
 }
+
+#customGoogleBtn {
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+}
+
+#customGoogleBtn:hover {
+	cursor: pointer;
+}
+
+span.label {
+	font-family: serif;
+	font-weight: normal;
+}
+
+span.icon {
+	background: url('/lib/login/images/g-normal.png') transparent 100% no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	width: 42px;
+	height: 42px;
+	padding-left: 25px
+}
+
+span.buttonText {
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 22px;
+	padding-right: 22px;
+	font-size: 11px;
+	font-weight: bold;
+	color: white;
+	content: 'Login with Google Account'
+}
+
+.googleBtnWrapper {
+	display: flex;
+	align-items: center;
+	width: 85%
+}
+
+.g_id_signin {
+	background: white !important;
+}
+
+.g_id_signin iframe{
+	margin-left: -5px!important;
+}

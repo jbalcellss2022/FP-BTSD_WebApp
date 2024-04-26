@@ -8,7 +8,7 @@ using NLog;
 namespace SecurityHubs.Hubs
 {
     [Authorize]
-    public class SecurityHub(IHttpContextAccessor httpContextAccessor): Hub
+    public class SecurityHub(/*IHttpContextAccessor httpContextAccessor*/): Hub
     {
         private static int userCount = 0;
 
@@ -24,8 +24,8 @@ namespace SecurityHubs.Hubs
 
             userCount++;
             var ConnectionId = Context.ConnectionId;
-            var Agent = httpContextAccessor!.HttpContext!.Request.Headers.UserAgent;
-            var ConnectionToken = httpContextAccessor.HttpContext!.Request.Query["tokenId"].ToString();
+            //var Agent = httpContextAccessor!.HttpContext!.Request.Headers.UserAgent;
+            //var ConnectionToken = httpContextAccessor.HttpContext!.Request.Query["tokenId"].ToString();
 
             await Clients.Client(ConnectionId).SendAsync("SetSessionTokenId", ConnectionId); // Execute method "SetSessionTokenId" through client method "SetSessionTokenId"
 

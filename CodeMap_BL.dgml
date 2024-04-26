@@ -5,9 +5,9 @@
     <Node Id="@2" Category="CodeSchema_Assembly" Bounds="173.235,-181.999799728394,414.56,305" CodeSchemaProperty_StrongName="BusinessLogicLayer, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" DelayedChildNodesState="Fetched" DelayedCrossGroupLinksState="Fetched" FetchedChildrenCount="5" FilePath="$(65fda8a4-0495-4607-b941-df92132becd1.OutputPath)" Group="Expanded" Label="BusinessLogicLayer.dll" UseManualLocation="True">
       <Category Ref="FileSystem.Category.FileOfType.dll" />
     </Node>
-    <Node Id="@3" Category="CodeSchema_Namespace" Bounds="254.166666666666,-141.999799728394,158.133333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="BusinessLogicLayer" />
+    <Node Id="@3" Category="CodeSchema_Namespace" Bounds="254.166666666667,-141.999799728394,158.133333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="BusinessLogicLayer" />
     <Node Id="@4" Category="CodeSchema_Namespace" Bounds="227.228333333333,23.0002002716064,212.01,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="BusinessLogicLayer‎.Interfaces" />
-    <Node Id="@5" Category="CodeSchema_Namespace" Bounds="364.671666666666,-31.9997997283936,203.123333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="BusinessLogicLayer‎.Services" />
+    <Node Id="@5" Category="CodeSchema_Namespace" Bounds="364.671666666667,-31.9997997283936,203.123333333333,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="BusinessLogicLayer‎.Services" />
     <Node Id="@6" Category="CodeSchema_Namespace" Bounds="193.235,-86.9997997283936,279.996666666667,25" DelayedChildNodesState="NotFetched" DelayedCrossGroupLinksState="Fetched" Group="Collapsed" Label="Microsoft‎.Extensions‎.DependencyInjection" />
   </Nodes>
   <Links>
@@ -18,8 +18,8 @@
     <Link Source="@2" Target="@6" Category="Contains" FetchingParent="@2" />
     <Link Source="@3" Target="@6" Category="CodeSchema_Calls" Bounds="333.233337402344,-116.999801635742,0,21" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
     <Link Source="@5" Target="@4" Category="Implements" Bounds="371.777526855469,-6.99979972839355,64.2285461425781,26.5606746673584" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="2" />
-    <Link Source="@6" Target="@4" Category="References" Bounds="333.233337402344,-61.9998016357422,0,76.0000019073486" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
-    <Link Source="@6" Target="@5" Category="References" Bounds="363.460601806641,-61.9998016357422,64.2285461425781,26.560676574707" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@6" Target="@4" Category="References" Bounds="333.233337402344,-61.9997978210449,0,75.9999980926514" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
+    <Link Source="@6" Target="@5" Category="References" Bounds="363.460601806641,-61.9997978210449,64.2285461425781,26.5606727600098" IsSourceVirtualized="True" IsTargetVirtualized="True" Weight="1" />
   </Links>
   <Categories>
     <Category Id="CodeSchema_Assembly" Label="Assembly" BasedOn="File" CanBeDataDriven="True" DefaultAction="Microsoft.Contains" Icon="CodeSchema_Assembly" NavigationActionLabel="Assemblies" />
@@ -294,7 +294,7 @@
     </Style>
   </Styles>
   <Paths>
-    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\BusinessLogicLayer\bin\Debug\net8.0\BusinessLogicLayer.dll" />
-    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/BusinessLogicLayer/bin/Debug/net8.0/BusinessLogicLayer.dll" />
+    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPath" Value="C:\Proyectos\FP-BTSD\FP-BTSD_WebApp\BusinessLogicLayer\bin\Release\net8.0\BusinessLogicLayer.dll" />
+    <Path Id="65fda8a4-0495-4607-b941-df92132becd1.OutputPathUri" Value="file:///C:/Proyectos/FP-BTSD/FP-BTSD_WebApp/BusinessLogicLayer/bin/Release/net8.0/BusinessLogicLayer.dll" />
   </Paths>
 </DirectedGraph>

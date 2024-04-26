@@ -17,5 +17,7 @@ namespace Entities.DTOs
 
         [Required]
         public bool KeepSigned { get; set; }
+
+        public string? AuthToken { get; set; }
 	}
 }

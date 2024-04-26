@@ -24,11 +24,11 @@ namespace BusinessLogicLayer.Services
 
         public string GenerateJWT(Guid userId)
         {
-            return _generateJWT(userId);
+            return GetGenerateJWT(userId);
         }
         public SecurityToken? ValidateJWT(string jwt)
         {
-            return _validateJWT(jwt);
+            return GetValidateJWT(jwt);
         }
 
         //############################################################################################################//
@@ -36,7 +36,7 @@ namespace BusinessLogicLayer.Services
         //############################################################################################################//
 
         #region JWTToken Metohds
-        private string _generateJWT(Guid userId)
+        private string GetGenerateJWT(Guid userId)
         {
             string newToken = "";
             try
@@ -50,9 +50,9 @@ namespace BusinessLogicLayer.Services
                     var token = new JwtSecurityToken(
                         issuer: "QRFY",
                         audience: "userAuth",
-                        claims: new[] {
+                        claims: [
                             new Claim("userpasswordlink", userId.ToString())
-                        },
+                        ],
                         expires: DateTime.Now.AddMinutes(30),
                         signingCredentials: creds);
                     newToken = new JwtSecurityTokenHandler().WriteToken(token).ToString();
@@ -63,7 +63,7 @@ namespace BusinessLogicLayer.Services
             return newToken;
         }
 
-        private SecurityToken? _validateJWT(string jwt)
+        private SecurityToken? GetValidateJWT(string jwt)
         {
             SecurityToken? securityToken = null;
             try

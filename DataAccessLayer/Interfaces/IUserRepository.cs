@@ -21,6 +21,12 @@ namespace DataAccessLayer.Interfaces
         /// <returns>The Guid of the user located. Otherwise empty GUID.</returns>
         public Guid GetUserIdByEmail(string Username);
 
+        public Task<bool> IncreaseUserRetries(string Username);
+
+        public Task<bool> ResetUserRetries(string Username);
+
+        public Task<bool> BlockUser(string Username);
+
         /// <summary>
         /// Adds user device data to the database
         /// </summary>

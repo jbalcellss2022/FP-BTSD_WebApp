@@ -2,7 +2,6 @@
 using Entities.Data;
 using Entities.DTOs;
 using Entities.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace DataAccessLayer.Repositories
 {
@@ -42,6 +41,69 @@ namespace DataAccessLayer.Repositories
             return userId;
         }
 
+        public async Task<bool> IncreaseUserRetries(string Username)
+        {
+            bool result = false;
+            try
+            {
+                var user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
+                if (user != null){
+                    user.Retries++;
+
+                    bbddcontext.Update(user);
+                    await bbddcontext.SaveChangesAsync();
+                }
+
+                result = true;
+            }
+            catch { }
+
+            return result;
+        }
+
+        public async Task<bool> ResetUserRetries(string Username)
+        {
+            bool result = false;
+            try
+            {
+                var user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
+                if (user != null)
+                {
+                    user.IsBlocked = false;
+                    user.Retries = 0;
+
+                    bbddcontext.Update(user);
+                    await bbddcontext.SaveChangesAsync();
+                }
+
+                result = true;
+            }
+            catch { }
+
+            return result;
+        }
+
+        public async Task<bool> BlockUser(string Username)
+        {
+            bool result = false;
+
+            try
+            {
+                var user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
+                if (user != null)
+                {
+                    user.IsBlocked = true;
+
+                    bbddcontext.Update(user);
+                    await bbddcontext.SaveChangesAsync();
+                }
+
+                result = true;
+            }
+            catch { }
+
+            return result;
+        }
         public async Task<bool> CreateAccount(string Username, string Name, string Password)
         {
             bool result = false;
@@ -53,6 +115,8 @@ namespace DataAccessLayer.Repositories
                     Login = Username,
                     Password = Password,
                     Name = Name,
+                    IsBlocked = false,
+                    Retries = 0,
                 };
 
                 bbddcontext.Add(appUser);
@@ -93,6 +157,8 @@ namespace DataAccessLayer.Repositories
                 AppUser? user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.UserId == UserId);
                 if (user != null)
                 {
+                    user.IsBlocked = false;
+                    user.Retries = 0;
                     user.Password = Password;
                     user.TokenIsValid = false;
 

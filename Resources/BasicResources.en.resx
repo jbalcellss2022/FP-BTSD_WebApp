@@ -129,4 +129,7 @@
   <data name="LOGIN_ERROR2" xml:space="preserve">
     <value>Unable to log in, please try again later.</value>
   </data>
+  <data name="LOGIN_ERROR3" xml:space="preserve">
+    <value>Tu cuenta ha sido bloqueada debido a múltiples intentos fallidos de acceso. Por favor, restablezca su contraseña para recuperar el acceso.</value>
+  </data>
 </root>

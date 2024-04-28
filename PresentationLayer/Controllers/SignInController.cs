@@ -46,21 +46,50 @@ namespace PresentationLayer.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid || !loginUserDTO.AuthToken.IsNullOrEmpty())
+                
+                if (ModelState.IsValid || !loginUserDTO.AuthToken.IsNullOrEmpty())
 				{
 					ModelState.Clear();
                     if (loginUserDTO.AuthToken.IsNullOrEmpty())
                     {
                         if (AuthService.CheckUserAuth(loginUserDTO))
                         {
-                            await DoLogin(loginUserDTO.Username!, loginUserDTO.KeepSigned);
-                            return RedirectToAction("Index", "Dashboard");
+                            if (await AuthService.CheckUserIsBlocked(loginUserDTO))
+                            {
+                                ModelState.Clear();
+                                ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR3"]);
+                                return View("Login", loginUserDTO);
+                            }
+                            else
+                            {
+                                await DoLogin(loginUserDTO.Username!, loginUserDTO.KeepSigned);
+                                return RedirectToAction("Index", "Dashboard");
+                            }
                         }
                         else
                         {
-                            ModelState.Clear();
-                            ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
-                            return View("Login", loginUserDTO);
+                            if (AuthService.CheckUserExist(loginUserDTO))
+                            {
+                                if (await AuthService.CheckUserIsBlocked(loginUserDTO))
+                                {
+                                    ModelState.Clear();
+                                    ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR3"]);
+                                    return View("Login", loginUserDTO);
+                                }
+                                else
+                                {
+                                    ModelState.Clear();
+                                    await AuthService.IncreaseUserRetries(loginUserDTO.Username!);
+                                    ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
+                                    return View("Login", loginUserDTO);
+                                }
+                            }
+                            else
+                            {
+                                ModelState.Clear();
+                                ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
+                                return View("Login", loginUserDTO);
+                            }
                         }
                     }
                     else
@@ -95,11 +124,12 @@ namespace PresentationLayer.Controllers
 			}
 		}
 
-        private async Task<bool> DoLogin(string UserName, bool KeepSigned)
+        private async Task<bool> DoLogin(string Username, bool KeepSigned)
         {
             try
             {
-                ClaimsIdentity identity = AuthService.CreateClaimsIdentity(UserName!);
+                await AuthService.ResetUserRetries(Username!);
+                ClaimsIdentity identity = AuthService.CreateClaimsIdentity(Username!);
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = KeepSigned });
                 return true;
             }

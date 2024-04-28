@@ -5,7 +5,6 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -53,6 +52,47 @@ namespace BusinessLogicLayer.Services
 
 			return false;
 		}
+
+        public async Task<bool> CheckUserIsBlocked(LoginUserDTO loginUserDTO)
+        {
+            // Check if user is blocked
+            bool result = true;
+            AppUser? user = UserRepository.GetUserByEmail(loginUserDTO.Username!);
+            if (user != null)
+            {
+                if (!(user.IsBlocked ?? true))
+                {
+                    if (user.Retries > 2)
+                    {
+                        await UserRepository.BlockUser(loginUserDTO.Username!);
+                        result = true;
+                    }
+                    else result = false;
+                }
+                else result = true;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> IncreaseUserRetries(string Username)
+        {
+            bool result = await UserRepository.IncreaseUserRetries(Username);
+            return result;
+        }
+
+        public async Task<bool> ResetUserRetries(string Username)
+        {
+            bool result = await UserRepository.ResetUserRetries(Username);
+            return result;
+        }
+
+        public bool CheckUserExist(LoginUserDTO loginUserDTO)
+        {
+            // Check if user exist
+            AppUser? user = UserRepository.GetUserByEmail(loginUserDTO.Username!);
+            return user != null;
+        }
 
         public JWTDTO GetJWTData(string token)
         {

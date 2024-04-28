@@ -14,6 +14,14 @@ namespace BusinessLogicLayer.Interfaces
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
         public bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
+        public bool CheckUserExist(LoginUserDTO loginUserDTO);
+
+        public Task<bool> CheckUserIsBlocked(LoginUserDTO loginUserDTO);
+
+        public Task<bool> IncreaseUserRetries(string Username);
+
+        public Task<bool> ResetUserRetries(string Username);
+
         public JWTDTO GetJWTData(string jwtToken);
 
         public ClaimsIdentity CreateClaimsIdentity(string UserId);

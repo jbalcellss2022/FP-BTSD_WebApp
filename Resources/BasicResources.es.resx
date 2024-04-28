@@ -129,4 +129,7 @@
   <data name="LOGIN_ERROR2" xml:space="preserve">
     <value>Unable to log in, please try again later.</value>
   </data>
+  <data name="LOGIN_ERROR3" xml:space="preserve">
+    <value>Your account has been locked due to multiple unsuccessful login attempts. Please reset your password to regain access.</value>
+  </data>
 </root>

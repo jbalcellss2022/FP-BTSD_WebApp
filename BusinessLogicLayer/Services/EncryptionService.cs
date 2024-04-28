@@ -1,10 +1,8 @@
 ﻿using BusinessLogicLayer.Interfaces;
-using Microsoft.AspNetCore.Http;
+using Entities.DTOs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
-using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using static BCrypt.Net.BCrypt;
@@ -13,7 +11,7 @@ namespace BusinessLogicLayer.Services
 {
     internal class EncryptionService(IConfiguration configuration) : IEncryptionService
     {
-        public JwtSecurityToken CheckJWTExternalToken(string jwtTokenString)
+        public JwtSecurityToken JWT_CheckExternalToken(string jwtTokenString)
         {
             JwtSecurityToken? jwtToken = null;
             try
@@ -27,7 +25,7 @@ namespace BusinessLogicLayer.Services
             return jwtToken!;
         }
 
-        public string GetJWTEmailFromToken(JwtSecurityToken jwtToken)
+        public string JWT_GetEmailFromToken(JwtSecurityToken jwtToken)
         {
             string email = "";
             try
@@ -39,7 +37,20 @@ namespace BusinessLogicLayer.Services
             return email;
         }
 
-        public bool IsExpiredJWT(JwtSecurityToken jwtToken)
+        public JWTDTO JWT_GetDataFromToken(JwtSecurityToken jwtToken)
+        {
+            JWTDTO? JWT = new();
+            try
+            {
+                JWT.Name = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "name")?.Value!;
+                JWT.Email = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email")?.Value!;
+            }
+            catch { }
+
+            return JWT!;
+        }
+
+        public bool JWT_IsExpired(JwtSecurityToken jwtToken)
         {
             bool IsExpiredJWT = true;
 
@@ -56,7 +67,16 @@ namespace BusinessLogicLayer.Services
             return IsExpiredJWT;
         }
 
-        public bool CheckBCryptPassword(string password, string hash)
+        public string JWT_Generate(Guid userId)
+        {
+            return JWT_GetGenerate(userId);
+        }
+        public SecurityToken? JWT_Validate(string jwt)
+        {
+            return JWT_GetValidate(jwt);
+        }
+
+        public bool BCrypt_CheckPassword(string password, string hash)
         {
             bool result = false;
             try
@@ -68,13 +88,16 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
-        public string GenerateJWT(Guid userId)
+        public string BCrypt_EncryptPassword(string password)
         {
-            return GetGenerateJWT(userId);
-        }
-        public SecurityToken? ValidateJWT(string jwt)
-        {
-            return GetValidateJWT(jwt);
+            string newPassword = "";
+            try
+            {
+                newPassword = HashPassword(password);
+            }
+            catch { }   
+
+            return newPassword;
         }
 
         //############################################################################################################//
@@ -82,7 +105,7 @@ namespace BusinessLogicLayer.Services
         //############################################################################################################//
 
         #region JWTToken Metohds
-        private string GetGenerateJWT(Guid userId)
+        private string JWT_GetGenerate(Guid userId)
         {
             string newToken = "";
             try
@@ -109,7 +132,7 @@ namespace BusinessLogicLayer.Services
             return newToken;
         }
 
-        private SecurityToken? GetValidateJWT(string jwt)
+        private SecurityToken? JWT_GetValidate(string jwt)
         {
             SecurityToken? securityToken = null;
             try

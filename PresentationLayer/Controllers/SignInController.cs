@@ -27,11 +27,9 @@ namespace PresentationLayer.Controllers
     [Authorize]
     [Route("[controller]/[action]")]
     public class SignInController(
-		IHttpContextAccessor httpContextAccessor, 
-		IAuthService authService, 
-		IStringLocalizer<BasicResources> LocalizeString,
-		INotificationService notificationService,
-        IWebHostEnvironment hostingEnvironment
+		IHttpContextAccessor HttpContextAccessor, 
+		IAuthService AuthService, 
+		IStringLocalizer<BasicResources> LocalizeString
         ) : Controller
     {
 		[HttpGet]
@@ -53,10 +51,9 @@ namespace PresentationLayer.Controllers
 					ModelState.Clear();
                     if (loginUserDTO.AuthToken.IsNullOrEmpty())
                     {
-                        if (authService.CheckUserAuth(loginUserDTO))
+                        if (AuthService.CheckUserAuth(loginUserDTO))
                         {
-                            ClaimsIdentity identity = authService.CreateClaimsIdentity("pepe");
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+                            await DoLogin(loginUserDTO.Username!, loginUserDTO.KeepSigned);
                             return RedirectToAction("Index", "Dashboard");
                         }
                         else
@@ -68,16 +65,19 @@ namespace PresentationLayer.Controllers
                     }
                     else
                     {
-                        if (authService.CheckUserAuth(loginUserDTO))
+                        if (AuthService.CheckUserAuth(loginUserDTO))
                         {
-                            ClaimsIdentity identity = authService.CreateClaimsIdentity("pepe");
-                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+                            await DoLogin(loginUserDTO.Username!, loginUserDTO.KeepSigned);
                             return RedirectToAction("Index", "Dashboard");
                         }
                         else
                         {
                             ModelState.Clear();
-                            return View("NewAccount", loginUserDTO);
+                            JWTDTO jwtToken = AuthService.GetJWTData(loginUserDTO.AuthToken!);
+                            loginUserDTO.Username = jwtToken.Email;
+                            loginUserDTO.Name = jwtToken.Name;
+
+                            return RedirectToAction("CreateAccount", loginUserDTO);
                         }
                     }
                 }
@@ -95,12 +95,25 @@ namespace PresentationLayer.Controllers
 			}
 		}
 
-		[HttpGet]
+        private async Task<bool> DoLogin(string UserName, bool KeepSigned)
+        {
+            try
+            {
+                ClaimsIdentity identity = AuthService.CreateClaimsIdentity(UserName!);
+                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = KeepSigned });
+                return true;
+            }
+            catch { }
+
+            return false;
+        }
+
+        [HttpGet]
 		[AllowAnonymous]
         public async Task<IActionResult> Logout()
 		{
 			// Clear the existing cookie to ensure a clean NEW login process
-			if (httpContextAccessor.HttpContext != null)
+			if (HttpContextAccessor.HttpContext != null)
 			{
 				await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 				return RedirectToAction("Index", "Dashboard");
@@ -113,15 +126,17 @@ namespace PresentationLayer.Controllers
         public async Task<IActionResult> MakeLogout()
 		{
 			var authBool = "0";
-			if (httpContextAccessor.HttpContext != null)
+			if (HttpContextAccessor.HttpContext != null)
 			{
 				// Clear the existing cookie to ensure a clean NEW login process
-				await httpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-                foreach (var cookie in HttpContext.Request.Cookies) { Response.Cookies.Delete(cookie.Key); }
+				await HttpContextAccessor.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                foreach (var cookie in HttpContext.Request.Cookies) { 
+                    Response.Cookies.Delete(cookie.Key); 
+                }
                 HttpContext.User = new GenericPrincipal(new GenericIdentity(string.Empty), null);
                 await Task.Run(() => { 
-					if (httpContextAccessor.HttpContext.User.Identity != null)
-						if (httpContextAccessor.HttpContext.User.Identity.IsAuthenticated) { authBool = "1"; } 
+					if (HttpContextAccessor.HttpContext.User.Identity != null)
+						if (HttpContextAccessor.HttpContext.User.Identity.IsAuthenticated) { authBool = "1"; } 
 				});
 
                 return StatusCode(StatusCodes.Status200OK, authBool);
@@ -139,25 +154,40 @@ namespace PresentationLayer.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult CreateNewAccount(LoginUserDTO loginUserDTO)
+        public async Task<IActionResult> CreateNewAccount(LoginUserDTO loginUserDTO)
         {
-            ModelState.Clear();
-            if (!authService.CanCreateNewAccount(loginUserDTO.Username!))
+            try
             {
-                ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
-                return View("CreateAccount", loginUserDTO);
-            }
-            else
-            {
-                if (!authService.CreateNewAccount(loginUserDTO))
+                if (ModelState.IsValid)
                 {
-                    ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
-                    return View("CreateAccount", loginUserDTO);
+                    if (!AuthService.CanCreateNewAccount(loginUserDTO.Username!))
+                    {
+                        ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR1"], loginUserDTO.Username));
+                        return View("CreateAccount", loginUserDTO);
+                    }
+                    else
+                    {
+                        if (!await AuthService.CreateNewAccount(loginUserDTO.Username!, loginUserDTO.Name!, loginUserDTO.Password!))
+                        {
+                            ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR2"], loginUserDTO.Username));
+                            return View("CreateAccount", loginUserDTO);
+                        }
+                        else
+                        {
+                            await DoLogin(loginUserDTO.Username!, true);
+                            return RedirectToAction("Index", "Dashboard");
+                        }
+                    }
                 }
                 else
                 {
-                    return View("", loginUserDTO);
+                    ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR2"], loginUserDTO.Username));
+                    return View("CreateAccount", loginUserDTO);
                 }
+            }
+            catch (Exception) {
+                ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR2"], loginUserDTO.Username));
+                return View("CreateAccount", loginUserDTO);
             }
         }
 
@@ -171,43 +201,52 @@ namespace PresentationLayer.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> PasswordRecoverySentLink(LoginUserDTO loginUserDTO)
+        public async Task<IActionResult>PasswordRecoverySentLink(LoginUserDTO loginUserDTO)
         {
             ModelState.Clear();
-
-            // Send mail with token
-            var newToken = "";
-            var newTokenURL = "";
-
-            newToken = Guid.NewGuid().ToString("n") + Guid.NewGuid().ToString("n");
-
-            var request = httpContextAccessor.HttpContext!.Request;
-            //newTokenURL = request.Scheme + "://" + request.Host.ToUriComponent() + "/Account/ResetPassword/" + WebUtility.UrlEncode(newToken);
-            var rawurl = Microsoft.AspNetCore.Http.Extensions.UriHelper.GetDisplayUrl(Request);
-            var uri = new Uri(rawurl);
-            newTokenURL = uri.GetComponents(UriComponents.Scheme | UriComponents.Host | UriComponents.Port, UriFormat.UriEscaped) + "/Account/ResetPassword/" + WebUtility.UrlEncode(newToken);
-            /*
-            authUser.TokenID = newToken;
-            authUser.TokenIssuedUTC = DateTime.UtcNow;
-            authUser.TokenExpiresUTC = DateTime.UtcNow.AddMinutes(15);
-            ctxBBDD.DB_CfgCompanies.Update(authUser);
-            ctxBBDD.SaveChanges();
-            */
-            var pathToFile = hostingEnvironment.WebRootPath
-                                        + Path.DirectorySeparatorChar.ToString()
-                                        + "emailTemplates"
-                                        + Path.DirectorySeparatorChar.ToString()
-                                        + "resetpassword.html";
-            var bodyHtml = new StringBuilder();
-            using (StreamReader sourceReader = System.IO.File.OpenText(pathToFile))
-            {
-                bodyHtml.Append(sourceReader.ReadToEnd());
-            }
-            bodyHtml.Replace("{{username}}", loginUserDTO.Username);
-            bodyHtml.Replace("{{userTokenURL}}", newTokenURL);
-
-            await notificationService.EmailNotification("QRFY Support", loginUserDTO.Username!, "", "QRFY Password recovery", bodyHtml.ToString(), "");
+            string newTokenURL = await AuthService.UserNewTokenResetPassword(loginUserDTO.Username!, HttpContextAccessor.HttpContext!.Request);
             return View("PasswordRecoverySentLink", new LoginUserDTO());
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public IActionResult PasswordResetError()
+        {
+            return View("PasswordResetError");
+        }
+
+        [HttpGet("{userToken}")]
+        [AllowAnonymous]
+        public IActionResult PasswordReset(string userToken)
+        {
+            ModelState.Clear();
+            bool result = AuthService.CheckUserToken(userToken);
+            if (!result)
+            {
+                return RedirectToAction("PasswordResetError");
+            }
+
+            LoginUserDTO loginUserDTO = new()
+            {
+                AuthToken = userToken,
+            };
+
+            return View("PasswordChange", loginUserDTO);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> PasswordChange(LoginUserDTO loginUserDTO)
+        {
+            ModelState.Clear();
+            bool result = AuthService.CheckUserToken(loginUserDTO.AuthToken!);
+            if (!result)
+            {
+                return RedirectToAction("PasswordResetError");
+            }
+
+            result = await AuthService.ChangePassword(loginUserDTO.AuthToken!, loginUserDTO.Password!);
+            return View("PasswordChangeOk");
         }
 
     }

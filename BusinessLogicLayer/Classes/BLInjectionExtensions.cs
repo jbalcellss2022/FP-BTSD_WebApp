@@ -1,4 +1,5 @@
-﻿using BusinessLogicLayer.Interfaces;
+﻿using BusinessLogicLayer.Helpers;
+using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ namespace BusinessLogicLayer.Classes
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<IHelpersService, EmailBodyHelper>();
 
             return services;
         }

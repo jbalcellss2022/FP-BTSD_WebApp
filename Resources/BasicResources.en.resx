@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ACCOUNT_ERROR1" xml:space="preserve">
+    <value>The user cannot be created. User {0} already exists in the system.</value>
+  </data>
+  <data name="ACCOUNT_ERROR2" xml:space="preserve">
+    <value>Unable to create account for {0}. Please check with support.</value>
+  </data>
   <data name="LOGIN_ERROR1" xml:space="preserve">
     <value>Unable to log in, please check your login details.</value>
   </data>

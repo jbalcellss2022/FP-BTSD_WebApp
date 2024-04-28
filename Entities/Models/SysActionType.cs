@@ -18,7 +18,5 @@ public partial class SysActionType
     /// </summary>
     public string? Description { get; set; }
 
-#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppProduct> AppProducts { get; set; } = new List<AppProduct>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 }

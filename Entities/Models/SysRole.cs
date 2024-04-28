@@ -18,7 +18,5 @@ public partial class SysRole
     /// </summary>
     public string? Description { get; set; }
 
-#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppUsersRole> AppUsersRoles { get; set; } = new List<AppUsersRole>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 }

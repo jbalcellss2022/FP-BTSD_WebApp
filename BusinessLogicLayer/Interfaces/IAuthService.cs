@@ -1,4 +1,6 @@
 ﻿using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace BusinessLogicLayer.Interfaces
@@ -12,10 +14,18 @@ namespace BusinessLogicLayer.Interfaces
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
         public bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
+        public JWTDTO GetJWTData(string jwtToken);
+
         public ClaimsIdentity CreateClaimsIdentity(string UserId);
 
         public bool CanCreateNewAccount(string Username);
 
-        public bool CreateNewAccount(LoginUserDTO loginUserDTO);
+        public Task<bool> CreateNewAccount(string Username, string Name, string Password);
+
+        public Task<bool> ChangePassword(string Username, string Password);
+
+        public Task<string> UserNewTokenResetPassword(string Username, HttpRequest request);
+
+        public bool CheckUserToken(string token);
     }
 }

@@ -12,6 +12,8 @@ namespace DataAccessLayer.Interfaces
         /// <returns>An model class product that has been located. Otherwise null.</returns>
         public AppUser? GetUserByEmail(string Username);
 
+        public AppUser? GetUserByToken(string Token);
+
         /// <summary>
         /// Locate a user by email in the database.
         /// </summary>
@@ -25,5 +27,12 @@ namespace DataAccessLayer.Interfaces
         /// <param name="userDDDTO">The user device data DTO. </param>
         /// <returns>Object of type Task asynchronous with the number of insertions.</returns>
         public Task<bool> AddUserDD(UserDDDTO userDDDTO);
+
+        public Task<bool> UpdateUserToken(string Username, string newToken);
+
+        public Task<bool> UpdateUserPassword(Guid UserId, string Password);
+
+        public Task<bool> CreateAccount(string Username, string Name, string Password);
+
     }
 }

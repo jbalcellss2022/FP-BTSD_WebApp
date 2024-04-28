@@ -16,7 +16,7 @@ public partial class AppUser
     /// <summary>
     /// User login email
     /// </summary>
-    public string? Login { get; set; }
+    public string Login { get; set; } = null!;
 
     public string Password { get; set; } = null!;
 
@@ -28,7 +28,7 @@ public partial class AppUser
     /// <summary>
     /// User surname
     /// </summary>
-    public string Surname { get; set; } = null!;
+    public string? Surname { get; set; }
 
     /// <summary>
     /// User phone
@@ -47,21 +47,25 @@ public partial class AppUser
 
     public bool? IsAdmin { get; set; }
 
-    public bool Is2FAEnabled { get; set; }
+    public bool? Is2FAEnabled { get; set; }
 
-#pragma warning disable IDE0028 // Simplify collection initialization
+    public bool? IsBlocked { get; set; }
+
+    public string? TokenID { get; set; }
+
+    public DateTime? TokenIssuedUTC { get; set; }
+
+    public DateTime? TokenExpiresUTC { get; set; }
+
+    public bool? TokenIsValid { get; set; }
+
+    public int? Retries { get; set; }
+
     public virtual ICollection<AppLogger> AppLoggers { get; set; } = new List<AppLogger>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 
-#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppProduct> AppProducts { get; set; } = new List<AppProduct>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 
-#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppUsersRole> AppUsersRoles { get; set; } = new List<AppUsersRole>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 
-#pragma warning disable IDE0028 // Simplify collection initialization
     public virtual ICollection<AppUsersStat> AppUsersStats { get; set; } = new List<AppUsersStat>();
-#pragma warning restore IDE0028 // Simplify collection initialization
 }

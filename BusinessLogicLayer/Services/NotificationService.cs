@@ -2,14 +2,16 @@
 using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
 using NLog;
 
 namespace BusinessLogicLayer.Services
 {
-    internal class NotificationService : INotificationService
+    internal class NotificationService(IConfiguration Configuration) : INotificationService
     {
         //private readonly IConfiguration ctxConfiguration;
         //private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
@@ -39,58 +41,36 @@ namespace BusinessLogicLayer.Services
                 {
                     using var smtpClient = new SmtpClient();
                     smtpClient.Timeout = 20000;
-                    smtpClient.Connect("smtp-mail.outlook.com", 587, SecureSocketOptions.StartTls);
-                    smtpClient.Authenticate("qrfy.online@outlook.com", "S43524410s");
+                    smtpClient.Connect(Configuration["EmailSettings:smtpServer"], Convert.ToInt16(Configuration["EmailSettings:smtpPort"]), SecureSocketOptions.StartTls);
+                    smtpClient.Authenticate(Configuration["EmailSettings:smtpUser"], Configuration["EmailSettings:smtpPass"]);
 
                     var message = new MimeMessage();
-                    message.From.Add(new MailboxAddress("QRFY Support", "qrfy.online@outlook.com"));
-
-                    var DebuggerIsActive = false;
-                    //if (Debugger.IsAttached) DebuggerIsActive = true;
-                    //DebuggerIsActive = true;
+                    message.From.Add(new MailboxAddress("QRFY Support", Configuration["EmailSettings:smtpUser"]));
 
                     // To: first contact
                     List<string> ToList = [];
-                    if (DebuggerIsActive)
-                    {
-                        string ToDebug = "jordi@roistech.com";
-                        ToList.Add(ToDebug);
-                        message.To.Add(new MailboxAddress(ToList[0].ToString(), ToList[0].ToString()));
-                    }
-                    else
-                    {
-                        ToList = [.. ParamTo.Split(",")];
-                        message.To.Add(new MailboxAddress(ToList[0].ToString(), ToList[0].ToString()));
-                    }
+                    ToList = [.. ParamTo.Split(",")];
+                    message.To.Add(new MailboxAddress(ToList[0].ToString(), ToList[0].ToString()));
 
                     List<string> BccList = [];
-                    if (DebuggerIsActive)
+                    // To: others contacts
+                    for (int i = 1; i < ToList.Count; i++)
                     {
-                        string BccDebug = "jordi@sapps.es";
-                        BccList.Add(BccDebug);
-                        message.Bcc.Add(new MailboxAddress(BccList[0].ToString(), BccList[0].ToString()));
-                    }
-                    else
-                    {
-                        // To: others contacts
-                        for (int i = 1; i < ToList.Count; i++)
+                        if (ToList[i] != null && ToList[i] != "")
                         {
-                            if (ToList[i] != null && ToList[i] != "")
-                            {
-                                message.To.Add(new MailboxAddress(ToList[i].ToString(), ToList[i].ToString()));
-                            }
+                            message.To.Add(new MailboxAddress(ToList[i].ToString(), ToList[i].ToString()));
                         }
+                    }
 
-                        // Bcc:
-                        if (ParamBcc != null)
+                    // Bcc:
+                    if (ParamBcc != null)
+                    {
+                        BccList = [.. ParamBcc.Split(",")];
+                        for (int i = 0; i < BccList.Count; i++)
                         {
-                            BccList = [.. ParamBcc.Split(",")];
-                            for (int i = 0; i < BccList.Count; i++)
+                            if (BccList[i] != null && BccList[i] != "")
                             {
-                                if (BccList[i] != null && BccList[i] != "")
-                                {
-                                    message.Bcc.Add(new MailboxAddress(BccList[i].ToString(), BccList[i].ToString()));
-                                }
+                                message.Bcc.Add(new MailboxAddress(BccList[i].ToString(), BccList[i].ToString()));
                             }
                         }
                     }

@@ -10,11 +10,13 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using NLog;
 using SecurityHubs.Hubs;
+using System.Data;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -128,15 +130,24 @@ var app = builder.Build();
 Logger logger = LogManager.GetLogger("");                               // Get NLog logger
 LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";   // Set NLog filename pre/suffix
 
-LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["EmailSettings:smtpServer"];  // Set SMTP Server for NLog
-LogManager.Configuration.Variables["smptPort"] = builder.Configuration["EmailSettings:smtpPort"];      // Set SMTP Port for NLog
-LogManager.Configuration.Variables["smptEmail"] = builder.Configuration["EmailSettings:smtpEmail"];    // Set SMTP Email for NLog
-LogManager.Configuration.Variables["smptUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
-LogManager.Configuration.Variables["smptPassword"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
+SqlConnectionStringBuilder SQLbuilder = new SqlConnectionStringBuilder(builder.Configuration["Database:ConnectionString"]);
+string DB_Server = SQLbuilder.DataSource;
+string DB_Catalog = SQLbuilder.InitialCatalog;
+string DB_UserId = SQLbuilder.UserID;
+string DB_Pass = SQLbuilder.Password;
 
-logger.Info("init");
-logger.Warn("warn");
-logger.Error("Error");
+LogManager.Configuration.Variables["DB_Server"] = DB_Server;    // Set DB Server for NLog
+LogManager.Configuration.Variables["DB_Catalog"] = DB_Catalog;  // Set Database for NLog
+LogManager.Configuration.Variables["DB_UserId"] = DB_UserId;    // Set DB UserId NLog
+LogManager.Configuration.Variables["DB_Pass"] = DB_Pass;        // Set DB Password for NLog
+
+LogManager.Configuration.Variables["TargetMail"] = builder.Configuration["NLog:TargetMail"];  // Set Target Email for NLog
+
+LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["EmailSettings:smtpServer"];  // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smtpPort"] = builder.Configuration["EmailSettings:smtpPort"];      // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smtpEmail"] = builder.Configuration["EmailSettings:smtpEmail"];    // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smtpUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
+LogManager.Configuration.Variables["smtpPass"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
 
 // Device Detector Start
 using (var serviceScope = app.Services.CreateScope())

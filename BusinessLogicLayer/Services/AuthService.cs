@@ -148,7 +148,7 @@ namespace BusinessLogicLayer.Services
                 AppUser? user = UserRepository.GetUserByToken(AuthToken);
                 if (user != null)
                 {
-                    bool result = await UserRepository.UpdateUserPassword(user.UserId, Password);
+                    bool result = await UserRepository.UpdateUserPassword(user.UserId, Encryption.BCrypt_EncryptPassword(Password));
                     if (result)
                     {
                         StringBuilder bodyHtml = EmailBodyHelper.EmailBodyPassword_Change(user.Login);

@@ -2,6 +2,7 @@ using Asp.Versioning;
 using AspNetCoreRateLimit;
 using ExternalAPI.Filters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Data.SqlClient;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Interfaces;
@@ -12,15 +13,30 @@ using System.Text;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Extensions;
 using Unchase.Swashbuckle.AspNetCore.Extensions.Options;
 
-Logger logger = LogManager.GetLogger("");                               // Initialize NLog Logger
-LogManager.Configuration.Variables["LoggerFileName"] = "Backend";       // Set NLog filename pre/suffix
-LogManager.Configuration.Variables["smptServer"] = "lin135.loading.es"; // Set SMTP Server for NLog
-LogManager.Configuration.Variables["smptPort"] = "587";                 // Set SMTP Port for NLog
-LogManager.Configuration.Variables["smptEmail"] = "";                   // Set SMTP Email for NLog
-LogManager.Configuration.Variables["smptUser"] = "";                    // Set SMTP User for NLog
-LogManager.Configuration.Variables["smptPassword"] = "";                // Set SMTP password for NLog
-
 var builder = WebApplication.CreateBuilder(args);
+
+Logger logger = LogManager.GetLogger("");                                   // Get NLog logger
+LogManager.Configuration.Variables["LoggerFileName"] = "QRFYExternaAPI";    // Set NLog filename pre/suffix
+
+SqlConnectionStringBuilder SQLbuilder = new SqlConnectionStringBuilder(builder.Configuration["Database:ConnectionString"]);
+string DB_Server = SQLbuilder.DataSource;
+string DB_Catalog = SQLbuilder.InitialCatalog;
+string DB_UserId = SQLbuilder.UserID;
+string DB_Pass = SQLbuilder.Password;
+
+LogManager.Configuration.Variables["DB_Server"] = DB_Server;    // Set DB Server for NLog
+LogManager.Configuration.Variables["DB_Catalog"] = DB_Catalog;  // Set Database for NLog
+LogManager.Configuration.Variables["DB_UserId"] = DB_UserId;    // Set DB UserId NLog
+LogManager.Configuration.Variables["DB_Pass"] = DB_Pass;        // Set DB Password for NLog
+
+LogManager.Configuration.Variables["TargetMail"] = builder.Configuration["NLog:TargetMail"];  // Set Target Email for NLog
+
+LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["EmailSettings:smtpServer"];  // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smtpPort"] = builder.Configuration["EmailSettings:smtpPort"];      // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smtpEmail"] = builder.Configuration["EmailSettings:smtpEmail"];    // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smtpUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
+LogManager.Configuration.Variables["smtpPass"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
+
 
 // Accessing IConfiguration and IWebHostEnvironment from the builder
 ConfigurationManager configuration = builder.Configuration;

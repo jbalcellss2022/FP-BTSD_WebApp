@@ -12,6 +12,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591;DV2001;DV2002</NoWarn>
     <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <UserSecretsId>753dfb0a-61cb-4924-8095-2d4e7deb66dc</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -39,7 +40,6 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="Filters\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

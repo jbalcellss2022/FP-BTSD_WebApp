@@ -570,4 +570,5 @@ span.buttonText {
 
 .g_id_signin iframe{
 	margin-left: -5px!important;
+	padding-left: 0px!important;
 }

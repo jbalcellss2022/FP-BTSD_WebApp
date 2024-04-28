@@ -29,14 +29,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\DependencyValidation\DependencyValidation1.layerdiagram" Link="DependencyValidation1.layerdiagram">
-      <Visible>False</Visible>
-    </AdditionalFiles>
-    <None Include="..\DependencyValidation\DependencyValidation1.layerdiagram.layout" Link="DependencyValidation1.layerdiagram.layout" />
-    <None Include="..\DependencyValidation\DependencyValidation1.layerdiagram.suppressions" Link="DependencyValidation1.layerdiagram.suppressions" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="CsvHelper" Version="31.0.4" />
     <PackageReference Include="DeviceDetector.NET" Version="6.3.3" />
     <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
@@ -50,6 +42,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.4" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
     <PackageReference Include="NLog" Version="5.2.8" />

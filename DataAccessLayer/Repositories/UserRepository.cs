@@ -50,7 +50,7 @@ namespace DataAccessLayer.Repositories
                 IsoDateC = DateTime.Now,
                 IsoDateM = DateTime.Now,
             };
-            bbddcontext.Update(AppUsersStat);
+            bbddcontext.Add(AppUsersStat);
             await bbddcontext.SaveChangesAsync();
 
             return true;

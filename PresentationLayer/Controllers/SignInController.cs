@@ -1,6 +1,8 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
+using DataAccessLayer.Repositories;
 using Entities.DTOs;
+using Entities.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
@@ -27,7 +29,6 @@ namespace PresentationLayer.Controllers
     public class SignInController(
 		IHttpContextAccessor httpContextAccessor, 
 		IAuthService authService, 
-		IUserDDService userDDService, 
 		IStringLocalizer<BasicResources> LocalizeString,
 		INotificationService notificationService,
         IWebHostEnvironment hostingEnvironment
@@ -50,25 +51,35 @@ namespace PresentationLayer.Controllers
 				if (ModelState.IsValid || !loginUserDTO.AuthToken.IsNullOrEmpty())
 				{
 					ModelState.Clear();
-					if (authService.CheckUserAuth(loginUserDTO))
-					{
-                        await userDDService.AddUserDeviceDetector(loginUserDTO.Username!);
-
-                        // TODO: Create and Get Claims from repository in BL
-                        var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-						identity.AddClaim(new Claim(ClaimTypes.Name, loginUserDTO.Username!));
-						identity.AddClaim(new Claim("Usuario", loginUserDTO.Username!));
-						// TODO: Use AuthorizeUSer in BL Service
-						await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
-
-						return RedirectToAction("Index", "Dashboard");
-					}
-					else
-					{
-						ModelState.Clear();
-						ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
-						return View("Login", loginUserDTO);
-					}
+                    if (loginUserDTO.AuthToken.IsNullOrEmpty())
+                    {
+                        if (authService.CheckUserAuth(loginUserDTO))
+                        {
+                            ClaimsIdentity identity = authService.CreateClaimsIdentity("pepe");
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+                            return RedirectToAction("Index", "Dashboard");
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR1"]);
+                            return View("Login", loginUserDTO);
+                        }
+                    }
+                    else
+                    {
+                        if (authService.CheckUserAuth(loginUserDTO))
+                        {
+                            ClaimsIdentity identity = authService.CreateClaimsIdentity("pepe");
+                            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = loginUserDTO.KeepSigned });
+                            return RedirectToAction("Index", "Dashboard");
+                        }
+                        else
+                        {
+                            ModelState.Clear();
+                            return View("NewAccount", loginUserDTO);
+                        }
+                    }
                 }
 				else
 				{
@@ -120,6 +131,38 @@ namespace PresentationLayer.Controllers
 
         [HttpGet]
         [AllowAnonymous]
+        public IActionResult CreateAccount(LoginUserDTO loginUserDTO)
+        {
+            ModelState.Clear();
+            return View("CreateAccount", loginUserDTO);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult CreateNewAccount(LoginUserDTO loginUserDTO)
+        {
+            ModelState.Clear();
+            if (!authService.CanCreateNewAccount(loginUserDTO.Username!))
+            {
+                ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
+                return View("CreateAccount", loginUserDTO);
+            }
+            else
+            {
+                if (!authService.CreateNewAccount(loginUserDTO))
+                {
+                    ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
+                    return View("CreateAccount", loginUserDTO);
+                }
+                else
+                {
+                    return View("", loginUserDTO);
+                }
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         public IActionResult PasswordRecovery()
         {
             ModelState.Clear();
@@ -128,7 +171,7 @@ namespace PresentationLayer.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> PasswordRecoverySentLink()
+        public async Task<IActionResult> PasswordRecoverySentLink(LoginUserDTO loginUserDTO)
         {
             ModelState.Clear();
 
@@ -160,10 +203,10 @@ namespace PresentationLayer.Controllers
             {
                 bodyHtml.Append(sourceReader.ReadToEnd());
             }
-            bodyHtml.Replace("{{username}}", "pepe");
+            bodyHtml.Replace("{{username}}", loginUserDTO.Username);
             bodyHtml.Replace("{{userTokenURL}}", newTokenURL);
 
-            await notificationService.EmailNotification("QRFY Support", "jbalcellss@uoc.edu", "", "QRFY Password recovery", bodyHtml.ToString(), "");
+            await notificationService.EmailNotification("QRFY Support", loginUserDTO.Username!, "", "QRFY Password recovery", bodyHtml.ToString(), "");
             return View("PasswordRecoverySentLink", new LoginUserDTO());
         }
 

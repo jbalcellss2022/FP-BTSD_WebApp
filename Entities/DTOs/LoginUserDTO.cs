@@ -15,6 +15,8 @@ namespace Entities.DTOs
 		[DataType(DataType.Password)]
         public string? Password { get; set; }
 
+        public string? Name { get; set; }
+
         [Required]
         public bool KeepSigned { get; set; }
 

@@ -2,13 +2,16 @@ using BusinessLogicLayer.Classes;
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using Entities.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using NLog;
 using SecurityHubs.Hubs;
@@ -17,6 +20,7 @@ using System.IO.Compression;
 using System.Net;
 using System.Reflection;
 using System.Resources;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services;
@@ -56,13 +60,10 @@ services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
 });
 
-services.AddAuthentication().AddGoogle(googleOptions =>
+services.AddAuthentication(options =>
 {
-    googleOptions.ClientId = builder.Configuration["GoogleOAuth:ClientId"]!;
-    googleOptions.ClientSecret = builder.Configuration["GoogleOAuth:ClientSecret"]!;
-});
-
-services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
     .AddCookie(options =>
     {
         options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
@@ -87,7 +88,7 @@ services.ConfigureApplicationCookie(options =>
 
 services.Configure<ForwardedHeadersOptions>(options => { options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto; });
 
-services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("ConnectionString"))
+services.AddDbContext<BBDDContext>(options => options.UseSqlServer(builder.Configuration["Database:ConnectionString"])
     .EnableSensitiveDataLogging(true)
     .EnableDetailedErrors());
 
@@ -127,11 +128,11 @@ var app = builder.Build();
 Logger logger = LogManager.GetLogger("");                               // Get NLog logger
 LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";   // Set NLog filename pre/suffix
 
-LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["Encryption:smtpServer"];  // Set SMTP Server for NLog
-LogManager.Configuration.Variables["smptPort"] = builder.Configuration["Encryption:smtpPort"];      // Set SMTP Port for NLog
-LogManager.Configuration.Variables["smptEmail"] = builder.Configuration["Encryption:smtpEmail"];    // Set SMTP Email for NLog
-LogManager.Configuration.Variables["smptUser"] = builder.Configuration["Encryption:smtpUser"];      // Set SMTP User for NLog
-LogManager.Configuration.Variables["smptPassword"] = builder.Configuration["Encryption:smtpPass"];  // Set SMTP password for NLog
+LogManager.Configuration.Variables["smtpServer"] = builder.Configuration["EmailSettings:smtpServer"];  // Set SMTP Server for NLog
+LogManager.Configuration.Variables["smptPort"] = builder.Configuration["EmailSettings:smtpPort"];      // Set SMTP Port for NLog
+LogManager.Configuration.Variables["smptEmail"] = builder.Configuration["EmailSettings:smtpEmail"];    // Set SMTP Email for NLog
+LogManager.Configuration.Variables["smptUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
+LogManager.Configuration.Variables["smptPassword"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
 
 logger.Info("init");
 logger.Warn("warn");

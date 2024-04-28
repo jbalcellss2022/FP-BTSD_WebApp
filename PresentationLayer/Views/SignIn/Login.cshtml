@@ -1,8 +1,7 @@
 ﻿@model Entities.DTOs.LoginUserDTO
 
 <head>
-	<script src="https://accounts.google.com/gsi/client" async defer {lang: 'en'} onerror="handleError()"></script>
-	<script src="https://cdn.jsdelivr.net/npm/jwt-decode/build/jwt-decode.min.js"></script>
+	<script src="https://accounts.google.com/gsi/client" async defer onerror="handleError()"></script>
 </head>
 
 <!DOCTYPE HTML>
@@ -49,15 +48,18 @@
 						<div class="container-login100-form-btn">
 							<div id="g_id_onload"
 									data-client_id="921489646010-4uikhoc5n32g7u24m14qtudj29a6jj8m.apps.googleusercontent.com"
-									data-callback="onSignIn">
+									data-callback="onSignIn"
+									data-auto_prompt="false">
 							</div>
 							<div class="g_id_signin" style="background: black;"
 									onerror="handleError()"
 									data-type="standard"
 									data-shape="rectangular"
-									data-theme="outline"
+									data-theme=""
+									data-logo_alignment="center"
 									data-text="sign_in_with"
-									data-size="large">
+									data-size="large"
+									>
 							</div>
 						</div>
 						<input type="hidden" id="hiddenAuthToken" name="AuthToken" value="@Model.AuthToken" />
@@ -77,7 +79,7 @@
 						</div>
 
 						<div class="text-center p-t-1">
-							<a class="txt2" href="https://backend.qrfy.es/SignIn/Login">
+							<a class="txt2" href="@Url.Action("CreateAccount", "SignIn")">
 								Create an account to use QRFY services 
 								<i class="fa fa-external-link-square" aria-hidden="true"></i>
 							</a>
@@ -109,6 +111,7 @@
 
 <script>
 	iLabSpinner = Rats.UI.LoadAnimation.start();
+	iLabSpinner.stop();
 	$(document).ready(function () {
 		$('#loaderlayout').css("display", "none");
 		iLabSpinner.stop();
@@ -120,7 +123,9 @@
 	var loginForm = document.getElementById('loginForm');
 	var username = document.getElementById('Username');
 	var password = document.getElementById('Password');
+
 	var hiddenAuthToken = document.getElementById('hiddenAuthToken');
+	hiddenAuthToken.value = "";
 
     function showValidate(input) {
         var thisAlert = $(input).parent();
@@ -129,6 +134,10 @@
 
 	function onSignIn(response) {
 		var token = response.credential;
+		iLabSpinner.stop();
+		iLabSpinner = Rats.UI.LoadAnimation.start();
+		$('#loaderlayout').css("display", "block");
+
 		if (token) {
 			hiddenAuthToken.value = token;
 			loginForm.submit();
@@ -150,6 +159,7 @@
 		loginForm.addEventListener('submit', function(event) {
 
 			if (!hiddenAuthToken.value) {
+
 				if (!regexPattern1.test(username.value)) {
 					iLabSpinner.stop();
 					showValidate(username);
@@ -174,8 +184,5 @@
 	function handleError() { 
 		console.log("Failed to load the Google Identity Services script."); 
 	}
-
-	hiddenAuthToken.value = "";
-	loginForm.submit();
 
 </script>

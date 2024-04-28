@@ -9,6 +9,13 @@
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
       ]
+    },
+    {
+      "library": "jwt-decode@4.0.0",
+      "destination": "wwwroot/lib/jwt-decode/",
+      "files": [
+        "build/esm/index.js"
+      ]
     }
   ]
 }

@@ -7,14 +7,24 @@
 		<div class="container-login100">
 				<div id="loaderlayout" style="display:none"></div>
 				<div class="wrap-login100">
-					<form id="loginForm" class="login100-form validate-form" method="get" asp-controller="SignIn" asp-action="PasswordRecoverySentLink">
+					<form id="loginForm" class="login100-form validate-form" method="post" asp-controller="SignIn" asp-action="CreateNewAccount">
 
 						<span class="login100-form-title p-b-15">
 		  					<img src="~/lib/login/images/qrfy.jpg" alt="QRFY Logo" height="150">
 						</span>
 
-						<div class="recovertext m-b-40">
-							Create a new password with email address with your registered in QRFY.
+						@if (string.IsNullOrEmpty(Model.Username))
+						{
+							<span class="p-b-30">Please provide a new username and secure password that complies with our security policies.</span>
+						}
+						else
+						{
+							<span class="p-b-30">The user account "@Model.Username" does not exist in QRFY. You can now create a new account with the minimum data. You can complete your user profile later.</span>
+						}
+
+						<div id="usernameDiv" class="wrap-input100 m-b-50 m-t-30">
+							<input asp-for="Name" id="Name" class="input100" title="Please provide a name for your accout">
+							<span class="focus-input100" data-placeholder="Name"></span>
 						</div>
 
 						<div id="usernameDiv" class="wrap-input100 m-b-30" data-validate = "Invalid email address, please provide a valid address in the format: email@domain.com">
@@ -22,13 +32,29 @@
 							<span class="focus-input100" data-placeholder="Email"></span>
 						</div>
 
+						<div id="passwordDiv" class="wrap-input100" data-validate="Enter a valid password with the following pattern: Minimum 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character.">
+							<span class="btn-show-pass">
+								<i class="zmdi zmdi-eye"></i>
+							</span>
+							<input asp-for="Password" id="Password" class="input100" type="password" name="Password" autocomplete="current-password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
+							<span class="focus-input100" data-placeholder="Password"></span>
+						</div>
+
+						<div id="passwordDiv" class="wrap-input100 m-t-30" data-validate="Enter a valid password with the following pattern: Minimum 8 characters, 1 uppercase, 1 lowercase, 1 number and 1 special character.">
+							<span class="btn-show-pass">
+								<i class="zmdi zmdi-eye"></i>
+							</span>
+							<input asp-for="Password" id="PasswordRepeat" class="input100" type="password" name="PasswordRepeat" autocomplete="current-password" title="Password must contain at least 8 characters, including 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.">
+							<span class="focus-input100" data-placeholder="Repeat password"></span>
+						</div>
+
 						<div asp-validation-summary="All" class="text-danger m-t-15 m-b-15"></div>
 
-						<div class="container-login100-form-btn">
+						<div class="container-login100-form-btn m-t-50">
 							<div class="wrap-login100-form-btn">
 								<div class="login100-form-bgbtn"></div>
 									<button id="loginButton" class="login100-form-btn" />									
-										Password recovery 
+										Create Account 
 									</button>
 							</div>
 						</div>
@@ -55,7 +81,6 @@
 
 <script>
 	iLabSpinner = Rats.UI.LoadAnimation.start();
-
 	$(document).ready(function () {
 		$('#loaderlayout').css("display", "none");
 		iLabSpinner.stop();
@@ -73,6 +98,8 @@
 
 		var loginForm = document.getElementById('loginForm');
 		var username = document.getElementById('Username');
+		var password = document.getElementById('Password');
+		var passwordrepeat = document.getElementById('PasswordRepeat');
 
 		loginForm.addEventListener('submit', function(event) {
 
@@ -83,6 +110,29 @@
 				return;
 			}
 
+			if (!regexPattern2.test(password.value)) {
+				iLabSpinner.stop();
+				showValidate(password);
+				event.preventDefault();
+				return;
+			}
+
+			if (!regexPattern2.test(passwordrepeat.value)) {
+				iLabSpinner.stop();
+				showValidate(passwordrepeat);
+				event.preventDefault();
+				return;
+			}
+
+			if (password.value !== passwordrepeat.value) {
+				iLabSpinner.stop();
+				showValidate(password);
+				showValidate(passwordrepeat);
+				event.preventDefault();
+				return;
+			}
+
+			iLabSpinner.stop();
 			iLabSpinner = Rats.UI.LoadAnimation.start();
 			$('#loaderlayout').css("display", "block");
 		});

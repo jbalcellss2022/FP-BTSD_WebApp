@@ -1,15 +1,61 @@
 ﻿using BusinessLogicLayer.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using static BCrypt.Net.BCrypt;
 
 namespace BusinessLogicLayer.Services
 {
-    internal class EncryptionService(IConfiguration configuration): IEncryptionService
+    internal class EncryptionService(IConfiguration configuration) : IEncryptionService
     {
+        public JwtSecurityToken CheckJWTExternalToken(string jwtTokenString)
+        {
+            JwtSecurityToken? jwtToken = null;
+            try
+            {
+                var token = jwtTokenString;
+                var handler = new JwtSecurityTokenHandler();
+                jwtToken = handler.ReadJwtToken(token);
+            }
+            catch (Exception) { };
+
+            return jwtToken!;
+        }
+
+        public string GetJWTEmailFromToken(JwtSecurityToken jwtToken)
+        {
+            string email = "";
+            try
+            {
+                email = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email")?.Value!;
+            }
+            catch { }   
+
+            return email;
+        }
+
+        public bool IsExpiredJWT(JwtSecurityToken jwtToken)
+        {
+            bool IsExpiredJWT = true;
+
+            try
+            {
+                var expClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "exp")?.Value;
+                var expiryDateUnix = long.Parse(expClaim!);
+                var epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var expiryDate = epoch.AddSeconds(expiryDateUnix);
+                IsExpiredJWT = expiryDate <= DateTime.UtcNow;
+            }
+            catch { }
+
+            return IsExpiredJWT;
+        }
+
         public bool CheckBCryptPassword(string password, string hash)
         {
             bool result = false;

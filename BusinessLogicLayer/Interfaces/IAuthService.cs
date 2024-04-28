@@ -1,4 +1,5 @@
 ﻿using Entities.DTOs;
+using System.Security.Claims;
 
 namespace BusinessLogicLayer.Interfaces
 {
@@ -11,5 +12,10 @@ namespace BusinessLogicLayer.Interfaces
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
         public bool CheckUserAuth(LoginUserDTO loginUserDTO);
 
+        public ClaimsIdentity CreateClaimsIdentity(string UserId);
+
+        public bool CanCreateNewAccount(string Username);
+
+        public bool CreateNewAccount(LoginUserDTO loginUserDTO);
     }
 }

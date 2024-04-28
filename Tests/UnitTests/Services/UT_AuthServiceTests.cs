@@ -20,8 +20,9 @@ namespace Tests.UnitTests.Services
             var mockEncryptionService = new Mock<IEncryptionService>();
             mockEncryptionService.Setup(enc => enc.CheckBCryptPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             var mockAuthService = new Mock<IAuthService>();
+            var mockUserDDService = new Mock<IUserDDService>();
             mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
-            var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object);
+            var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object, mockUserDDService.Object);
             var result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "fakepassword" });
 
 			Assert.That(result, Is.False);
@@ -37,9 +38,10 @@ namespace Tests.UnitTests.Services
             var mockEncryptionService = new Mock<IEncryptionService>();
             mockEncryptionService.Setup(enc => enc.CheckBCryptPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
             var mockAuthService = new Mock<IAuthService>();
+            var mockUserDDService = new Mock<IUserDDService>();
             mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
-			var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object);
-			bool result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "*qrfydemo2024" });
+            var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object, mockUserDDService.Object);
+            bool result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "*qrfydemo2024" });
 
 			Assert.That(result, Is.True);
 		}

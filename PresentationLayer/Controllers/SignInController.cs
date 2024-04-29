@@ -29,12 +29,13 @@ namespace PresentationLayer.Controllers
     public class SignInController(
 		IHttpContextAccessor HttpContextAccessor, 
 		IAuthService AuthService, 
-		IStringLocalizer<BasicResources> LocalizeString
+		IStringLocalizer<BasicResources> LocalizeString,
+        IPromptService PromptService
         ) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
-        public IActionResult Login()
+        public async Task<IActionResult> Login()
         {
             ModelState.Clear();
             return View("Login", new LoginUserDTO());
@@ -46,7 +47,6 @@ namespace PresentationLayer.Controllers
 		{
 			try
 			{
-                
                 if (ModelState.IsValid || !loginUserDTO.AuthToken.IsNullOrEmpty())
 				{
 					ModelState.Clear();

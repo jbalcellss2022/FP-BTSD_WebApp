@@ -51,6 +51,7 @@
     <PackageReference Include="NLog.MailKit" Version="5.2.0" />
     <PackageReference Include="NLog.Schema" Version="5.2.8" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="OpenAI" Version="1.11.0" />
   </ItemGroup>
 
   <ItemGroup>

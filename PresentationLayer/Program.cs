@@ -149,6 +149,8 @@ LogManager.Configuration.Variables["smtpEmail"] = builder.Configuration["EmailSe
 LogManager.Configuration.Variables["smtpUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
 LogManager.Configuration.Variables["smtpPass"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
 
+//string result = await PromptService.TriggerPromptOpenAI("Que es QRFY ?");
+
 // Device Detector Start
 using (var serviceScope = app.Services.CreateScope())
 {

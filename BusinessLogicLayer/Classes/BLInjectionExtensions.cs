@@ -14,6 +14,7 @@ namespace BusinessLogicLayer.Classes
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IHelpersService, EmailBodyHelper>();
+            services.AddScoped<IPromptService, PromptService>();
 
             return services;
         }

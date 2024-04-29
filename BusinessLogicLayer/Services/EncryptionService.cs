@@ -9,7 +9,7 @@ using static BCrypt.Net.BCrypt;
 
 namespace BusinessLogicLayer.Services
 {
-    internal class EncryptionService(IConfiguration configuration) : IEncryptionService
+    internal class EncryptionService(IConfiguration Configuration) : IEncryptionService
     {
         public JwtSecurityToken JWT_CheckExternalToken(string jwtTokenString)
         {
@@ -110,7 +110,7 @@ namespace BusinessLogicLayer.Services
             string newToken = "";
             try
             {
-                string? secretKey = configuration["Encryption:SecretKey"];
+                string? secretKey = Configuration["Encryption:SecretKey"];
                 if (secretKey == null)
                 {
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey!));
@@ -137,7 +137,7 @@ namespace BusinessLogicLayer.Services
             SecurityToken? securityToken = null;
             try
             {
-                string secretKey = configuration["Encryption:SecretKey"]!;
+                string secretKey = Configuration["Encryption:SecretKey"]!;
                 var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
                 var tokenValidationParameters = new TokenValidationParameters
                 {

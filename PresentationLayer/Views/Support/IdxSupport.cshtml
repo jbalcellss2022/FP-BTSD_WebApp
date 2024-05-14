@@ -37,8 +37,8 @@
                     </div>
                     <div class="ibox-content">
                         <form role="form">
-                            <div class="form-group"><label>Name</label> <input disabled type="" placeholder=@Model.UserName class="form-control"></div>
-                            <div class="form-group"><label>Email</label> <input disabled type="" placeholder=@Model.UserLogin class="form-control"></div>
+                        <div class="form-group"><label>Name</label> <input disabled type="" value="@Model.UserName" class="form-control" style="font-weight:bold;color:gray"></div>
+                        <div class="form-group"><label>Email</label> <input disabled type="" value="@Model.UserLogin" class="form-control" style="font-weight:bold;color:gray"></div>
                             <div class="summernote">
                             </div>                            
                             <br />
@@ -96,7 +96,7 @@
             $('.summernote').summernote('code', '<h3>Support Request Form</h3><p style="color:grey;">' + placeholderText1 + '</p>' + '<p style="color:grey;">' + placeholderText2 + '</p>');
 
             $('.summernote').summernote({
-                placeholder: placeholderText,
+                placeholder: placeholderText1,
                 callbacks: {
                     onFocus: function(e) {
                         if ($('.summernote').summernote('isEmpty')) {

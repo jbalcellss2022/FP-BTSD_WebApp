@@ -1,8 +1,8 @@
 ﻿using Entities.Models;
 
-namespace DataAccessLayer.Interfaces
+namespace BusinessLogicLayer.Interfaces
 {
-    public interface IProductRepository
+    public interface IProductService
     {
         /// <summary>
         /// Get all products from the database.

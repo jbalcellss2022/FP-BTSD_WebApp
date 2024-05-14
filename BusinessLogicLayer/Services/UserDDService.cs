@@ -4,36 +4,46 @@ using DeviceDetectorNET;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Parser;
 using Entities.DTOs;
-using Entities.Models;
 using MaxMind.Db;
 using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using System.Diagnostics;
 
 namespace BusinessLogicLayer.Services
 {
-    public class UserDDService(IWebHostEnvironment hostingEnvironment, IHttpContextAccessor httpContextAccessor, IUserRepository userRepository) : IUserDDService
+    public class UserDDService(
+        IWebHostEnvironment hostingEnvironment,
+        IHttpContextAccessor httpContextAccessor,
+        IUserRepository userRepository
+            ) : IUserDDService
     {
+
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
         private static DatabaseReader? IpReader = null;
+        private string? webRootPath;
+        private string? pathToDB;
 
         public void StartDeviceDetector()
         {
-            string webRootPath = hostingEnvironment.WebRootPath;
+            webRootPath = hostingEnvironment.WebRootPath;
             webRootPath = webRootPath.Replace("BussinessLayer", "PresentationLayer");
+            //webRootPath = "/var/www/FP-BTSD_WebApp/PresentationLayer/wwwroot/geoip2/";
             if (webRootPath.IsNullOrEmpty()) webRootPath = "/var/www/FP-BTSD_WebApp/PresentationLayer/wwwroot";
-            var pathToDB = webRootPath + Path.DirectorySeparatorChar.ToString() + "geoip2" + Path.DirectorySeparatorChar.ToString();
+            pathToDB = webRootPath + Path.DirectorySeparatorChar.ToString() + "geoip2" + Path.DirectorySeparatorChar.ToString();
+            // pathToDB = "/var/www/FP-BTSD_WebApp/PresentationLayer/wwwroot/geoip2/";
             try
             {
-                IpReader = new DatabaseReader(pathToDB + "GeoLite2-City.mmdb");
+                IpReader = new DatabaseReader(pathToDB + "GeoLite2-City.Xmmdb");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 if (!Debugger.IsAttached)
                 {
-                    //Logger.Error(System.Reflection.MethodBase.GetCurrentMethod().Name + "[M]: " + e.Message ?? "" + "[StackT]: " + e.StackTrace ?? "" + "[HLink]: " + e.HelpLink ?? "" + "[HResult]: " + e.HResult ?? "" + "[Source]: " + e.Source ?? "" + e.Data ?? "" + "[InnerE]: " + ex.InnerException.Message ?? "");
+                    Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
                 }
             }
         }
@@ -48,6 +58,7 @@ namespace BusinessLogicLayer.Services
 
         private UserDDDTO GetUserDeviceDetector(Guid? userId)
         {
+
             UserDDDTO userDDDTO = new()
             {
                 UserId = userId,
@@ -85,9 +96,8 @@ namespace BusinessLogicLayer.Services
                 userDDDTO.DDBrowser = dd.GetBrowserClient();
                 userDDDTO.DDtype = dd.GetDeviceName();
             }
-            catch (Exception e) {
-                Exception a = e;
-                //Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod().Name + "[M]: " + e.Message + "[StackT]: " + e.StackTrace + "[HLink]: " + e.HelpLink + "[HResult]: " + e.HResult + "[Source]: " + e.Source); 
+            catch (Exception ex) {
+                Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message + "[StackT]: " + ex.StackTrace + "[HLink]: " + ex.HelpLink + "[HResult]: " + ex.HResult + "[Source]: " + ex.Source);
             }
 
             // Ip Location
@@ -103,14 +113,25 @@ namespace BusinessLogicLayer.Services
                     // Get the city from the IP Address
                     try
                     {
+                        webRootPath = hostingEnvironment.WebRootPath;
+                        webRootPath = webRootPath.Replace("BussinessLayer", "PresentationLayer");
+                        if (webRootPath.IsNullOrEmpty()) webRootPath = "/var/www/FP-BTSD_WebApp/PresentationLayer/wwwroot";
+                        pathToDB = webRootPath + Path.DirectorySeparatorChar.ToString() + "geoip2" + Path.DirectorySeparatorChar.ToString();
+                        IpReader = new DatabaseReader(pathToDB + "GeoLite2-City.mmdb");
                         userDDDTO.DDCity = IpReader!.City(userDDDTO.IPAddress).City.Name + " - " + IpReader.City(userDDDTO.IPAddress).Country.Name; 
                     } 
-                    catch (AddressNotFoundException) { userDDDTO.DDCity = "<Private IP Address>"; }
-                    catch (InvalidDatabaseException) { userDDDTO.DDCity = "<Private IP Address>"; }
+                    catch (AddressNotFoundException ex) {
+                        Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message + "[StackT]: " + ex.StackTrace + "[HLink]: " + ex.HelpLink + "[HResult]: " + ex.HResult + "[Source]: " + ex.Source);
+                        userDDDTO.DDCity = "<Private IP Address>";
+                    }
+                    catch (InvalidDatabaseException ex) {
+                        Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message + "[StackT]: " + ex.StackTrace + "[HLink]: " + ex.HelpLink + "[HResult]: " + ex.HResult + "[Source]: " + ex.Source);
+                        userDDDTO.DDCity = "<Private IP Address>";
+                    }
                 }
-                catch (Exception e) {
-                    Exception a = e;
-                    //Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod().Name + "[M]: " + e.Message + "[StackT]: " + e.StackTrace + "[HLink]: " + e.HelpLink + "[HResult]: " + e.HResult + "[Source]: " + e.Source); 
+                catch (Exception ex) {
+                    Logger.Warn(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message + "[StackT]: " + ex.StackTrace + "[HLink]: " + ex.HelpLink + "[HResult]: " + ex.HResult + "[Source]: " + ex.Source);
+                    userDDDTO.DDCity = "<Private IP Address>";
                 }
             }
 

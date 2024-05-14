@@ -17,6 +17,5 @@ namespace BusinessLogicLayer.Interfaces
         /// <param name="userId">Username value as a string.</param>
         /// <returns></returns>
         public Task<bool> AddUserDeviceDetector(string? userId);
-
     }
 }

@@ -147,6 +147,16 @@ namespace DataAccessLayer.Repositories
 
                 bbddcontext.Add(appUser);
                 await bbddcontext.SaveChangesAsync();
+
+                AppUsersRole appUsersRole = new()
+                {
+                    UserId = appUser.UserId,
+                    Role = "10",
+                };
+
+                bbddcontext.Add(appUsersRole);
+                await bbddcontext.SaveChangesAsync();
+
                 result = true;
             }
             catch { }
@@ -232,9 +242,11 @@ namespace DataAccessLayer.Repositories
             return result;
         }
 
-        public List<AppUsersStat> GetAllUserStats()
+        public List<AppUsersStat> GetAllUserStats(string Username)
         {
+            Guid UserId = GetUserIdByEmail(Username);
             var usersStats = bbddcontext.AppUsersStats
+                .Where(u => u.UserId == UserId)
                 .OrderByDescending(u => u.Id)
                 .ToList();
             return usersStats;

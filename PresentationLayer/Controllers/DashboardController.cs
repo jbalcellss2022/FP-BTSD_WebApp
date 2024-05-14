@@ -11,8 +11,9 @@ namespace PresentationLayer.Controllers
     {
         public IActionResult Index()
         {
-            DashboardUserProfileDTO UserProfile = ProfileService.GetUserProfile(ClaimsService.GetClaimValue("UserId"));
-            ViewBag.UserStats = UserService.GetAllUserStats().Take(5);
+            var Username = ClaimsService.GetClaimValue("UserId")!;
+            DashboardUserProfileDTO UserProfile = ProfileService.GetUserProfile(Username);
+            ViewBag.UserStats = UserService.GetAllUserStats(Username).Take(5);
 
             return View(UserProfile);
         }

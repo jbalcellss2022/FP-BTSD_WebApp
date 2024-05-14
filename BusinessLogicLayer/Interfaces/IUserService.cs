@@ -8,6 +8,7 @@ namespace BusinessLogicLayer.Interfaces
         /// Get all user stats
         /// </summary>
         /// <returns></returns>
-        public List<AppUsersStat> GetAllUserStats();
+        public List<AppUsersStat> GetAllUserStats(string Username);
     }
+
 }

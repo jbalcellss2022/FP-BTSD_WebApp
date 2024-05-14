@@ -15,8 +15,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.Net.Http.Headers;
 using NLog;
+using NLog.Web;
 using SecurityHubs.Hubs;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -26,6 +28,10 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 IServiceCollection services = builder.Services;
+
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Error);
+builder.Host.UseNLog();
 
 services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.Optimal; });
 services.AddResponseCompression(
@@ -112,7 +118,7 @@ services.AddCors(options =>
         .AllowAnyMethod()
         .AllowAnyHeader()
         .SetIsOriginAllowed((host) => true);
-    });
+     });
 });
 
 services.AddSignalR(config => {
@@ -127,7 +133,7 @@ services.AddMvc();
 
 var app = builder.Build();
 
-Logger logger = LogManager.GetLogger("");                               // Get NLog logger
+Logger Logger = LogManager.GetLogger("");                               // Get NLog logger
 LogManager.Configuration.Variables["LoggerFileName"] = "QRFYBackend";   // Set NLog filename pre/suffix
 
 SqlConnectionStringBuilder SQLbuilder = new SqlConnectionStringBuilder(builder.Configuration["Database:ConnectionString"]);
@@ -149,15 +155,6 @@ LogManager.Configuration.Variables["smtpEmail"] = builder.Configuration["EmailSe
 LogManager.Configuration.Variables["smtpUser"] = builder.Configuration["EmailSettings:smtpUser"];      // Set SMTP User for NLog
 LogManager.Configuration.Variables["smtpPass"] = builder.Configuration["EmailSettings:smtpPass"];  // Set SMTP password for NLog
 
-// Device Detector Start
-using (var serviceScope = app.Services.CreateScope())
-{
-    var servicesDD = serviceScope.ServiceProvider;
-    var DeviceDetectorService = servicesDD.GetRequiredService<IUserDDService>();
-
-    DeviceDetectorService!.StartDeviceDetector();
-}
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -174,8 +171,19 @@ else
 
 try
 {
+    // Register the exception handling middleware
+    //app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+    // Device Detector Start
+    using (var serviceScope = app.Services.CreateScope())
+    {
+        var servicesDD = serviceScope.ServiceProvider;
+        var DeviceDetectorService = servicesDD.GetRequiredService<IUserDDService>();
+        DeviceDetectorService!.StartDeviceDetector();
+    }
+
     // Middleware to forward headers
-	app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
+    app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
     {
         ForwardedHeaders = ForwardedHeaders.All,
         RequireHeaderSymmetry = false,
@@ -224,5 +232,8 @@ try
 }
 catch (Exception ex)
 {
-	logger.Error(ex, message: "An error occurred while starting the application.");
+    if (!Debugger.IsAttached)
+    {
+        Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
+    }
 }

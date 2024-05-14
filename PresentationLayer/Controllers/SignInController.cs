@@ -12,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Diagnostics.Internal;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
 using PresentationLayer;
 using Resources;
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Net;
 using System.Reflection;
@@ -32,7 +34,9 @@ namespace PresentationLayer.Controllers
 		IStringLocalizer<BasicResources> LocalizeString
         ) : Controller
     {
-		[HttpGet]
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
+
+        [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -111,13 +115,18 @@ namespace PresentationLayer.Controllers
                 }
 				else
 				{
-					ModelState.Clear();
+                    Logger.Error(LocalizeString["LOGIN_ERROR2"]);
+                    ModelState.Clear();
 					ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
 					return View("Login", loginUserDTO);
 				}
 			}
-			catch (Exception) {
-				ModelState.Clear();
+			catch (Exception ex) {
+                if (!Debugger.IsAttached)
+                {
+                    Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
+                }
+                ModelState.Clear();
 				ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
 				return View("Login", loginUserDTO);
 			}
@@ -216,7 +225,11 @@ namespace PresentationLayer.Controllers
                     return View("CreateAccount", loginUserDTO);
                 }
             }
-            catch (Exception) {
+            catch (Exception ex) {
+                if (!Debugger.IsAttached)
+                {
+                    Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
+                }
                 ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR2"], loginUserDTO.Username));
                 return View("CreateAccount", loginUserDTO);
             }

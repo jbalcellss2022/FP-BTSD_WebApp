@@ -2,6 +2,7 @@
 using BusinessLogicLayer.Interfaces;
 using BusinessLogicLayer.Services;
 using Microsoft.Extensions.DependencyInjection;
+using NLog;
 
 namespace BusinessLogicLayer.Classes
 {

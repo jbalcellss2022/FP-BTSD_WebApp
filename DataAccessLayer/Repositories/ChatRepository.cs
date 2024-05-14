@@ -17,7 +17,7 @@ namespace DataAccessLayer.Repositories
                 userGuid = user.UserId;
                 try
                 {
-                    AppChats appChat = new()
+                    AppChat appChat = new()
                     {
                         UserId = userGuid,
                         UserName = userChat,

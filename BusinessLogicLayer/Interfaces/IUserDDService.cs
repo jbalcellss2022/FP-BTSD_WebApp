@@ -1,4 +1,6 @@
-﻿namespace BusinessLogicLayer.Interfaces
+﻿using Entities.Models;
+
+namespace BusinessLogicLayer.Interfaces
 {
     public interface IUserDDService
     {
@@ -15,5 +17,6 @@
         /// <param name="userId">Username value as a string.</param>
         /// <returns></returns>
         public Task<bool> AddUserDeviceDetector(string? userId);
+
     }
 }

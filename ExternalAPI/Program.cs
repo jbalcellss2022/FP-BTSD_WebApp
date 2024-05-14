@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 Logger logger = LogManager.GetLogger("");                                   // Get NLog logger
 LogManager.Configuration.Variables["LoggerFileName"] = "QRFYExternaAPI";    // Set NLog filename pre/suffix
 
-SqlConnectionStringBuilder SQLbuilder = new SqlConnectionStringBuilder(builder.Configuration["Database:ConnectionString"]);
+SqlConnectionStringBuilder SQLbuilder = new(builder.Configuration["Database:ConnectionString"]);
 string DB_Server = SQLbuilder.DataSource;
 string DB_Catalog = SQLbuilder.InitialCatalog;
 string DB_UserId = SQLbuilder.UserID;

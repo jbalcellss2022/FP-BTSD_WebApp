@@ -41,6 +41,32 @@ namespace DataAccessLayer.Repositories
             return userId;
         }
 
+        public DashboardUserProfileDTO GetUserProfile(string Username)
+        {
+            DashboardUserProfileDTO userProfile = null!;
+            var user = bbddcontext.AppUsers.FirstOrDefault(AppUser => AppUser.Login == Username);
+            if (user != null)
+            {
+                var usersRoles = bbddcontext.AppUsersRoles.FirstOrDefault(AppUsersRoles => AppUsersRoles.UserId == user.UserId);
+                if (usersRoles != null)
+                {
+                    var role = bbddcontext.SysRoles.FirstOrDefault(SysRoles => SysRoles.Role == usersRoles!.Role);
+                    if (role != null)
+                    {
+                        DashboardUserProfileDTO dashboardUserProfileDTO = new()
+                        {
+                            UserLogin = user.Login,
+                            UserName = user.Name,
+                            UserProfile = role.Description
+                        };
+                        return dashboardUserProfileDTO;
+                    }
+                }
+            }
+
+            return userProfile!;
+        }
+
         public async Task<bool> IncreaseUserRetries(string Username)
         {
             bool result = false;
@@ -205,5 +231,14 @@ namespace DataAccessLayer.Repositories
 
             return result;
         }
+
+        public List<AppUsersStat> GetAllUserStats()
+        {
+            var usersStats = bbddcontext.AppUsersStats
+                .OrderByDescending(u => u.Id)
+                .ToList();
+            return usersStats;
+        }
+
     }
 }

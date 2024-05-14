@@ -1,14 +1,16 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
+﻿using System.Security.Claims;
+using BusinessLogicLayer.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Configuration;
 using NLog;
 
 namespace SecurityHubs.Hubs
 {
-    [Authorize]
-    public class SecurityHub(/*IHttpContextAccessor httpContextAccessor*/): Hub
+    public class SecurityHub(
+        IChatService ChatService,
+        IPromptService PromptService,
+        IHttpContextAccessor ContextAccessor
+        ) : Hub
     {
         private static int userCount = 0;
 
@@ -63,6 +65,27 @@ namespace SecurityHubs.Hubs
                 string programhst = ProgramaHistory;
             });
         }
+
+        public async Task SendChatMessage(string chatUserS, string chatUserD, bool source, string message, DateTime dateTime)
+        {
+            try
+            {
+                var ClaimsIdentity = ContextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+                var Claim_UserId = ClaimsIdentity!.FindFirst("UserId")!.Value;
+
+                await ChatService.AddUserChatMessage(Claim_UserId, chatUserS, source, message, dateTime);                   // Save message from user in Chat Database
+                string promptResult = await PromptService.TriggerPromptOpenAI(message);                                     // Use AI ChatGT Prompt
+                DateTime promptResultTime = DateTime.Now;
+                await ChatService.AddUserChatMessage(Claim_UserId, chatUserD, false, promptResult, promptResultTime);       // Save message from AI prompt in Chat Database
+                await Clients.Caller.SendAsync("ReceiveChatMessage", chatUserD, false, promptResult, promptResultTime);  // Returns AI Prompt result to user
+            }
+            catch (Exception ex)
+            {
+                Logger logger = LogManager.GetCurrentClassLogger();
+                logger.Error(ex, "Error in SendChatMessage");
+            }
+        }
+
 
         // ############# Public CLIENT methods  ############# 
         // *Use these methods from client .JS files to receive actions or messages from the HUB

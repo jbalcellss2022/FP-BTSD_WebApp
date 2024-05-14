@@ -1,6 +1,6 @@
 ﻿window.addEventListener('load', OnLoadSecurity);
 
-var connection;
+let connection;
 var timeInactivity;
 
 // !Important to avoid errores on unload page
@@ -15,20 +15,23 @@ window.onbeforeunload = function () {
 function OnLoadSecurity() {
     AuthResetTimer();
     AuthInactivityTime(); // Check for user inactivity
-    
-    url = "/securityhub"; // Token control to generate hub URL
-    token = GetTokenId();
-    console.log("QRFY. SignalR Session Token", token);
-    if (token !== "" && token !== null && token !== undefined) { url = "/securityhub?tokenId=" + token; }
 
+    // SignalR Developer & Production URL, Important!
+    var baseUrl = `${window.location.protocol}//${window.location.host}`; // Get the base URL using protocol and host
+    var url = `${baseUrl}/securityhub`;
+    var baseurl = `${baseUrl}/securityhub`;
+    var token = GetTokenId();   // Append the pathname and the specific endpoint
+    console.log("QRFY. SignalR Session Token", token);
+    if (token !== "" && token !== null && token !== undefined) {
+        url = url + "?tokenId=" + token;
+    }
     // Create Hub connection
-    let connection;
     try {
         console.log('QRFY. Starting SignalR Hub.');
         try {
             connection = new signalR
                 .HubConnectionBuilder()
-                .withUrl(url)
+                .withUrl(baseurl)
                 .configureLogging(signalR.LogLevel.Error)  // Error, Warning, Information, Trace
                 .build();
 
@@ -42,7 +45,27 @@ function OnLoadSecurity() {
             connection.on("SetSessionTokenId", (connectionId) => { SetTokenId(connection, connectionId); });
             connection.on("ReceiveMessage", (user, message) => { console.log(user, message); });
             connection.on("GetProgressStatus", (type, status, message1, message2) => { SetProgressStatus(type, status, message1, message2); });
-            
+
+
+            function DateToLocalString(currentDate) {
+                const date = new Date(currentDate);
+                var dateTimeString = date.toLocaleString('en-US', {
+                    year: 'numeric', month: '2-digit', day: '2-digit',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+                }).replace(/\//g, '.');
+                return dateTimeString;
+            }
+
+            if (connection) {
+                connection.on("ReceiveChatMessage", (user, source, message, datetime) => {
+                    var currentDate = DateToLocalString(datetime);
+                    AddChatMessage(user + " wrote on ", source, message, currentDate, "active");
+                    playReceivedMessageSound();
+                    playReceivedMessageSound();
+                    hideLoadingIndicator()
+                });
+            }
+
             start(connection, url);
             connection.onclose(async (error) => { console.log("QRFY. SignalR OnClose: Trying to reconnect to SecurityHub..."); await start(connection, url); });  // Always try reconnection
 
@@ -51,6 +74,8 @@ function OnLoadSecurity() {
             // ############################################################################################## //
 
             //connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+            //connection.invoke("SendChatMessage", "User", "Test Message", null).catch(err => console.error(err.toString()));
+
         }
         catch (error) {
             console.error("QRFY. SignalR is not installed. Cannot start. ", error);   // Handle errors that occur during the instantiation of the connection.

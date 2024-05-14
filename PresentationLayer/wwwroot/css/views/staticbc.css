@@ -1,0 +1,4 @@
+﻿.max-height-view {
+    height: 72vh; /* Set height to 100% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+}

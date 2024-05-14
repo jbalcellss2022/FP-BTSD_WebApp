@@ -17,15 +17,15 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy-PL|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -67,6 +67,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Support - Copy\" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">

@@ -61,6 +61,8 @@ public partial class AppUser
 
     public int? Retries { get; set; }
 
+    public string? APIToken { get; set; }
+
     public virtual ICollection<AppLogger> AppLoggers { get; set; } = new List<AppLogger>();
 
     public virtual ICollection<AppProduct> AppProducts { get; set; } = new List<AppProduct>();

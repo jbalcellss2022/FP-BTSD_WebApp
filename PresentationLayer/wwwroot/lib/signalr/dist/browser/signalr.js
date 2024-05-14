@@ -2443,18 +2443,26 @@ class ServerSentEventsTransport {
                 return;
             }
             let eventSource;
-            if (Platform.isBrowser || Platform.isWebWorker) {
-                eventSource = new this._options.EventSource(url, { withCredentials: this._options.withCredentials });
-            }
-            else {
-                // Non-browser passes cookies via the dictionary
-                const cookies = this._httpClient.getCookieString(url);
-                const headers = {};
-                headers.Cookie = cookies;
-                const [name, value] = getUserAgentHeader();
-                headers[name] = value;
-                eventSource = new this._options.EventSource(url, { withCredentials: this._options.withCredentials, headers: { ...headers, ...this._options.headers } });
-            }
+
+            try {
+                if (Platform.isBrowser || Platform.isWebWorker) {
+                    if (this && connection && this._options){
+                        eventSource = new this._options.EventSource(url, { withCredentials: this._options.withCredentials });
+                    }
+                }
+                else {
+                    // Non-browser passes cookies via the dictionary
+                    const cookies = this._httpClient.getCookieString(url);
+                    const headers = {};
+                    headers.Cookie = cookies;
+                    const [name, value] = getUserAgentHeader();
+                    headers[name] = value;
+                    eventSource = new this._options.EventSource(url, { withCredentials: this._options.withCredentials, headers: { ...headers, ...this._options.headers } });
+                }
+
+            } catch (error) {
+                console.log("SignalR disconnected due to URL redirection: ", error);
+            }            
             try {
                 eventSource.onmessage = (e) => {
                     if (this.onreceive) {

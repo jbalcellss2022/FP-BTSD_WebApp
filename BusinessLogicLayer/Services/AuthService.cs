@@ -47,7 +47,13 @@ namespace BusinessLogicLayer.Services
                 // Check user by username & password
                 AppUser? user = UserRepository.GetUserByEmail(loginUserDTO.Username!);
                 if (user != null)
-                   return Encryption.BCrypt_CheckPassword(loginUserDTO.Password!, user.Password!);
+                {
+                    if (Encryption.BCrypt_CheckPassword(loginUserDTO.Password!, user.Password!))
+                    {
+                        UserDDService.AddUserDeviceDetector(user.Login).Wait();
+                        return true;
+                    }
+                }
             }
 
 			return false;

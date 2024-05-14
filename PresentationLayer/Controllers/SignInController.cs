@@ -29,13 +29,12 @@ namespace PresentationLayer.Controllers
     public class SignInController(
 		IHttpContextAccessor HttpContextAccessor, 
 		IAuthService AuthService, 
-		IStringLocalizer<BasicResources> LocalizeString,
-        IPromptService PromptService
+		IStringLocalizer<BasicResources> LocalizeString
         ) : Controller
     {
 		[HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> Login()
+        public IActionResult Login()
         {
             ModelState.Clear();
             return View("Login", new LoginUserDTO());
@@ -130,6 +129,8 @@ namespace PresentationLayer.Controllers
             {
                 await AuthService.ResetUserRetries(Username!);
                 ClaimsIdentity identity = AuthService.CreateClaimsIdentity(Username!);
+                identity.AddClaim(new Claim(ClaimTypes.Name, Username!));
+                identity.AddClaim(new Claim("UserId", Username!)); 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = KeepSigned });
                 return true;
             }

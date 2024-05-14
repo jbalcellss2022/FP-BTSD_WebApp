@@ -14,7 +14,12 @@ namespace BusinessLogicLayer.Classes
             services.AddScoped<IEncryptionService, EncryptionService>();
             services.AddScoped<INotificationService, NotificationService>();
             services.AddScoped<IHelpersService, EmailBodyHelper>();
+            services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IPromptService, PromptService>();
+            services.AddScoped<IProfileService, ProfileService>();
+            services.AddScoped<IClaimsService, ClaimsService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IBarcodeService, BarcodeService>();
 
             return services;
         }

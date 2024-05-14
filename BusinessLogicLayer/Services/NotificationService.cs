@@ -2,12 +2,10 @@
 using MailKit;
 using MailKit.Net.Smtp;
 using MailKit.Security;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
-using NLog;
 
 namespace BusinessLogicLayer.Services
 {

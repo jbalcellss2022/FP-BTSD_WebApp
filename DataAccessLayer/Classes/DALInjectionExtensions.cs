@@ -11,6 +11,8 @@ namespace DataAccessLayer.Classes
         {
             // REPOSITORIES
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IChatRepository, ChatRepository>();
+            services.AddScoped<IBarcodeRepository, BarcodeRepository>();
 
             return services;
         }

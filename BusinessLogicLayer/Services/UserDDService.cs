@@ -4,6 +4,7 @@ using DeviceDetectorNET;
 using DeviceDetectorNET.Cache;
 using DeviceDetectorNET.Parser;
 using Entities.DTOs;
+using Entities.Models;
 using MaxMind.Db;
 using MaxMind.GeoIP2;
 using MaxMind.GeoIP2.Exceptions;
@@ -115,6 +116,7 @@ namespace BusinessLogicLayer.Services
 
             return userDDDTO;
         }
+
     }
 }
 

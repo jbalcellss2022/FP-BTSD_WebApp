@@ -4,5 +4,6 @@ namespace BusinessLogicLayer.Services
 {
     internal class ProductService()
     {
+
     }
 }

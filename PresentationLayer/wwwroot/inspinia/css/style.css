@@ -830,7 +830,8 @@ h1 {
   font-size: 30px;
 }
 h2 {
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: bold;
 }
 h3 {
   font-size: 16px;
@@ -1098,8 +1099,11 @@ ul.nav-second-level {
   border: none;
 }
 .nav-second-level li a {
-  padding: 7px 10px 7px 10px;
-  padding-left: 52px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 10px 7px 10px;
+    padding-left: 52px;
 }
 .fixed-sidebar.mini-navbar .nav-second-level.collapsing li a,
 .nav-second-level.collapsing li a {
@@ -1127,8 +1131,13 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   font-size: 12px;
   border-radius: 3px;
 }
+
+.small-chat-box .slimScrollDiv {
+    height: 80%!important;
+}
 .fixed-nav .slimScrollDiv #side-menu {
   padding-bottom: 60px;
+
 }
 .mini-navbar .nav-second-level li a {
   padding: 10px 10px 10px 15px;
@@ -6813,12 +6822,12 @@ body.body-small .vote-icon {
 .small-chat-box {
   display: none;
   position: fixed;
-  bottom: 20px;
-  right: 75px;
+  bottom: 45px;
+  right: 85px;
   background: #fff;
   border: 1px solid #e7eaec;
-  width: 230px;
-  height: 320px;
+  width: 350px;
+  height: 450px;
   border-radius: 4px;
 }
 .small-chat-box.ng-small-chat {

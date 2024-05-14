@@ -16,6 +16,12 @@ public partial class BBDDContext : DbContext
     {
     }
 
+    public virtual DbSet<AppCBDynamic> AppCBDynamics { get; set; }
+
+    public virtual DbSet<AppCBStatic> AppCBStatics { get; set; }
+
+    public virtual DbSet<AppChat> AppChats { get; set; }
+
     public virtual DbSet<AppLogger> AppLoggers { get; set; }
 
     public virtual DbSet<AppProduct> AppProducts { get; set; }
@@ -38,6 +44,50 @@ public partial class BBDDContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<AppCBDynamic>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.Id });
+
+            entity.ToTable("AppCBDynamic");
+
+            entity.Property(e => e.UserId).HasComment("UserId");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasComment("Auto ID");
+            entity.Property(e => e.CBType).HasMaxLength(15);
+            entity.Property(e => e.Description)
+                .HasMaxLength(135)
+                .HasComment("Product description");
+            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<AppCBStatic>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.Id });
+
+            entity.ToTable("AppCBStatic");
+
+            entity.Property(e => e.UserId).HasComment("UserId");
+            entity.Property(e => e.Id)
+                .ValueGeneratedOnAdd()
+                .HasComment("Auto ID");
+            entity.Property(e => e.CBType).HasMaxLength(15);
+            entity.Property(e => e.Description)
+                .HasMaxLength(135)
+                .HasComment("Product description");
+            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<AppChat>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.IdxSec }).HasName("PK_AppChat");
+
+            entity.Property(e => e.IdxSec).ValueGeneratedOnAdd();
+            entity.Property(e => e.Datetime).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<AppLogger>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_sysCustomLog");
@@ -192,9 +242,7 @@ public partial class BBDDContext : DbContext
             entity.Property(e => e.CodeId)
                 .HasMaxLength(15)
                 .HasComment("Product Code");
-            entity.Property(e => e.Description)
-                .HasMaxLength(50)
-                .HasComment("Code description");
+            entity.Property(e => e.Description).HasComment("Code description");
         });
 
         modelBuilder.Entity<SysLogger>(entity =>

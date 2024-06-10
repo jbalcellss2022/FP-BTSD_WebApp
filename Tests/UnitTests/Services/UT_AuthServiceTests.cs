@@ -7,49 +7,74 @@ using Moq;
 
 namespace Tests.UnitTests.Services
 {
+    /// <summary>
+    /// UT for AuthService
+    /// </summary>
     [TestFixture()]
     public class UT_AuthServiceTests
     {
-        [Test()]
-        public void CheckUserAuthTest_KO()
+        /// <summary>
+        /// Tests the CheckUserAuth method with invalid credentials.
+        /// </summary>
+        /// <remarks>
+        /// This test verifies that the CheckUserAuth method returns false when provided with an invalid 
+        /// password. It sets up the mock IUserRepository to return a specific user and configures 
+        /// the IEncryptionService mock to return false when the incorrect password is checked against 
+        /// the stored hash.
+        /// </remarks>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        
+        [Test]
+        public async Task CheckUserAuthTest_KO()
         {
-			var mockUserRepository = new Mock<IUserRepository>();
-			mockUserRepository.Setup(repo => repo.GetUserByEmail("test@qrfy.es"))
-				.Returns(new AppUser { Login = "test@qrfy.es", Password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
+            // Arrange
+            var mockUserRepository = new Mock<IUserRepository>();
+            mockUserRepository.Setup(repo => repo.GetUserByEmail("test@qrfy.es"))
+                .Returns(new AppUser { Login = "test@qrfy.es", Password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
 
             var mockEncryptionService = new Mock<IEncryptionService>();
-            mockEncryptionService.Setup(enc => enc.BCrypt_CheckPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            mockEncryptionService.Setup(enc => enc.BCrypt_CheckPassword("fakepassword", "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G")).Returns(false);
 
-            var mockAuthService = new Mock<IAuthService>();
             var mockUserDDService = new Mock<IUserDDService>();
             var mockNotificationService = new Mock<INotificationService>();
             var mockHelperService = new Mock<IHelpersService>();
 
-            mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
             var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object, mockUserDDService.Object, mockNotificationService.Object, mockHelperService.Object);
-            var result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "fakepassword" });
+            var result = await service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "fakepassword" });
 
-			Assert.That(result, Is.False);
+            // Assert
+            Assert.That(result, Is.False);
         }
 
-		[Test()]
-		public void CheckUserAuthTest_OK()
+        /// <summary>
+        /// Tests the CheckUserAuth method with valid credentials.
+        /// </summary>
+        /// <remarks>
+        /// This test verifies that the CheckUserAuth method returns true when provided with valid 
+        /// username and password. It sets up the mock IUserRepository to return a specific user 
+        /// and configures the IEncryptionService mock to return true when the password is checked 
+        /// against the stored hash.
+        /// </remarks>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        
+        [Test()]
+		public async Task CheckUserAuthTest_OK()
 		{
 			var mockUserRepository = new Mock<IUserRepository>();
 			mockUserRepository.Setup(repo => repo.GetUserByEmail("test@qrfy.es"))
 				.Returns(new AppUser { Login = "test@qrfy.es", Password = "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G" });
 
             var mockEncryptionService = new Mock<IEncryptionService>();
-            mockEncryptionService.Setup(enc => enc.BCrypt_CheckPassword(It.IsAny<string>(), It.IsAny<string>())).Returns(true);
+            mockEncryptionService.Setup(enc => enc.BCrypt_CheckPassword("*qrfydemo2024", "$2a$11$CSNAnu2ZWlYqnHstR5SWA.snlXhwTpsmUWk/EopLvfPsDsxL/Cg0G")).Returns(true);
 
             var mockAuthService = new Mock<IAuthService>();
-            var mockUserDDService = new Mock<IUserDDService>();
             var mockNotificationService = new Mock<INotificationService>();
             var mockHelperService = new Mock<IHelpersService>();
+            var mockUserDDService = new Mock<IUserDDService>();
 
-            mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(true);
+            mockAuthService.Setup(service => service.CheckUserAuth(It.IsAny<LoginUserDTO>())).Returns(Task.FromResult(true));
             var service = new AuthService(mockUserRepository.Object, mockEncryptionService.Object, mockUserDDService.Object, mockNotificationService.Object, mockHelperService.Object);
-            bool result = service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "*qrfydemo2024" });
+            var result = await service.CheckUserAuth(new LoginUserDTO() { Username = "test@qrfy.es", Password = "*qrfydemo2024" });
 
 			Assert.That(result, Is.True);
 		}

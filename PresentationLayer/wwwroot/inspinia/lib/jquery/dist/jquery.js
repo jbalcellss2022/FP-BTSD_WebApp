@@ -9164,7 +9164,6 @@ jQuery._evalUrl = function( url ) {
 		type: "GET",
 		dataType: "script",
 		cache: true,
-		async: false,
 		global: false,
 		"throws": true
 	} );
@@ -9277,7 +9276,7 @@ jQuery.ajaxTransport( function( options ) {
 			send: function( headers, complete ) {
 				var i,
 					xhr = options.xhr();
-
+				options.async = true;		
 				xhr.open(
 					options.type,
 					options.url,

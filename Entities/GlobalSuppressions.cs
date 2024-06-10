@@ -7,3 +7,4 @@ using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage("Style", "IDE1006:Naming Styles", Justification = "<Pending>", Scope = "member", Target = "~P:Entities.DTOs.OpenAIResponseDto.id")]
 [assembly: SuppressMessage("Style", "IDE0028:Simplify collection initialization", Justification = "<Pending>", Scope = "member", Target = "~P:Entities.Models.AppUser.AppLoggers")]
+[assembly: SuppressMessage("Architecture", "DV2002:Unmapped types", Justification = "<Pending>", Scope = "type", Target = "~T:Entities.Models.AppChat")]

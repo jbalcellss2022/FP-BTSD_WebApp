@@ -4,6 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for encryption operations
+    /// </summary>
     public interface IEncryptionService
     {
         /// <summary>

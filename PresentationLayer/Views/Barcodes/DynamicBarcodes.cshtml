@@ -56,31 +56,31 @@
                                                 @foreach (var Codebar in ViewBag.CodebarList)
                                                 {
                                                     <tr>
-                                                        <td>@Codebar.Id</td>
+                                                        <td class="truncate" title="@Codebar.BarcodeId">@Codebar.BarcodeId</td>
                                                         <td>@Codebar.Description</td>
                                                         <td>@Codebar.IsoDateC.ToString()</td>
                                                         <td>@Codebar.CBType</td>
                                                         @if (Codebar.CBType == "QR")
                                                         {
-                                                            <td><a href="@Codebar.CBValue" target="_new">@Codebar.CBValue</a></td>
+                                                            <td class="truncate truncate-val" title="@Codebar.CBValue"><a href="@Codebar.CBValue" target="_new">@Codebar.CBValue</a></td>
                                                         }
                                                         else
                                                         {
-                                                            <td>@Codebar.CBValue</td>
+                                                            <td class="truncate truncate-val" title="@Codebar.CBValue">@Codebar.CBValue</td>
                                                         }                                                        
                                                         <td>@Codebar.CBShortLink</td>
-                                                        <td style="text-align: center">
-                                                            <a href="#" ><i class="fa fa-check text-navy" )"></i></a>
+                                                        <td class="tdActionBtn">
+                                                            <a href="#"><i class="fa fa-check text-navy" )"></i></a>
                                                             @* fa-times text-danger *@
                                                         </td>
                                                         <td class="text-right">
-                                                            <a href="#" title="Modify" style="padding-right:6px"><i class="fa fa-edit text-navy"></i></a>
-                                                            <a href="#" title="Delete" style="padding-right:6px"><i class="fa fa-trash text-navy"></i></a>
-                                                            <a href="#" title="View" style="padding-right:6px"><i class="fa fa-eye text-navy"></i></a>
                                                             @if (Codebar.CBType == "QR")
                                                             {
-                                                                    <a href="#" title="Send Link" style="padding-right:6px"><i class="fa fa-send text-navy"></i></a>
+                                                                <a href="#" class="actionBtn" title="Send Link"><i class="fa fa-send text-navy"></i></a>
                                                             }
+                                                            <a href="#" class="actionBtn" title="Modify"><i class="fa fa-edit text-navy"></i></a>
+                                                            <a href="#" class="actionBtn" title="Delete"><i class="fa fa-trash text-navy"></i></a>
+                                                            <a href="#" class="actionBtn" title="View / Print"><i class="fa fa-eye text-navy"></i></a>
                                                         </td>
                                                     </tr>
                                                 }

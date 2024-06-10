@@ -9,7 +9,7 @@ namespace Entities.Models;
 public partial class SysActionType
 {
     /// <summary>
-    /// Product Code Type
+    /// Action Id
     /// </summary>
     public string ActionId { get; set; } = null!;
 

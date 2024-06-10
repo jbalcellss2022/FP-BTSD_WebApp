@@ -9,12 +9,12 @@ namespace Entities.Models;
 public partial class AppUsersRole
 {
     /// <summary>
-    /// Auto ID
+    /// Role auto Id
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// UserId
+    /// Role UserId
     /// </summary>
     public Guid UserId { get; set; }
 

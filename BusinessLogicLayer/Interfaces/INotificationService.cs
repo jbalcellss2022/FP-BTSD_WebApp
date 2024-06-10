@@ -2,6 +2,9 @@
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for notification operations
+    /// </summary>
     public interface INotificationService
     {
         /// <summary>

@@ -6,14 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers
 {
+    /// <summary>
+    /// Barcodes Controller
+    /// </summary>
+    /// <param name="ClaimsService"></param>
+    /// <param name="ProfileService"></param>
+    /// <param name="BarcodeService"></param>
     [Authorize]
-
     public class BarcodesController(IClaimsService ClaimsService, IProfileService ProfileService, IBarcodeService BarcodeService) : Controller
     {
         public IActionResult StaticBarcodes()
         {
             DashboardUserProfileDTO UserProfile = ProfileService.GetUserProfile(ClaimsService.GetClaimValue("UserId"));
-            ViewBag.CodebarList = BarcodeService.GetAllCBStatic().Take(10);
+            ViewBag.CodebarList = BarcodeService.GetAllCBStatic(UserProfile.UserLogin!).Take(10);
 
             return View(UserProfile);
         }
@@ -21,7 +26,7 @@ namespace PresentationLayer.Controllers
         public IActionResult DynamicBarcodes()
         {
             DashboardUserProfileDTO UserProfile = ProfileService.GetUserProfile(ClaimsService.GetClaimValue("UserId"));
-            ViewBag.CodebarList = BarcodeService.GetAllCBDynamic().Take(10);
+            ViewBag.CodebarList = BarcodeService.GetAllCBDynamic(UserProfile.UserLogin!).Take(10);
 
             return View(UserProfile);
         }
@@ -29,9 +34,7 @@ namespace PresentationLayer.Controllers
         public IActionResult Management()
         {
             DashboardUserProfileDTO UserProfile = ProfileService.GetUserProfile(ClaimsService.GetClaimValue("UserId"));
-
             return View(UserProfile);
         }
-
     }
 }

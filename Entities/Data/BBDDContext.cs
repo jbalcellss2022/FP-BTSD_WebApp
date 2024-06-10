@@ -46,46 +46,81 @@ public partial class BBDDContext : DbContext
     {
         modelBuilder.Entity<AppCBDynamic>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.Id });
+            entity.HasKey(e => new { e.UserId, e.BarcodeId });
 
             entity.ToTable("AppCBDynamic");
 
-            entity.Property(e => e.UserId).HasComment("UserId");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasComment("Auto ID");
-            entity.Property(e => e.CBType).HasMaxLength(15);
+            entity.Property(e => e.UserId).HasComment("Application UserId");
+            entity.Property(e => e.BarcodeId)
+                .HasDefaultValueSql("(newid())")
+                .HasComment("Barcode unique identification");
+            entity.Property(e => e.CBShortLink).HasComment("Barcode shortlink");
+            entity.Property(e => e.CBType)
+                .HasMaxLength(15)
+                .HasComment("Barcode type");
+            entity.Property(e => e.CBValue).HasComment("Barcode value");
             entity.Property(e => e.Description)
                 .HasMaxLength(135)
-                .HasComment("Product description");
-            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
-            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
+                .HasComment("Barcode description");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<AppCBStatic>(entity =>
         {
-            entity.HasKey(e => new { e.UserId, e.Id });
+            entity.HasKey(e => new { e.UserId, e.BarcodeId });
 
             entity.ToTable("AppCBStatic");
 
-            entity.Property(e => e.UserId).HasComment("UserId");
-            entity.Property(e => e.Id)
-                .ValueGeneratedOnAdd()
-                .HasComment("Auto ID");
-            entity.Property(e => e.CBType).HasMaxLength(15);
+            entity.Property(e => e.UserId).HasComment("Application UserId");
+            entity.Property(e => e.BarcodeId)
+                .HasDefaultValueSql("(newid())")
+                .HasComment("Barcode unique Id");
+            entity.Property(e => e.CBType)
+                .HasMaxLength(15)
+                .HasComment("Barcode type");
+            entity.Property(e => e.CBValue).HasComment("Barcode value");
             entity.Property(e => e.Description)
                 .HasMaxLength(135)
-                .HasComment("Product description");
-            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
-            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
+                .HasComment("Barcode description");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<AppChat>(entity =>
         {
             entity.HasKey(e => new { e.UserId, e.IdxSec }).HasName("PK_AppChat");
 
-            entity.Property(e => e.IdxSec).ValueGeneratedOnAdd();
-            entity.Property(e => e.Datetime).HasColumnType("datetime");
+            entity.Property(e => e.UserId).HasComment("Application UserId");
+            entity.Property(e => e.IdxSec)
+                .ValueGeneratedOnAdd()
+                .HasComment("Row seq");
+            entity.Property(e => e.Datetime)
+                .HasComment("Message datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Message).HasComment("Message text");
+            entity.Property(e => e.Source).HasComment("Message source (0-origin, 1-destination)");
+            entity.Property(e => e.UserName).HasComment("Chat username");
         });
 
         modelBuilder.Entity<AppLogger>(entity =>
@@ -95,12 +130,20 @@ public partial class BBDDContext : DbContext
             entity.ToTable("AppLogger");
 
             entity.Property(e => e.Id).HasComment("Auto ID");
-            entity.Property(e => e.Message).HasComment("message of the warning or error");
-            entity.Property(e => e.MessageDetails).HasComment("Additional info");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Message).HasComment("Message of the warning or error");
+            entity.Property(e => e.MessageDetails).HasComment("Message additional info");
             entity.Property(e => e.MessageType)
                 .HasMaxLength(15)
-                .HasComment("type of the message (Warning, Info, Debug, Error...)");
-            entity.Property(e => e.UserId).HasComment("UserId");
+                .HasComment("Type of the message (Warning, Info, Debug, Error...)");
+            entity.Property(e => e.UserId).HasComment("Application UserId");
 
             entity.HasOne(d => d.User).WithMany(p => p.AppLoggers)
                 .HasForeignKey(d => d.UserId)
@@ -109,37 +152,48 @@ public partial class BBDDContext : DbContext
 
         modelBuilder.Entity<AppProduct>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK_appProducts");
+            entity.HasKey(e => new { e.UserId, e.ProductId }).HasName("PK_appProducts");
 
             entity.ToTable(tb => tb.HasComment("Users Products table"));
 
-            entity.Property(e => e.Id).HasComment("Auto ID");
+            entity.Property(e => e.UserId).HasComment("Application UserId");
+            entity.Property(e => e.ProductId)
+                .HasDefaultValueSql("(newid())")
+                .HasComment("Product unique Id");
             entity.Property(e => e.ActionId)
                 .HasMaxLength(15)
                 .HasComment("Product ActionType");
-            entity.Property(e => e.CodeId)
+            entity.Property(e => e.CBShortLink).HasComment("Barcode shortlink");
+            entity.Property(e => e.CBType)
                 .HasMaxLength(15)
-                .HasComment("Product CodeType");
+                .HasComment("Barcode type");
+            entity.Property(e => e.CBValue).HasComment("Barcode value");
+            entity.Property(e => e.Category)
+                .HasMaxLength(35)
+                .HasComment("Product category");
             entity.Property(e => e.Description)
                 .HasMaxLength(135)
                 .HasComment("Product description");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Price).HasColumnType("money");
             entity.Property(e => e.Reference)
                 .HasMaxLength(35)
                 .HasComment("Product reference");
-            entity.Property(e => e.UserId).HasComment("UserId");
 
             entity.HasOne(d => d.Action).WithMany(p => p.AppProducts)
                 .HasForeignKey(d => d.ActionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_appProducts_sysActionTypes");
-
-            entity.HasOne(d => d.Code).WithMany(p => p.AppProducts)
-                .HasForeignKey(d => d.CodeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_appProducts_sysCodeTypes");
 
             entity.HasOne(d => d.User).WithMany(p => p.AppProducts)
                 .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_appProducts_appUsers");
         });
 
@@ -151,26 +205,51 @@ public partial class BBDDContext : DbContext
 
             entity.Property(e => e.UserId)
                 .HasDefaultValueSql("(newid())")
-                .HasComment("UUID unique User ID");
+                .HasComment("User unique Id (GUID)");
+            entity.Property(e => e.APIToken).HasComment("JWT API Token (Secret)");
             entity.Property(e => e.Address).HasComment("User address");
-            entity.Property(e => e.Comments).HasComment("Internal comments");
-            entity.Property(e => e.Is2FAEnabled).HasDefaultValue(false);
-            entity.Property(e => e.IsAdmin).HasDefaultValue(false);
-            entity.Property(e => e.IsBlocked).HasDefaultValue(false);
+            entity.Property(e => e.Comments).HasComment("Internal user comments");
+            entity.Property(e => e.Is2FAEnabled)
+                .HasDefaultValue(false)
+                .HasComment("Indicates if user has 2FA login activated");
+            entity.Property(e => e.IsAdmin)
+                .HasDefaultValue(false)
+                .HasComment("Indicates if user is Admin");
+            entity.Property(e => e.IsBlocked)
+                .HasDefaultValue(false)
+                .HasComment("Indicates if user is blocked");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
             entity.Property(e => e.Login).HasComment("User login email");
             entity.Property(e => e.Name)
                 .HasMaxLength(35)
                 .HasComment("User name");
+            entity.Property(e => e.Password).HasComment("User password");
             entity.Property(e => e.Phone)
                 .HasMaxLength(20)
                 .HasComment("User phone");
-            entity.Property(e => e.Retries).HasDefaultValue(0);
+            entity.Property(e => e.Retries)
+                .HasDefaultValue(0)
+                .HasComment("User login retries");
             entity.Property(e => e.Surname)
                 .HasMaxLength(125)
                 .HasComment("User surname");
-            entity.Property(e => e.TokenExpiresUTC).HasColumnType("datetime");
-            entity.Property(e => e.TokenIsValid).HasDefaultValue(false);
-            entity.Property(e => e.TokenIssuedUTC).HasColumnType("datetime");
+            entity.Property(e => e.TokenExpiresUTC)
+                .HasComment("Token expire datetime (UTC)")
+                .HasColumnType("datetime");
+            entity.Property(e => e.TokenID).HasComment("JWT Login token");
+            entity.Property(e => e.TokenIsValid)
+                .HasDefaultValue(false)
+                .HasComment("Indicates if token is valid");
+            entity.Property(e => e.TokenIssuedUTC)
+                .HasComment("Token issued datetime (UTC)")
+                .HasColumnType("datetime");
         });
 
         modelBuilder.Entity<AppUsersRole>(entity =>
@@ -179,11 +258,11 @@ public partial class BBDDContext : DbContext
 
             entity.ToTable(tb => tb.HasComment("Applicaction Roles table"));
 
-            entity.Property(e => e.Id).HasComment("Auto ID");
+            entity.Property(e => e.Id).HasComment("Role auto Id");
             entity.Property(e => e.Role)
                 .HasMaxLength(35)
                 .HasComment("Role code");
-            entity.Property(e => e.UserId).HasComment("UserId");
+            entity.Property(e => e.UserId).HasComment("Role UserId");
 
             entity.HasOne(d => d.RoleNavigation).WithMany(p => p.AppUsersRoles)
                 .HasForeignKey(d => d.Role)
@@ -200,7 +279,14 @@ public partial class BBDDContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("PK_sysUserConn");
 
-            entity.Property(e => e.Id).HasComment("Auto ID");
+            entity.Property(e => e.Id).HasComment("Row auto Id");
+            entity.Property(e => e.DevBrand).HasComment("Device brand");
+            entity.Property(e => e.DevBrandName).HasComment("Device brand name");
+            entity.Property(e => e.DevBrowser).HasComment("Device browser");
+            entity.Property(e => e.DevId).HasComment("Device Id");
+            entity.Property(e => e.DevName).HasComment("Device Name");
+            entity.Property(e => e.DevOS).HasComment("Device OS");
+            entity.Property(e => e.DevType).HasComment("Device type");
             entity.Property(e => e.IPv4)
                 .HasMaxLength(32)
                 .IsUnicode(false)
@@ -209,10 +295,18 @@ public partial class BBDDContext : DbContext
                 .HasMaxLength(128)
                 .IsUnicode(false)
                 .HasComment("Connection IPv6");
-            entity.Property(e => e.IsoDateC).HasColumnType("datetime");
-            entity.Property(e => e.IsoDateM).HasColumnType("datetime");
-            entity.Property(e => e.Location).HasComment("Connection Device, City, OS...");
-            entity.Property(e => e.UserId).HasComment("UserId");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.Location).HasComment("User location");
+            entity.Property(e => e.SRconnected).HasComment("Indicates if user is connected");
+            entity.Property(e => e.SRconnectionId).HasComment("SignalR connection Id");
+            entity.Property(e => e.UserId).HasComment("Application UserId");
 
             entity.HasOne(d => d.User).WithMany(p => p.AppUsersStats)
                 .HasForeignKey(d => d.UserId)
@@ -227,7 +321,7 @@ public partial class BBDDContext : DbContext
 
             entity.Property(e => e.ActionId)
                 .HasMaxLength(15)
-                .HasComment("Product Code Type");
+                .HasComment("Action Id");
             entity.Property(e => e.Description)
                 .HasMaxLength(50)
                 .HasComment("Action description");
@@ -241,7 +335,7 @@ public partial class BBDDContext : DbContext
 
             entity.Property(e => e.CodeId)
                 .HasMaxLength(15)
-                .HasComment("Product Code");
+                .HasComment("Code type Id");
             entity.Property(e => e.Description).HasComment("Code description");
         });
 
@@ -251,7 +345,17 @@ public partial class BBDDContext : DbContext
 
             entity.ToTable("SysLogger");
 
-            entity.Property(e => e.CreatedOn).HasColumnType("datetime");
+            entity.Property(e => e.CreatedOn)
+                .HasDefaultValueSql("(getdate())")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
             entity.Property(e => e.Level).HasMaxLength(10);
             entity.Property(e => e.Logger).HasMaxLength(255);
             entity.Property(e => e.Url).HasMaxLength(255);
@@ -283,6 +387,14 @@ public partial class BBDDContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(135)
                 .HasComment("Key-Value description");
+            entity.Property(e => e.IsoDateC)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row creation datetime")
+                .HasColumnType("datetime");
+            entity.Property(e => e.IsoDateM)
+                .HasDefaultValueSql("(getdate())")
+                .HasComment("Row update datetime")
+                .HasColumnType("datetime");
             entity.Property(e => e.Value)
                 .HasMaxLength(135)
                 .HasComment("Seeting Value");

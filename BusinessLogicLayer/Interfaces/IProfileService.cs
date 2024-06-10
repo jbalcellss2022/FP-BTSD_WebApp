@@ -2,6 +2,9 @@
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for profile operations
+    /// </summary>
     public interface IProfileService
     {
         /// <summary>

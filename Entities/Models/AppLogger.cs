@@ -11,24 +11,34 @@ public partial class AppLogger
     public int Id { get; set; }
 
     /// <summary>
-    /// UserId
+    /// Application UserId
     /// </summary>
     public Guid? UserId { get; set; }
 
     /// <summary>
-    /// message of the warning or error
+    /// Message of the warning or error
     /// </summary>
     public string? Message { get; set; }
 
     /// <summary>
-    /// type of the message (Warning, Info, Debug, Error...)
+    /// Type of the message (Warning, Info, Debug, Error...)
     /// </summary>
     public string? MessageType { get; set; }
 
     /// <summary>
-    /// Additional info
+    /// Message additional info
     /// </summary>
     public string? MessageDetails { get; set; }
+
+    /// <summary>
+    /// Row creation datetime
+    /// </summary>
+    public DateTime? IsoDateC { get; set; }
+
+    /// <summary>
+    /// Row update datetime
+    /// </summary>
+    public DateTime? IsoDateM { get; set; }
 
     public virtual AppUser? User { get; set; }
 }

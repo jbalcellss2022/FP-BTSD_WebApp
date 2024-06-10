@@ -1,5 +1,8 @@
 ﻿namespace Entities.DTOs
 {
+    /// <summary>
+    /// OpenAI response DTO
+    /// </summary>
     public class OpenAIResponseDto
     {
         public string? id { get; set; }
@@ -10,6 +13,9 @@
         public Usage? usage { get; set; }
     }
 
+    /// <summary>
+    /// choice
+    /// </summary>
     public class Choice
     {
         public int? index { get; set; }
@@ -17,12 +23,19 @@
         public object? logprobs { get; set; }
         public string? finish_reason { get; set; }
     }
+
+    /// <summary>
+    /// usage
+    /// </summary>
     public class Usage
     {
         public int? prompt_tokens { get; set; }
         public int? completion_tokens { get; set; }
         public int? total_tokens { get; set; }
     }
+    /// <summary>
+    /// OpenAI choice
+    /// </summary>
     public class OpenAIChoice
     {
         public string? text { get; set; }
@@ -31,6 +44,9 @@
         public int[]? finish_reason { get; set; }
     }
 
+    /// <summary>
+    /// OpenAI message
+    /// </summary>
     public class Message
     {
         public string? role { get; set; }

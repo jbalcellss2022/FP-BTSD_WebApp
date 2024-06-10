@@ -20,4 +20,10 @@
     </AdditionalFiles>
   </ItemGroup>
 
+  <ItemGroup>
+    <AdditionalFiles Include="..\DependencyValidation\DependencyValidation2.layerdiagram" Link="DependencyValidation2.layerdiagram">
+      <Visible>False</Visible>
+    </AdditionalFiles>
+  </ItemGroup>
+
 </Project>

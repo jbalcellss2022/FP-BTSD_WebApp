@@ -2,6 +2,9 @@
 
 namespace Entities.DTOs
 {
+    /// <summary>
+    /// LoginUserDTO
+    /// </summary>
     public class LoginUserDTO
     {
         [Required]

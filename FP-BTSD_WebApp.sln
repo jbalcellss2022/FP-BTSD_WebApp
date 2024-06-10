@@ -16,6 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{725758A0-A15F-4651-AC38-A8BB80A22EA5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96} = {CC63A91F-5C08-4D66-8A04-2F32D29ABE96}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExternalAPI", "ExternalAPI\ExternalAPI.csproj", "{83DEBF9D-99C3-4F0E-ABCF-D1AD5B41BC9E}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -31,8 +34,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Resources", "Resources\Resources.csproj", "{AF461DD6-395D-4A91-867F-C606161DFEE1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{CC63A91F-5C08-4D66-8A04-2F32D29ABE96}"
-EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "DependencyValidation", "DependencyValidation\DependencyValidation.modelproj", "{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34EB65D4-E467-4470-8619-A473341C2D45}"
 	ProjectSection(SolutionItems) = preProject
@@ -105,14 +106,6 @@ Global
 		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96}.Deploy-PL|Any CPU.Build.0 = Debug|Any CPU
 		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC63A91F-5C08-4D66-8A04-2F32D29ABE96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Deploy-ExternalAPI|Any CPU.ActiveCfg = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Deploy-ExternalAPI|Any CPU.Build.0 = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Deploy-PL|Any CPU.ActiveCfg = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Deploy-PL|Any CPU.Build.0 = Debug|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A71C52A0-00F9-43F1-8F26-C40ACB1F5E6E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

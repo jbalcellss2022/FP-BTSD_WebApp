@@ -22,4 +22,14 @@ public partial class SysValue
     /// Key-Value description
     /// </summary>
     public string? Description { get; set; }
+
+    /// <summary>
+    /// Row creation datetime
+    /// </summary>
+    public DateTime? IsoDateC { get; set; }
+
+    /// <summary>
+    /// Row update datetime
+    /// </summary>
+    public DateTime? IsoDateM { get; set; }
 }

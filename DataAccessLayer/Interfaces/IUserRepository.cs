@@ -3,6 +3,9 @@ using Entities.Models;
 
 namespace DataAccessLayer.Interfaces
 {
+    /// <summary>
+    /// User repository interface
+    /// </summary>
     public interface IUserRepository
 	{
         /// <summary>
@@ -91,5 +94,12 @@ namespace DataAccessLayer.Interfaces
         /// </summary>
         /// <returns></returns>
         public List<AppUsersStat> GetAllUserStats(string Username);
+
+        /// <summary>
+        /// Get user details
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
+        public Task<AppUser> GetUserDetails(string Username);
     }
 }

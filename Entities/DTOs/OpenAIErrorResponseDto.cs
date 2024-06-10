@@ -2,12 +2,18 @@
 
 namespace Entities.DTOs
 {
+    /// <summary>
+    /// OpenAI error response DTO
+    /// </summary>
     public class OpenAIErrorResponseDto
     {
         [JsonPropertyName("error")]
         public OpenAIError? Error { get; set; }
     }
 
+    /// <summary>
+    /// OpenAI error
+    /// </summary>
     public class OpenAIError
     {
         [JsonPropertyName("message")]

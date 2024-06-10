@@ -2,6 +2,9 @@
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for helpers operations
+    /// </summary>
     public interface IHelpersService
     {
         /// <summary>

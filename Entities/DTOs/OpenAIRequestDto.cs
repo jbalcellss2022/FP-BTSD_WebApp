@@ -2,6 +2,9 @@
 
 namespace Entities.DTOs
 {
+    /// <summary>
+    /// OpenAI request DTO
+    /// </summary>
     public class OpenAIRequestDto
     {
         [JsonPropertyName("model")]
@@ -17,6 +20,9 @@ namespace Entities.DTOs
         public int? MaxTokens { get; set; }
     }
 
+    /// <summary>
+    /// OPenAI message request DTO
+    /// </summary>
     public class OpenAIMessageRequestDto
     {
         [JsonPropertyName("role")]

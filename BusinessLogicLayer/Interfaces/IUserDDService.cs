@@ -2,15 +2,11 @@
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface of the Service for user device detector operations
+    /// </summary>
     public interface IUserDDService
     {
-        /// <summary>
-        /// Starts the location database by IP address.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns></returns>
-        public void StartDeviceDetector();
-
         /// <summary>
         /// Retrieves non-private device information from which a user logs in and adds it to the user logger database.
         /// </summary>

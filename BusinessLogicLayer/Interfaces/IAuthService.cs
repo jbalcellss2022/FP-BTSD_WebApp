@@ -4,6 +4,9 @@ using System.Security.Claims;
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for user authentication.
+    /// </summary>
     public interface IAuthService
 	{
         /// <summary>
@@ -11,7 +14,7 @@ namespace BusinessLogicLayer.Interfaces
         /// </summary>
         /// <param name="loginUserDto">DTO of user login data</param>
         /// <returns>Returns True when authentication is successful. Otherwise returns False</returns>
-        public bool CheckUserAuth(LoginUserDTO loginUserDTO);
+        public Task<bool> CheckUserAuth(LoginUserDTO loginUserDTO);
 
         /// <summary>
         /// 
@@ -93,5 +96,12 @@ namespace BusinessLogicLayer.Interfaces
         /// <param name="token"></param>
         /// <returns></returns>
         public bool CheckUserToken(string token);
+
+        /// <summary>
+        /// Create a new security JWT token.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public Task<string> CreateJWTSecurityToken(string username, string ApiKeySecret);
     }
 }

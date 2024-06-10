@@ -1,79 +1,280 @@
 ﻿using BusinessLogicLayer.Interfaces;
 using DataAccessLayer.Interfaces;
 using Entities.Models;
+using ExternalAPI.DTO;
+using NLog;
 
 namespace BusinessLogicLayer.Services
 {
-    public class BarcodeService(IBarcodeRepository BarcodeRepository) : IBarcodeService
+    /// <summary>
+    /// BarcodeService class
+    /// </summary>
+    /// <param name="BarcodeRepository"></param>
+    public class BarcodeService(
+        IBarcodeRepository BarcodeRepository,
+        IUserRepository UserRepository
+        ) : IBarcodeService
     {
-        public List<AppCBStatic> GetAllCBStatic()
+        private readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
+        /// <summary>
+        /// Get all static barcodes of a user
+        /// </summary>
+        /// <returns>List<AppCBStatic></returns>
+        public List<AppCBStatic> GetAllCBStatic(string username)
         {
-            return BarcodeRepository.GetAllCBStatic();
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return BarcodeRepository.GetAllCBStatic(userGuid);
         }
 
-        public List<AppCBDynamic> GetAllCBDynamic()
+        /// <summary>
+        /// Get all static barcodes of a user
+        /// </summary>
+        /// <param name="userGuid"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns>PaginatedStaticBarcodeList<AppCBStatic></returns>
+        public async Task<PaginatedStaticBarcodeList<AppCBStatic>> GetCBStaticProducts(string username, int pageIndex, int pageSize)
         {
-            return BarcodeRepository.GetAllCBDynamic();
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBStaticProducts(userGuid, pageIndex, pageSize);
         }
 
-        public async Task<AppCBStatic> GetCBStaticByCode(string code)
+        /// <summary>
+        /// Get all dynamic barcodes of a user
+        /// </summary>
+        /// <returns>List<AppCBDynamic></returns>
+        public List<AppCBDynamic> GetAllCBDynamic(string username)
         {
-            return await BarcodeRepository.GetCBStaticByCode(code);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return BarcodeRepository.GetAllCBDynamic(userGuid);
         }
 
-        public async Task<AppCBDynamic> GetCBDynamicByCode(string code)
+        /// <summary>
+        /// Get all dynamic barcodes of a user
+        /// </summary>
+        /// <param name="userGuid"></param>
+        /// <param name="pageIndex"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public async Task<PaginatedDynamicBarcodeList<AppCBDynamic>> GetCBDynamicProducts(string username, int pageIndex, int pageSize)
         {
-            return await BarcodeRepository.GetCBDynamicByCode(code);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBDynamicProducts(userGuid, pageIndex, pageSize);
         }
 
-        public async Task<AppCBStatic> GetCBStaticById(int id)
+        /// <summary>
+        /// Get a static barcodes by code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns>AppCBStatic</returns>
+        public async Task<AppCBStatic> GetCBStaticByCode(string username, string code)
         {
-            return await BarcodeRepository.GetCBStaticById(id);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBStaticByCode(userGuid, code);
         }
 
-        public async Task<AppCBDynamic> GetCBDynamicById(int id)
+        /// <summary>
+        /// Get a dynamic barcodes by code
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns>AppCBDynamic</returns>
+        public async Task<AppCBDynamic> GetCBDynamicByCode(string username, string code)
         {
-            return await BarcodeRepository.GetCBDynamicById(id);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBDynamicByCode(userGuid, code);
         }
 
-        public async Task<bool> DeleteCBStaticById(int id)
+        /// <summary>
+        /// Get a static barcodes by id
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns>AppCBStatic</returns>
+        public async Task<AppCBStatic> GetCBStaticById(string username, Guid barcodeId)
         {
-            return await BarcodeRepository.DeleteCBStaticById(id);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBStaticById(userGuid, barcodeId);
         }
 
-        public async Task<bool> DeleteCBDynamicById(int id)
+        /// <summary>
+        /// Get a dynamic barcodes by id
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns>AppCBDynamic</returns>
+        public async Task<AppCBDynamic> GetCBDynamicById(string username, Guid barcodeId)
         {
-            return await BarcodeRepository.DeleteCBDynamicById(id);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.GetCBDynamicById(userGuid, barcodeId);
         }
 
-        public async Task<bool> AddCBStatic(AppCBStatic cbStatic)
+        /// <summary>
+        /// Delete a static barcodes by id
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> DeleteCBStaticById(string username, Guid barcodeId)
         {
-            return await BarcodeRepository.AddCBStatic(cbStatic);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            var result = await BarcodeRepository.DeleteCBStaticById(userGuid, barcodeId);
+            return result;
         }
 
-        public async Task<bool> AddCBDynamic(AppCBDynamic cbDynamic)
+        /// <summary>
+        /// Delete a dynamic barcodes by id
+        /// </summary>
+        /// <param name="guid"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> DeleteCBDynamicById(string username, Guid barcodeId)
         {
-            return await BarcodeRepository.AddCBDynamic(cbDynamic);
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            var result = await BarcodeRepository.DeleteCBDynamicById(userGuid, barcodeId);
+            return result;
         }
 
-        public async Task<bool> UpdateCBStatic(AppCBStatic cbStatic)
+        /// <summary>
+        /// Add a static barcode
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="bodyBCStaticDTO"></param>
+        /// <returns>string</returns>
+        public async Task<string> AddCBStatic(string username, BodyBCStaticDTO bodyBCStaticDTO)
         {
-            return await BarcodeRepository.UpdateCBStatic(cbStatic);
+            string result = null!;
+
+            try
+            {
+                var userGuid = UserRepository.GetUserIdByEmail(username);
+                AppCBStatic cbStatic = new()
+                {
+                    UserId = userGuid,
+                    Description = bodyBCStaticDTO.Description,
+                    CBType = bodyBCStaticDTO.CBType,
+                    CBValue = bodyBCStaticDTO.CBValue,
+                };
+                result = await BarcodeRepository.AddCBStatic(cbStatic);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
+
+            return result;
         }
 
-        public async Task<bool> UpdateCBDynamic(AppCBDynamic cbDynamic)
+        /// <summary>
+        /// Add a dynamic barcode
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="bodyBCDynamicDTO"></param>
+        /// <returns>string</returns>
+        public async Task<string> AddCBDynamic(string username, BodyBCDynamicDTO bodyBCDynamicDTO)
         {
-            return await BarcodeRepository.UpdateCBDynamic(cbDynamic);
+            string result = null!;
+
+            try
+            {
+                var userGuid = UserRepository.GetUserIdByEmail(username);
+                AppCBDynamic cbDynamic = new()
+                {
+                    UserId = userGuid,
+                    Description = bodyBCDynamicDTO.Description,
+                    CBType = bodyBCDynamicDTO.CBType,
+                    CBValue = bodyBCDynamicDTO.CBValue,
+                    CBShortLink = bodyBCDynamicDTO.CBShortLink,
+                };
+                result = await BarcodeRepository.AddCBDynamic(cbDynamic);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
+
+            return result;
         }
 
-        public async Task<bool> DeleteCBDynamic(AppCBDynamic cbDynamic)
+        /// <summary>
+        /// Update a static barcode
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="barcodeId"></param>
+        /// <param name="bodyDTO"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> UpdateCBStatic(string username, Guid barcodeId, BodyBCStaticDTO bodyDTO)
         {
-            return await BarcodeRepository.DeleteCBDynamic(cbDynamic);
+            bool result = false;
+
+            try
+            {
+                var userGuid = UserRepository.GetUserIdByEmail(username);
+                AppCBStatic modBarcode = new()
+                {
+                    Description = bodyDTO.Description,
+                    CBType = bodyDTO.CBType,
+                    CBValue = bodyDTO.CBValue,
+                };
+                result = await BarcodeRepository.UpdateCBStatic(userGuid, barcodeId, modBarcode);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
+
+            return result;
         }
 
-        public async Task<bool> DeleteCBStatic(AppCBStatic cbStatic)
+        /// <summary>
+        /// Add a dynamic barcode
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="barcodeId"></param>
+        /// <param name="bodyDTO"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> UpdateCBDynamic(string username, Guid barcodeId, BodyBCDynamicDTO bodyDTO)
         {
-            return await BarcodeRepository.DeleteCBStatic(cbStatic);
+            bool result = false;
+
+            try
+            {
+                var userGuid = UserRepository.GetUserIdByEmail(username);
+                AppCBDynamic modBarcode = new()
+                {
+                    Description = bodyDTO.Description,
+                    CBType = bodyDTO.CBType,
+                    CBValue = bodyDTO.CBValue,
+                    CBShortLink = bodyDTO.CBShortLink,
+                };
+                result = await BarcodeRepository.UpdateCBDynamic(userGuid, barcodeId, modBarcode);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Delete a dynbamic barcode
+        /// </summary>
+        /// <param name="cbDynamic"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> DeleteCBDynamic(string username, AppCBDynamic cbDynamic)
+        {
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.DeleteCBDynamic(userGuid, cbDynamic);
+        }
+
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <param name="cbStatic"></param>
+        /// <returns>bool</returns>
+        public async Task<bool> DeleteCBStatic(string username, AppCBStatic cbStatic)
+        {
+            var userGuid = UserRepository.GetUserIdByEmail(username);
+            return await BarcodeRepository.DeleteCBStatic(userGuid, cbStatic);
         }
     }
 }

@@ -5,6 +5,8 @@ using Entities.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.IdentityModel.Tokens;
+using NLog;
+using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -12,6 +14,14 @@ using System.Text;
 
 namespace BusinessLogicLayer.Services
 {
+    /// <summary>
+    /// AuthService class implements IAuthService interface
+    /// </summary>
+    /// <param name="UserRepository"></param>
+    /// <param name="Encryption"></param>
+    /// <param name="UserDDService"></param>
+    /// <param name="NotificationService"></param>
+    /// <param name="EmailBodyHelper"></param>
     public class AuthService(
         IUserRepository UserRepository, 
         IEncryptionService Encryption, 
@@ -20,7 +30,14 @@ namespace BusinessLogicLayer.Services
         IHelpersService EmailBodyHelper
         ) : IAuthService{
 
-        public bool CheckUserAuth(LoginUserDTO loginUserDTO)
+        private readonly static Logger Logger = LogManager.GetCurrentClassLogger();     // NLog Logger
+
+        /// <summary>
+        /// CheckUserAuth method checks if the user is authenticated
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
+        public async Task<bool> CheckUserAuth(LoginUserDTO loginUserDTO)
 		{
             if (!loginUserDTO.AuthToken.IsNullOrEmpty())
 			{
@@ -34,7 +51,7 @@ namespace BusinessLogicLayer.Services
                     AppUser? user = UserRepository.GetUserByEmail(email);
                     if (user != null && !Encryption.JWT_IsExpired(jwtToken))
                     {
-                        UserDDService.AddUserDeviceDetector(user.Login);
+                        await UserDDService.AddUserDeviceDetector(user.Login);
                         loginUserDTO.Username = email;
                         result = true;
                     }
@@ -50,7 +67,7 @@ namespace BusinessLogicLayer.Services
                 {
                     if (Encryption.BCrypt_CheckPassword(loginUserDTO.Password!, user.Password!))
                     {
-                        UserDDService.AddUserDeviceDetector(user.Login).Wait();
+                        await UserDDService.AddUserDeviceDetector(user.Login);
                         return true;
                     }
                 }
@@ -59,6 +76,11 @@ namespace BusinessLogicLayer.Services
 			return false;
 		}
 
+        /// <summary>
+        /// Check
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         public async Task<bool> CheckUserIsBlocked(LoginUserDTO loginUserDTO)
         {
             // Check if user is blocked
@@ -81,18 +103,33 @@ namespace BusinessLogicLayer.Services
             return result;
         }
 
+        /// <summary>
+        /// Increase login user retries
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
         public async Task<bool> IncreaseUserRetries(string Username)
         {
             bool result = await UserRepository.IncreaseUserRetries(Username);
             return result;
         }
 
+        /// <summary>
+        /// Reset login user retries
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
         public async Task<bool> ResetUserRetries(string Username)
         {
             bool result = await UserRepository.ResetUserRetries(Username);
             return result;
         }
 
+        /// <summary>
+        /// Check if user exist
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         public bool CheckUserExist(LoginUserDTO loginUserDTO)
         {
             // Check if user exist
@@ -100,6 +137,11 @@ namespace BusinessLogicLayer.Services
             return user != null;
         }
 
+        /// <summary>
+        /// Get user data in JWT Token
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public JWTDTO GetJWTData(string token)
         {
             JWTDTO? JWT = null;
@@ -108,11 +150,19 @@ namespace BusinessLogicLayer.Services
                 JwtSecurityToken jwtToken = Encryption.JWT_CheckExternalToken(token);
                 JWT = Encryption.JWT_GetDataFromToken(jwtToken);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return JWT!;
         }
 
+        /// <summary>
+        /// Create Claims Identity
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
         public ClaimsIdentity CreateClaimsIdentity(string UserId)
         {
             ClaimsIdentity? identity = null;
@@ -122,17 +172,32 @@ namespace BusinessLogicLayer.Services
                 identity.AddClaim(new Claim(ClaimTypes.Name, UserId));
                 identity.AddClaim(new Claim("UserId", UserId));
             }
-            catch { }   
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return identity!;
         }
 
+        /// <summary>
+        /// Get if user can create an account
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns></returns>
         public bool CanCreateNewAccount(string Username)
         {
             AppUser? user = UserRepository.GetUserByEmail(Username);
             return (user == null);
         }
 
+        /// <summary>
+        /// Create new account
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <param name="Name"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public async Task<bool> CreateNewAccount(string Username, string Name, string Password)
         {
             bool result = false;
@@ -145,11 +210,20 @@ namespace BusinessLogicLayer.Services
                     await NotificationService.EmailNotification("QRFY Support", Username, "", "Welcome to QRFY!", bodyHtml.ToString(), "");
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return result;
         }
 
+        /// <summary>
+        /// Create a link with a token to reset user password
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<string> UserNewTokenResetPassword(string Username, HttpRequest request)
         {
             try
@@ -163,11 +237,19 @@ namespace BusinessLogicLayer.Services
 
                 return newTokenURL;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return "";
         }
 
+        /// <summary>
+        /// Check if the user token is valid
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public bool CheckUserToken(string token)
         {
             try
@@ -182,11 +264,20 @@ namespace BusinessLogicLayer.Services
                     else return false;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return false;
         }
 
+        /// <summary>
+        /// Change user password
+        /// </summary>
+        /// <param name="AuthToken"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public async Task<bool> ChangePassword(string AuthToken, string Password)
         {
             try
@@ -204,9 +295,49 @@ namespace BusinessLogicLayer.Services
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return false;
+        }
+
+        /// <summary>
+        /// Create a JWT Security Token
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public async Task<string> CreateJWTSecurityToken(string username, string ApiKeySecret)
+        {
+            string securityToken = "";                              // Serialized security Token
+            var expTime = 15;                                       // 15 minutes
+            var tokenHandler = new JwtSecurityTokenHandler();       // Token Handle
+
+            await Task.Run(() =>
+            {
+                try {
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity([new Claim(ClaimTypes.Name, username)]),   // User Name
+                        Expires = (Debugger.IsAttached) ? 
+                                    DateTime.UtcNow.AddMinutes(9999).ToLocalTime() :            // Expiration Time for debugger and tests users   
+                                    DateTime.UtcNow.AddMinutes(expTime).ToLocalTime(),          // Expiration Time
+                        SigningCredentials = new SigningCredentials(
+                            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(ApiKeySecret)),    // Symetric key  
+                            SecurityAlgorithms.HmacSha256Signature                              // Algorithm 
+                         )
+                    };
+                    var JWTSecurityToken = tokenHandler.CreateToken(tokenDescriptor);           // Create Token  
+                    securityToken = tokenHandler.WriteToken(JWTSecurityToken);                  // Serialize Token
+                }
+                catch (Exception ex) 
+                {
+                    Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+                }
+            });
+
+            return securityToken;
         }
 
 
@@ -214,12 +345,22 @@ namespace BusinessLogicLayer.Services
         //############################################## PRIVATE METHODS ##############################################//
         //############################################################################################################//
 
+        /// <summary>
+        /// Get a new token to reset user password
+        /// </summary>
+        /// <returns></returns>
         private static string GetNewTokenResetPassword()
         {
             var newToken = Guid.NewGuid().ToString("n") + Guid.NewGuid().ToString("n");
             return newToken;
         }
 
+        /// <summary>
+        /// Get a new URL with the token to reset user password
+        /// </summary>
+        /// <param name="newToken"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         private static string GetNewURLTokenResetPassword(string newToken, HttpRequest request)
         {
             string newTokenURL = "";
@@ -230,7 +371,10 @@ namespace BusinessLogicLayer.Services
                 newTokenURL = uri.GetComponents(UriComponents.Scheme | UriComponents.Host | UriComponents.Port, UriFormat.UriEscaped) + "/SignIn/PasswordReset/" + WebUtility.UrlEncode(newToken);
                 return newTokenURL;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? string.Empty}[StackT]: {ex.StackTrace ?? string.Empty}[HLink]: {ex.HelpLink ?? string.Empty}[HResult]: {ex.HResult}[Source]: {ex.Source ?? string.Empty}[Data]: {(ex.Data != null ? string.Join(", ", ex.Data.Keys.Cast<object>().Select(key => $"{key}: {ex.Data[key]}")) : string.Empty)}[InnerE]: {ex.InnerException?.Message ?? string.Empty}");
+            }
 
             return newTokenURL;
         }

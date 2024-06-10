@@ -9,7 +9,7 @@ namespace Entities.Models;
 public partial class SysCodeType
 {
     /// <summary>
-    /// Product Code
+    /// Code type Id
     /// </summary>
     public string CodeId { get; set; } = null!;
 
@@ -17,6 +17,4 @@ public partial class SysCodeType
     /// Code description
     /// </summary>
     public string? Description { get; set; }
-
-    public virtual ICollection<AppProduct> AppProducts { get; set; } = new List<AppProduct>();
 }

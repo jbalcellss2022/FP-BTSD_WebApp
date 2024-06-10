@@ -1,5 +1,8 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for claims operations
+    /// </summary>
     public interface IClaimsService
     {
         /// <summary>

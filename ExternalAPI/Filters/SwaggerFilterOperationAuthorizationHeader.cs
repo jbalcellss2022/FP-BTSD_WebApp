@@ -12,23 +12,23 @@ namespace ExternalAPI.Filters
 
             if (!noAuthRequired)
             {
-                operation.Security =
-            [
-                new OpenApiSecurityRequirement
+                operation.Security = new List<OpenApiSecurityRequirement>
                 {
+                    new OpenApiSecurityRequirement
                     {
-                        new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
+                            new OpenApiSecurityScheme
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "JWT Bearer Token"
-                            }
-                        },
-                        new List<string>()
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "JWT Bearer Token"
+                                }
+                            },
+                            new List<string>()
+                        }
                     }
-                }
-            ];
+                };
             }
         }
     }

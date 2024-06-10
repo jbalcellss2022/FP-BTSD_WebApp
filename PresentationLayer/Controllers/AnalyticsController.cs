@@ -8,8 +8,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PresentationLayer.Controllers
 {
+    /// <summary>
+    /// Analytics Controller
+    /// </summary>
+    /// <param name="ClaimsService"></param>
+    /// <param name="ProfileService"></param>
+    /// <param name="UserService"></param>
     [Authorize]
-
     public class AnalyticsController(IClaimsService ClaimsService, IProfileService ProfileService, IUserService UserService) : Controller
     {
         public IActionResult Index()

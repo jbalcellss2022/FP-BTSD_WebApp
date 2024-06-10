@@ -7,6 +7,12 @@ using NLog;
 
 namespace SecurityHubs.Hubs
 {
+    /// <summary>
+    /// SignalR Hub for Security operations
+    /// </summary>
+    /// <param name="ChatService"></param>
+    /// <param name="PromptService"></param>
+    /// <param name="ContextAccessor"></param>
     public class SecurityHub(
         IChatService ChatService,
         IPromptService PromptService,
@@ -52,12 +58,27 @@ namespace SecurityHubs.Hubs
             Task.Run(async () => { await OnDisconnectedAsync(null!); }); 
         }
 
+        /// <summary>
+        /// Get the connection ID of the current user
+        /// </summary>
+        /// <returns></returns>
         public string GetConnectionId() => Context.ConnectionId;
 
+        /// <summary>
+        /// Get the number of connected users
+        /// </summary>
+        /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Needs access to instance-level Context property provided by SignalR Hub.")]
         public int GetConnectedUsers() { 
             return userCount; 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="SRConnectionToken"></param>
+        /// <param name="ProgramaHistory"></param>
+        /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Needs access to instance-level Context property provided by SignalR Hub.")]
         public async Task SetProgramHistory( string SRConnectionToken, string ProgramaHistory) {
             await Task.Run(() => {
@@ -67,6 +88,15 @@ namespace SecurityHubs.Hubs
             });
         }
 
+        /// <summary>
+        /// Send a chat message to the user
+        /// </summary>
+        /// <param name="chatUserS"></param>
+        /// <param name="chatUserD"></param>
+        /// <param name="source"></param>
+        /// <param name="message"></param>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public async Task SendChatMessage(string chatUserS, string chatUserD, bool source, string message, DateTime dateTime)
         {
             try
@@ -95,12 +125,31 @@ namespace SecurityHubs.Hubs
         // ############# Public CLIENT methods  ############# 
         // *Use these methods from client .JS files to receive actions or messages from the HUB
 
+        /// <summary>
+        /// Set the session token ID for the user
+        /// </summary>
+        /// <param name="connectionId"></param>
+        /// <returns></returns>
         [HubMethodName("SetSessionTokenId")] // Alias to be used in client rather than method name in Hub definition
         public async Task SetSessionTokenId(string connectionId) { await Clients.Caller.SendAsync(connectionId); }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="message"></param>
+        /// <returns></returns>
         [HubMethodName("ReceiveMessage")] // Alias to be used in client rather than method name in Hub definition
         public async Task ReceiveMessage(string user, string message) { await Clients.All.SendAsync(user, message); }
 
+        /// <summary>
+        /// Get the progress status of the user screen
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="status"></param>
+        /// <param name="message1"></param>
+        /// <param name="message2"></param>
+        /// <returns></returns>
         [HubMethodName("GetProgressStatus")] // Alias to be used in client rather than method name in Hub definition
         public async Task GetProgressStatus(string type, string status, string message1, string message2) { await Clients.All.SendAsync(type, status, message1, message2); }
     }

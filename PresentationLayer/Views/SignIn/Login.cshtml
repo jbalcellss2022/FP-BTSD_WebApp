@@ -1,7 +1,7 @@
 ﻿@model Entities.DTOs.LoginUserDTO
 
 <head>
-	<script src="https://accounts.google.com/gsi/client" async defer onerror="handleError()"></script>
+		<script src="https://accounts.google.com/gsi/client" async defer onerror="handleError()"></script>
 </head>
 
 <!DOCTYPE HTML>
@@ -66,7 +66,7 @@
 
 						<div class="text-center p-t-20">
 						  <label class="txt1">
-								<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep">
+								<input asp-for="KeepSigned" id="KeepSigned" type="checkbox" name="KeepSigned" class="checkkeep" onchange="saveKeepSignedState()">
 							Keep me signed in
 						  </label>
 						</div>
@@ -112,6 +112,9 @@
 <script>
 	iLabSpinner = Rats.UI.LoadAnimation.start();
 	iLabSpinner.stop();
+	loadKeepSignedState();
+
+
 	$(document).ready(function () {
 		$('#loaderlayout').css("display", "none");
 		iLabSpinner.stop();
@@ -183,6 +186,19 @@
 
 	function handleError() { 
 		console.log("Failed to load the Google Identity Services script."); 
+	}
+
+	// Function to save the checkbox state
+	function saveKeepSignedState() {
+		var checkbox = document.getElementById('KeepSigned');
+		localStorage.setItem('keepSigned', checkbox.checked);
+	}
+
+	// Function to load the checkbox state
+	function loadKeepSignedState() {
+		var checkbox = document.getElementById('KeepSigned');
+		var checked = localStorage.getItem('keepSigned') === 'true';
+		checkbox.checked = checked;
 	}
 
 </script>

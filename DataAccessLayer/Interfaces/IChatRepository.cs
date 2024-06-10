@@ -2,6 +2,9 @@
 
 namespace DataAccessLayer.Interfaces
 {
+    /// <summary>
+    /// Chat repository interface
+    /// </summary>
     public interface IChatRepository
     {
         /// <summary>

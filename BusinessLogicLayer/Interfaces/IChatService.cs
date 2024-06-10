@@ -2,6 +2,9 @@
 
 namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for Service for chat operations
+    /// </summary>
     public interface IChatService
     {
         /// <summary>

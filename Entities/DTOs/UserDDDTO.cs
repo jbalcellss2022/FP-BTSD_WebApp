@@ -1,5 +1,8 @@
 ﻿namespace Entities.DTOs
 {
+    /// <summary>
+    /// UserDDDTO
+    /// </summary>
     public class UserDDDTO
     {
         public Guid? UserId { get; set; }

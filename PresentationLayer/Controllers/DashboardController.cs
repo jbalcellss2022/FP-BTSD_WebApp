@@ -6,6 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace PresentationLayer.Controllers
 {
+    /// <summary>
+    /// Dashboard Controller
+    /// </summary>
+    /// <param name="ClaimsService"></param>
+    /// <param name="ProfileService"></param>
+    /// <param name="UserService"></param>
     [Authorize]
     public class DashboardController(IClaimsService ClaimsService, IProfileService ProfileService, IUserService UserService) : Controller
     {

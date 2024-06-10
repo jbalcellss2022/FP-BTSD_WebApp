@@ -32,6 +32,17 @@
       <SubType>Content</SubType>
       <DependentUpon>DependencyValidation1.layerdiagram</DependentUpon>
     </Validate>
+    <Validate Include="DependencyValidation2.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="DependencyValidation2.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>DependencyValidation2.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="DependencyValidation2.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>DependencyValidation2.layerdiagram</DependentUpon>
+    </Validate>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj">

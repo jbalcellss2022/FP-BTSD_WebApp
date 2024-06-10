@@ -1,5 +1,8 @@
 ﻿namespace Entities.DTOs
 {
+    /// <summary>
+    /// UserChatMessageDTO
+    /// </summary>
     public class UserChatMessageDTO
     {
         public int IdxSec { get; set; }

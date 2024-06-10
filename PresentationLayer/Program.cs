@@ -1,5 +1,7 @@
+using AutoMapper;
 using BusinessLogicLayer.Classes;
 using BusinessLogicLayer.Interfaces;
+using BusinessLogicLayer.Mappings;
 using BusinessLogicLayer.Services;
 using Entities.Data;
 using Microsoft.AspNetCore.Authentication;
@@ -41,22 +43,18 @@ services.AddResponseCompression(
 		options.Providers.Add<GzipCompressionProvider>();
 	});
 
-builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
-{
-	options.Level = CompressionLevel.Fastest;
-});
-
-builder.Services.Configure<GzipCompressionProviderOptions>(options =>
-{
-	options.Level = CompressionLevel.SmallestSize;
-});
-
+builder.Services.Configure<BrotliCompressionProviderOptions>(options => { options.Level = CompressionLevel.Fastest; });
+builder.Services.Configure<GzipCompressionProviderOptions>(options => { options.Level = CompressionLevel.SmallestSize;});
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-CSRF-TOKEN");
 
 services.AddHttpClient();                                                   // HttpClient
 services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();         // HttpContextAccessor
+services.AddScoped<IUserDDService, UserDDService>();
 
-services.AddScoped<IUserDDService, UserDDService>();         
+// Auto Mapper Configurations
+var mapperConfig = new MapperConfiguration(mc => { mc.AddProfile(new MappingProfile()); });
+IMapper mapper = mapperConfig.CreateMapper();
+services.AddSingleton(mapper);
 
 builder.Services.AddLocalization();
 
@@ -163,7 +161,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-	app.UseResponseCompression();                       // Middleware to enable response compression
 	builder.WebHost.UseUrls("http://0.0.0.0:7100");     // Set the listening port for WebHost production mode
 	app.UseExceptionHandler("/Error");                  // Uses a friendly error page in production mode
 	app.UseHsts();                                      // Use HSTS in production mode
@@ -171,16 +168,10 @@ else
 
 try
 {
+    app.UseResponseCompression();                       // Middleware to enable response compression
+
     // Register the exception handling middleware
     //app.UseMiddleware<ExceptionHandlingMiddleware>();
-
-    // Device Detector Start
-    using (var serviceScope = app.Services.CreateScope())
-    {
-        var servicesDD = serviceScope.ServiceProvider;
-        var DeviceDetectorService = servicesDD.GetRequiredService<IUserDDService>();
-        DeviceDetectorService!.StartDeviceDetector();
-    }
 
     // Middleware to forward headers
     app.UseForwardedHeaders(new ForwardedHeadersOptions  // !Important to get real client IP Address
@@ -227,13 +218,18 @@ try
         });
     });
 
+    // Device Detector Start
+    using (var serviceScope = app.Services.CreateScope())
+    {
+        var servicesDD = serviceScope.ServiceProvider;
+        var DeviceDetectorService = servicesDD.GetRequiredService<IUserDDService>();
+    }
+
     app.MapControllerRoute( name: "default", pattern: "{controller=Dashboard}/{action=Index}/{id?}" ); // Middleware to manage default controller route 
 	app.Run();
 }
 catch (Exception ex)
 {
     if (!Debugger.IsAttached)
-    {
-        Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
-    }
+        Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? ""}[StackT]: {ex.StackTrace ?? ""}[HLink]: {ex.HelpLink ?? ""}[HResult]: {ex.HResult}[Source]: {ex.Source ?? ""}{(ex.Data?.Count > 0 ? ex.Data : "")}[InnerE]: {ex.InnerException?.Message ?? ""}");
 }

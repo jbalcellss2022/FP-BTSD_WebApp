@@ -9,7 +9,7 @@ namespace Entities.Models;
 public partial class AppUser
 {
     /// <summary>
-    /// UUID unique User ID
+    /// User unique Id (GUID)
     /// </summary>
     public Guid UserId { get; set; }
 
@@ -18,6 +18,9 @@ public partial class AppUser
     /// </summary>
     public string Login { get; set; } = null!;
 
+    /// <summary>
+    /// User password
+    /// </summary>
     public string Password { get; set; } = null!;
 
     /// <summary>
@@ -41,27 +44,64 @@ public partial class AppUser
     public string? Address { get; set; }
 
     /// <summary>
-    /// Internal comments
+    /// Internal user comments
     /// </summary>
     public string? Comments { get; set; }
 
+    /// <summary>
+    /// Indicates if user is Admin
+    /// </summary>
     public bool? IsAdmin { get; set; }
 
+    /// <summary>
+    /// Indicates if user has 2FA login activated
+    /// </summary>
     public bool? Is2FAEnabled { get; set; }
 
+    /// <summary>
+    /// Indicates if user is blocked
+    /// </summary>
     public bool? IsBlocked { get; set; }
 
+    /// <summary>
+    /// JWT Login token
+    /// </summary>
     public string? TokenID { get; set; }
 
+    /// <summary>
+    /// Token issued datetime (UTC)
+    /// </summary>
     public DateTime? TokenIssuedUTC { get; set; }
 
+    /// <summary>
+    /// Token expire datetime (UTC)
+    /// </summary>
     public DateTime? TokenExpiresUTC { get; set; }
 
+    /// <summary>
+    /// Indicates if token is valid
+    /// </summary>
     public bool? TokenIsValid { get; set; }
 
+    /// <summary>
+    /// User login retries
+    /// </summary>
     public int? Retries { get; set; }
 
+    /// <summary>
+    /// JWT API Token (Secret)
+    /// </summary>
     public string? APIToken { get; set; }
+
+    /// <summary>
+    /// Row creation datetime
+    /// </summary>
+    public DateTime? IsoDateC { get; set; }
+
+    /// <summary>
+    /// Row update datetime
+    /// </summary>
+    public DateTime? IsoDateM { get; set; }
 
     public virtual ICollection<AppLogger> AppLoggers { get; set; } = new List<AppLogger>();
 

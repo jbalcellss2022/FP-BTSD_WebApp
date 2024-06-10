@@ -17,40 +17,40 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006;DV2002;CS8618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006;DV2002;CS8618</NoWarn>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Deploy-PL|AnyCPU'">
-    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006</NoWarn>
+    <NoWarn>1701;1702;DV2001;TS1003;TS1128;IDE1006;DV2002;CS8618</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="31.0.4" />
     <PackageReference Include="DeviceDetector.NET" Version="6.3.3" />
     <PackageReference Include="MaxMind.GeoIP2" Version="5.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.4" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="2.2.0" />
     <PackageReference Include="Microsoft.DependencyValidation.Analyzers" Version="0.11.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.4" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.4">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.4" />
-    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.4" />
-    <PackageReference Include="NLog" Version="5.2.8" />
-    <PackageReference Include="NLog.Database" Version="5.2.8" />
-    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.8" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.5" />
+    <PackageReference Include="NLog" Version="5.3.2" />
+    <PackageReference Include="NLog.Database" Version="5.3.2" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="5.3.11" />
     <PackageReference Include="NLog.MailKit" Version="5.2.0" />
-    <PackageReference Include="NLog.Schema" Version="5.2.8" />
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="NLog.Schema" Version="5.3.2" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
     <PackageReference Include="OpenAI" Version="1.11.0" />
   </ItemGroup>
 
@@ -70,10 +70,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Support - Copy\" />
+    <AdditionalFiles Include="..\DependencyValidation\DependencyValidation1.layerdiagram" Link="DependencyValidation1.layerdiagram">
+      <Visible>False</Visible>
+    </AdditionalFiles>
+    <None Include="..\DependencyValidation\DependencyValidation1.layerdiagram.layout" Link="DependencyValidation1.layerdiagram.layout" />
+    <None Include="..\DependencyValidation\DependencyValidation1.layerdiagram.suppressions" Link="DependencyValidation1.layerdiagram.suppressions" />
+    <None Include="..\DependencyValidation\DependencyValidation2.layerdiagram.layout" Link="DependencyValidation2.layerdiagram.layout" />
+    <None Include="..\DependencyValidation\DependencyValidation2.layerdiagram.suppressions" Link="DependencyValidation2.layerdiagram.suppressions" />
+    <AdditionalFiles Include="..\DependencyValidation\DependencyValidation2.layerdiagram" Link="DependencyValidation2.layerdiagram">
+      <Visible>False</Visible>
+    </AdditionalFiles>
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(BuildingInsideVisualStudio)' == 'true'">
-    <Exec Command="if $(Configuration) == Deploy-PL cmd /c del &quot;BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Entities.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;Entities.zip&quot; &quot;$(SolutionDir)\Entities\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Resources.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;Resources.zip&quot; &quot;$(SolutionDir)\Resources\*&quot;&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-lib.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-lib.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\lib\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-inspinia.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-inspinia.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\inspinia\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-regexes.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-regexes.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\regexes\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;wwwroot-geoip2.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;wwwroot-geoip2.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\geoip2\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@ignorelist.txt a -tzip &quot;$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-PL psftp root@79.143.89.216 -P 43522 -b host_upload.txt -i sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-PL plink -batch -ssh root@79.143.89.216 -P 43522 -i sshkey.ppk -m host_remotecmd.txt" />
+    <Exec Command="if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\BusinessLogicLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@Deploy\ignorelist.txt a -tzip &quot;Deploy\BusinessLogicLayer.zip&quot; &quot;$(SolutionDir)\BusinessLogicLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\DataAccessLayer.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@Deploy\ignorelist.txt a -tzip &quot;Deploy\DataAccessLayer.zip&quot; &quot;$(SolutionDir)\DataAccessLayer\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\Entities.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@Deploy\ignorelist.txt a -tzip &quot;Deploy\Entities.zip&quot; &quot;$(SolutionDir)\Entities\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\Resources.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@Deploy\ignorelist.txt a -tzip &quot;Deploy\Resources.zip&quot; &quot;$(SolutionDir)\Resources\*&quot;&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\wwwroot-lib.zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;Deploy\wwwroot-lib.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\lib\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\wwwroot-inspinia.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;Deploy\wwwroot-inspinia.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\inspinia\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\wwwroot-regexes.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;Deploy\wwwroot-regexes.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\regexes\*&quot; -r&#xD;&#xA;&#xD;&#xA;REM if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\wwwroot-geoip2.zip&quot; /Q&#xD;&#xA;REM if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; a -tzip &quot;Deploy\wwwroot-geoip2.zip&quot; &quot;$(SolutionDir)\PresentationLayer\wwwroot\geoip2\*&quot; -r&#xD;&#xA;&#xD;&#xA;if $(Configuration) == Deploy-PL cmd /c del &quot;Deploy\$(ProjectName).zip&quot; /Q&#xD;&#xA;if $(Configuration) == Deploy-PL &quot;C:\Program Files\7-Zip\7z.exe&quot; -xr@Deploy\ignorelist.txt a -tzip &quot;Deploy\$(ProjectName).zip&quot; &quot;*&quot;&#xD;&#xA;if $(Configuration) == Deploy-PL psftp root@79.143.89.216 -P 43522 -b Deploy\host_upload.txt -i Deploy\sshkey.ppk&#xD;&#xA;if $(Configuration) == Deploy-PL plink -batch -ssh root@79.143.89.216 -P 43522 -i Deploy\sshkey.ppk -m Deploy\host_remotecmd.txt" />
   </Target>
 </Project>

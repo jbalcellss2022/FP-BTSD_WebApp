@@ -1,5 +1,8 @@
 ﻿namespace Entities.DTOs
 {
+	/// <summary>
+	/// UserDTO
+	/// </summary>
 	public class UserDTO
 	{
 		public string? Username { get; set; }

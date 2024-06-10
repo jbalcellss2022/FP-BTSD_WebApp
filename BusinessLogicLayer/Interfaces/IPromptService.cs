@@ -1,5 +1,8 @@
 ﻿namespace BusinessLogicLayer.Interfaces
 {
+    /// <summary>
+    /// Interface for prompt operations
+    /// </summary>
     public interface IPromptService
     {
         /// <summary>

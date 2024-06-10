@@ -26,6 +26,12 @@ using System.Text;
 
 namespace PresentationLayer.Controllers
 {
+    /// <summary>
+    /// SignIn Controller
+    /// </summary>
+    /// <param name="HttpContextAccessor"></param>
+    /// <param name="AuthService"></param>
+    /// <param name="LocalizeString"></param>
     [Authorize]
     [Route("[controller]/[action]")]
     public class SignInController(
@@ -36,6 +42,10 @@ namespace PresentationLayer.Controllers
     {
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// Login GET method with view
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login()
@@ -44,6 +54,11 @@ namespace PresentationLayer.Controllers
             return View("Login", new LoginUserDTO());
         }
 
+        /// <summary>
+        /// Login POST method with view
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
 		[HttpPost]
 		[AllowAnonymous]
         public async Task<IActionResult> Login(LoginUserDTO loginUserDTO)
@@ -55,7 +70,7 @@ namespace PresentationLayer.Controllers
 					ModelState.Clear();
                     if (loginUserDTO.AuthToken.IsNullOrEmpty())
                     {
-                        if (AuthService.CheckUserAuth(loginUserDTO))
+                        if (await AuthService.CheckUserAuth(loginUserDTO))
                         {
                             if (await AuthService.CheckUserIsBlocked(loginUserDTO))
                             {
@@ -97,7 +112,7 @@ namespace PresentationLayer.Controllers
                     }
                     else
                     {
-                        if (AuthService.CheckUserAuth(loginUserDTO))
+                        if (await AuthService.CheckUserAuth(loginUserDTO))
                         {
                             await DoLogin(loginUserDTO.Username!, loginUserDTO.KeepSigned);
                             return RedirectToAction("Index", "Dashboard");
@@ -123,15 +138,19 @@ namespace PresentationLayer.Controllers
 			}
 			catch (Exception ex) {
                 if (!Debugger.IsAttached)
-                {
-                    Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
-                }
+                    Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? ""}[StackT]: {ex.StackTrace ?? ""}[HLink]: {ex.HelpLink ?? ""}[HResult]: {ex.HResult}[Source]: {ex.Source ?? ""}{(ex.Data?.Count > 0 ? ex.Data : "")}[InnerE]: {ex.InnerException?.Message ?? ""}");
                 ModelState.Clear();
 				ModelState.AddModelError(string.Empty, LocalizeString["LOGIN_ERROR2"]);
 				return View("Login", loginUserDTO);
 			}
 		}
 
+        /// <summary>
+        /// DoLogin method
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <param name="KeepSigned"></param>
+        /// <returns></returns>
         private async Task<bool> DoLogin(string Username, bool KeepSigned)
         {
             try
@@ -141,13 +160,22 @@ namespace PresentationLayer.Controllers
                 identity.AddClaim(new Claim(ClaimTypes.Name, Username!));
                 identity.AddClaim(new Claim("UserId", Username!)); 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity), new AuthenticationProperties { IsPersistent = KeepSigned });
+
                 return true;
             }
-            catch { }
+            catch (Exception ex)
+            {
+                if (!Debugger.IsAttached)
+                    Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? ""}[StackT]: {ex.StackTrace ?? ""}[HLink]: {ex.HelpLink ?? ""}[HResult]: {ex.HResult}[Source]: {ex.Source ?? ""}{(ex.Data?.Count > 0 ? ex.Data : "")}[InnerE]: {ex.InnerException?.Message ?? ""}");
+            }
 
             return false;
         }
 
+        /// <summary>
+        /// Logout method
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
 		[AllowAnonymous]
         public async Task<IActionResult> Logout()
@@ -161,6 +189,10 @@ namespace PresentationLayer.Controllers
 			else return StatusCode(StatusCodes.Status400BadRequest);
 		}
 
+        /// <summary>
+        /// MakeLogout method
+        /// </summary>
+        /// <returns></returns>
 		[HttpPost]
 		[AllowAnonymous]
         public async Task<IActionResult> MakeLogout()
@@ -184,6 +216,11 @@ namespace PresentationLayer.Controllers
 			else return StatusCode(StatusCodes.Status400BadRequest, authBool);
         }
 
+        /// <summary>
+        /// CreateAccount method
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult CreateAccount(LoginUserDTO loginUserDTO)
@@ -192,6 +229,11 @@ namespace PresentationLayer.Controllers
             return View("CreateAccount", loginUserDTO);
         }
 
+        /// <summary>
+        /// CreateNewAccount method
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> CreateNewAccount(LoginUserDTO loginUserDTO)
@@ -227,14 +269,16 @@ namespace PresentationLayer.Controllers
             }
             catch (Exception ex) {
                 if (!Debugger.IsAttached)
-                {
-                    Logger.Error(System.Reflection.MethodBase.GetCurrentMethod()!.Name + "[M]: " + ex.Message ?? "" + "[StackT]: " + ex.StackTrace ?? "" + "[HLink]: " + ex.HelpLink ?? "" + "[HResult]: " + ex.HResult ?? "" + "[Source]: " + ex.Source ?? "" + ex.Data ?? "" + "[InnerE]: " + ex.InnerException!.Message ?? "");
-                }
+                    Logger.Error($"{System.Reflection.MethodBase.GetCurrentMethod()!.Name}[M]: {ex.Message ?? ""}[StackT]: {ex.StackTrace ?? ""}[HLink]: {ex.HelpLink ?? ""}[HResult]: {ex.HResult}[Source]: {ex.Source ?? ""}{(ex.Data?.Count > 0 ? ex.Data : "")}[InnerE]: {ex.InnerException?.Message ?? ""}");
                 ModelState.AddModelError(string.Empty, string.Format(LocalizeString["ACCOUNT_ERROR2"], loginUserDTO.Username));
                 return View("CreateAccount", loginUserDTO);
             }
         }
 
+        /// <summary>
+        /// PasswordRecovery method
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public IActionResult PasswordRecovery()
@@ -243,6 +287,11 @@ namespace PresentationLayer.Controllers
             return View("PasswordRecovery", new LoginUserDTO());
         }
 
+        /// <summary>
+        /// PasswordRecoverySentLink method
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult>PasswordRecoverySentLink(LoginUserDTO loginUserDTO)
@@ -252,6 +301,10 @@ namespace PresentationLayer.Controllers
             return View("PasswordRecoverySentLink", new LoginUserDTO());
         }
 
+        /// <summary>
+        /// PasswordResetError method
+        /// </summary>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpGet]
         public IActionResult PasswordResetError()
@@ -259,6 +312,11 @@ namespace PresentationLayer.Controllers
             return View("PasswordResetError");
         }
 
+        /// <summary>
+        /// PasswordReset method
+        /// </summary>
+        /// <param name="userToken"></param>
+        /// <returns></returns>
         [HttpGet("{userToken}")]
         [AllowAnonymous]
         public IActionResult PasswordReset(string userToken)
@@ -278,6 +336,11 @@ namespace PresentationLayer.Controllers
             return View("PasswordChange", loginUserDTO);
         }
 
+        /// <summary>
+        /// PasswordChange method
+        /// </summary>
+        /// <param name="loginUserDTO"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> PasswordChange(LoginUserDTO loginUserDTO)
@@ -292,6 +355,5 @@ namespace PresentationLayer.Controllers
             result = await AuthService.ChangePassword(loginUserDTO.AuthToken!, loginUserDTO.Password!);
             return View("PasswordChangeOk");
         }
-
     }
 }

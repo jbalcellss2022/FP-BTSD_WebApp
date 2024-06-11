@@ -14,7 +14,7 @@ namespace ApiTests
     public class BaseTest
     {
         private IHost? APIHost;                      // TestServer for the API
-        protected IConfiguration Configuration;     // Configuration for the test
+        protected IConfiguration? Configuration;     // Configuration for the test
         protected HttpClient? Client;                // HttpClient for API requests
 
         protected string? UserToken;                // User token for authentication

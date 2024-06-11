@@ -26,7 +26,7 @@ namespace BusinessLogicLayer.Services
         IWebHostEnvironment hostingEnvironment,
         IHttpContextAccessor httpContextAccessor,
         IUserRepository userRepository,
-        INotificationService NotificationService
+        INotificationService? NotificationService
             ) : IUserDDService
     {
         private readonly static Logger Logger = LogManager.GetCurrentClassLogger();

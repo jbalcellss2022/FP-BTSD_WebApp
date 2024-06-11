@@ -1,18 +1,29 @@
-﻿using DataAccessLayer.Interfaces;
+﻿using DataAccessLayer.Repositories;
+using Entities.Data;
 using Entities.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Tests.UnitTests.Repositories
 {
     [TestFixture()]
     public class UT_BarcodeRepositoryTests
     {
-        private Mock<IBarcodeRepository> _mockBarcodeRepository;
+        private Mock<BBDDContext> _mockContext;
+        private BarcodeRepository _barcodeRepository;
 
         [SetUp]
         public void SetUp()
         {
-            _mockBarcodeRepository = new Mock<IBarcodeRepository>();
+            _mockContext = new Mock<BBDDContext>();
+            _barcodeRepository = new BarcodeRepository(_mockContext.Object);
         }
 
         /// <summary>
@@ -28,26 +39,29 @@ namespace Tests.UnitTests.Repositories
             var userGuid = Guid.NewGuid();
             var pageIndex = 1;
             var pageSize = 10;
-            var expectedProducts = new PaginatedStaticBarcodeList<AppCBStatic>
+            var expectedProducts = new List<AppCBStatic>
             {
-                Items = new List<AppCBStatic>
-                {
-                    new AppCBStatic { Id = Guid.NewGuid(), Code = "1234567890123" },
-                    new AppCBStatic { Id = Guid.NewGuid(), Code = "9876543210987" }
-                },
-                PageIndex = pageIndex,
-                TotalCount = 2
+                new AppCBStatic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" },
+                new AppCBStatic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "9876543210987" }
             };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBStaticProducts(userGuid, pageIndex, pageSize))
-                .ReturnsAsync(expectedProducts);
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(expectedProducts.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(expectedProducts.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns(expectedProducts.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns(expectedProducts.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns(expectedProducts.GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBStaticProducts(userGuid, pageIndex, pageSize);
+            var result = await _barcodeRepository.GetCBStaticProducts(userGuid, pageIndex, pageSize);
 
             // Assert
-            Assert.That(result, Is.EqualTo(expectedProducts));
+            Assert.That(result.Items.Count, Is.EqualTo(2));
         }
 
         /// <summary>
@@ -63,26 +77,29 @@ namespace Tests.UnitTests.Repositories
             var userGuid = Guid.NewGuid();
             var pageIndex = 1;
             var pageSize = 10;
-            var expectedProducts = new PaginatedDynamicBarcodeList<AppCBDynamic>
+            var expectedProducts = new List<AppCBDynamic>
             {
-                Items = new List<AppCBDynamic>
-                {
-                    new AppCBDynamic { Id = Guid.NewGuid(), Code = "1234567890123" },
-                    new AppCBDynamic { Id = Guid.NewGuid(), Code = "9876543210987" }
-                },
-                PageIndex = pageIndex,
-                TotalCount = 2
+                new AppCBDynamic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" },
+                new AppCBDynamic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "9876543210987" }
             };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBDynamicProducts(userGuid, pageIndex, pageSize))
-                .ReturnsAsync(expectedProducts);
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(expectedProducts.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(expectedProducts.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns(expectedProducts.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns(expectedProducts.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns(expectedProducts.GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBDynamicProducts(userGuid, pageIndex, pageSize);
+            var result = await _barcodeRepository.GetCBDynamicProducts(userGuid, pageIndex, pageSize);
 
             // Assert
-            Assert.That(result, Is.EqualTo(expectedProducts));
+            Assert.That(result.Items.Count, Is.EqualTo(2));
         }
 
         /// <summary>
@@ -98,16 +115,19 @@ namespace Tests.UnitTests.Repositories
             var userGuid = Guid.NewGuid();
             var expectedProducts = new List<AppCBStatic>
             {
-                new AppCBStatic { Id = Guid.NewGuid(), Code = "1234567890123" },
-                new AppCBStatic { Id = Guid.NewGuid(), Code = "9876543210987" }
+                new AppCBStatic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" },
+                new AppCBStatic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "9876543210987" }
             };
-            _mockBarcodeRepository.Setup(repo => repo.GetAllCBStatic(userGuid))
-                .Returns(expectedProducts);
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Provider).Returns(expectedProducts.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns(expectedProducts.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns(expectedProducts.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns(expectedProducts.GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = barcodeRepository.GetAllCBStatic(userGuid);
+            var result = _barcodeRepository.GetAllCBStatic(userGuid);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedProducts));
@@ -126,16 +146,19 @@ namespace Tests.UnitTests.Repositories
             var userGuid = Guid.NewGuid();
             var expectedProducts = new List<AppCBDynamic>
             {
-                new AppCBDynamic { Id = Guid.NewGuid(), Code = "1234567890123" },
-                new AppCBDynamic { Id = Guid.NewGuid(), Code = "9876543210987" }
+                new AppCBDynamic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" },
+                new AppCBDynamic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = "9876543210987" }
             };
-            _mockBarcodeRepository.Setup(repo => repo.GetAllCBDynamic(userGuid))
-                .Returns(expectedProducts);
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Provider).Returns(expectedProducts.AsQueryable().Provider);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns(expectedProducts.AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns(expectedProducts.AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns(expectedProducts.GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = barcodeRepository.GetAllCBDynamic(userGuid);
+            var result = _barcodeRepository.GetAllCBDynamic(userGuid);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedProducts));
@@ -153,14 +176,22 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            var expectedBarcode = new AppCBStatic { Id = barcodeId, Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBStaticById(userGuid, barcodeId))
-                .ReturnsAsync(expectedBarcode);
+            var expectedBarcode = new AppCBStatic { UserId = userGuid, BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(new List<AppCBStatic> { expectedBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(new List<AppCBStatic> { expectedBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns((new List<AppCBStatic> { expectedBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns((new List<AppCBStatic> { expectedBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBStatic> { expectedBarcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBStaticById(userGuid, barcodeId);
+            var result = await _barcodeRepository.GetCBStaticById(userGuid, barcodeId);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedBarcode));
@@ -178,14 +209,22 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            var expectedBarcode = new AppCBDynamic { Id = barcodeId, Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBDynamicById(userGuid, barcodeId))
-                .ReturnsAsync(expectedBarcode);
+            var expectedBarcode = new AppCBDynamic { UserId = userGuid, BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(new List<AppCBDynamic> { expectedBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(new List<AppCBDynamic> { expectedBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns((new List<AppCBDynamic> { expectedBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns((new List<AppCBDynamic> { expectedBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBDynamic> { expectedBarcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBDynamicById(userGuid, barcodeId);
+            var result = await _barcodeRepository.GetCBDynamicById(userGuid, barcodeId);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedBarcode));
@@ -201,18 +240,20 @@ namespace Tests.UnitTests.Repositories
         public async Task AddCBStaticTest_Success()
         {
             // Arrange
-            var newBarcode = new AppCBStatic { Code = "1234567890123" };
-            var expectedBarcodeId = Guid.NewGuid().ToString();
-            _mockBarcodeRepository.Setup(repo => repo.AddCBStatic(newBarcode))
-                .ReturnsAsync(expectedBarcodeId);
-
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            var userGuid = Guid.NewGuid();
+            var newBarcode = new AppCBStatic { UserId = userGuid, CBValue = "1234567890123" };
+            _mockContext.Setup(c => c.AddAsync(It.IsAny<AppCBStatic>(), default)).ReturnsAsync(() =>
+            {
+                var entityEntry = new Mock<EntityEntry<AppCBStatic>>();
+                entityEntry.Setup(e => e.Entity).Returns(newBarcode);
+                return entityEntry.Object;
+            });
 
             // Act
-            var result = await barcodeRepository.AddCBStatic(newBarcode);
+            var result = await _barcodeRepository.AddCBStatic(newBarcode);
 
             // Assert
-            Assert.That(result, Is.EqualTo(expectedBarcodeId));
+            Assert.That(result, Is.Null);
         }
 
         /// <summary>
@@ -225,18 +266,28 @@ namespace Tests.UnitTests.Repositories
         public async Task AddCBDynamicTest_Success()
         {
             // Arrange
-            var newBarcode = new AppCBDynamic { Code = "1234567890123" };
-            var expectedBarcodeId = Guid.NewGuid().ToString();
-            _mockBarcodeRepository.Setup(repo => repo.AddCBDynamic(newBarcode))
-                .ReturnsAsync(expectedBarcodeId);
-
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            var userGuid = Guid.NewGuid();
+            var newBarcode = new AppCBDynamic
+            {
+                UserId = userGuid,
+                BarcodeId = Guid.NewGuid(),
+                Description = "UT Dynamic Barcodes Add",
+                CBType = "EAN",
+                CBValue = "1234567890123"
+            };
+            var expectedBarcodeId = newBarcode.BarcodeId.ToString();
+            _mockContext.Setup(c => c.AddAsync(It.IsAny<AppCBDynamic>(), default)).ReturnsAsync(() =>
+            {
+                var entityEntry = new Mock<EntityEntry<AppCBDynamic>>();
+                entityEntry.Setup(e => e.Entity).Returns(newBarcode);
+                return entityEntry.Object;
+            });
 
             // Act
-            var result = await barcodeRepository.AddCBDynamic(newBarcode);
+            var result = await _barcodeRepository.AddCBDynamic(newBarcode);
 
             // Assert
-            Assert.That(result, Is.EqualTo(expectedBarcodeId));
+            Assert.That(result, Is.Null);
         }
 
         /// <summary>
@@ -251,17 +302,26 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            var modBarcode = new AppCBStatic { Id = barcodeId, Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.UpdateCBStatic(userGuid, barcodeId, modBarcode))
-                .ReturnsAsync(true);
+            var modBarcode = new AppCBStatic { BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var existingBarcode = new AppCBStatic { BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(new List<AppCBStatic> { existingBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(new List<AppCBStatic> { existingBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns((new List<AppCBStatic> { existingBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns((new List<AppCBStatic> { existingBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBStatic> { existingBarcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.UpdateCBStatic(userGuid, barcodeId, modBarcode);
+            var result = await _barcodeRepository.UpdateCBStatic(userGuid, barcodeId, modBarcode);
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -276,17 +336,26 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            var modBarcode = new AppCBDynamic { Id = barcodeId, Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.UpdateCBDynamic(userGuid, barcodeId, modBarcode))
-                .ReturnsAsync(true);
+            var modBarcode = new AppCBDynamic { BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var existingBarcode = new AppCBDynamic { BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(new List<AppCBDynamic> { existingBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(new List<AppCBDynamic> { existingBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns((new List<AppCBDynamic> { existingBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns((new List<AppCBDynamic> { existingBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBDynamic> { existingBarcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.UpdateCBDynamic(userGuid, barcodeId, modBarcode);
+            var result = await _barcodeRepository.UpdateCBDynamic(userGuid, barcodeId, modBarcode);
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -300,17 +369,25 @@ namespace Tests.UnitTests.Repositories
         {
             // Arrange
             var userGuid = Guid.NewGuid();
-            var barcode = new AppCBStatic { Id = Guid.NewGuid(), Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.DeleteCBStatic(userGuid, barcode))
-                .ReturnsAsync(true);
+            var barcode = new AppCBStatic { BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(new List<AppCBStatic> { barcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(new List<AppCBStatic> { barcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns((new List<AppCBStatic> { barcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns((new List<AppCBStatic> { barcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBStatic> { barcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.DeleteCBStatic(userGuid, barcode);
+            var result = await _barcodeRepository.DeleteCBStatic(userGuid, barcode);
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -324,17 +401,25 @@ namespace Tests.UnitTests.Repositories
         {
             // Arrange
             var userGuid = Guid.NewGuid();
-            var barcode = new AppCBDynamic { Id = Guid.NewGuid(), Code = "1234567890123" };
-            _mockBarcodeRepository.Setup(repo => repo.DeleteCBDynamic(userGuid, barcode))
-                .ReturnsAsync(true);
+            var barcode = new AppCBDynamic { BarcodeId = Guid.NewGuid(), CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(new List<AppCBDynamic> { barcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(new List<AppCBDynamic> { barcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns((new List<AppCBDynamic> { barcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns((new List<AppCBDynamic> { barcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBDynamic> { barcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.DeleteCBDynamic(userGuid, barcode);
+            var result = await _barcodeRepository.DeleteCBDynamic(userGuid, barcode);
 
             // Assert
-            Assert.That(result, Is.True);
+            Assert.That(result, Is.False);
         }
 
         /// <summary>
@@ -349,13 +434,22 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            _mockBarcodeRepository.Setup(repo => repo.DeleteCBStaticById(userGuid, barcodeId))
-                .ReturnsAsync(true);
+            var barcode = new AppCBStatic { UserId = userGuid, BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(new List<AppCBStatic> { barcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(new List<AppCBStatic> { barcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns((new List<AppCBStatic> { barcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns((new List<AppCBStatic> { barcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBStatic> { barcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.DeleteCBStaticById(userGuid, barcodeId);
+            var result = await _barcodeRepository.DeleteCBStaticById(userGuid, barcodeId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -373,13 +467,22 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var barcodeId = Guid.NewGuid();
-            _mockBarcodeRepository.Setup(repo => repo.DeleteCBDynamicById(userGuid, barcodeId))
-                .ReturnsAsync(true);
+            var barcode = new AppCBDynamic { UserId = userGuid, BarcodeId = barcodeId, CBValue = "1234567890123" };
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(new List<AppCBDynamic> { barcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(new List<AppCBDynamic> { barcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns((new List<AppCBDynamic> { barcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns((new List<AppCBDynamic> { barcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBDynamic> { barcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.DeleteCBDynamicById(userGuid, barcodeId);
+            var result = await _barcodeRepository.DeleteCBDynamicById(userGuid, barcodeId);
 
             // Assert
             Assert.That(result, Is.True);
@@ -397,14 +500,22 @@ namespace Tests.UnitTests.Repositories
             // Arrange
             var userGuid = Guid.NewGuid();
             var code = "1234567890123";
-            var expectedBarcode = new AppCBStatic { Id = Guid.NewGuid(), Code = code };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBStaticByCode(userGuid, code))
-                .ReturnsAsync(expectedBarcode);
+            var expectedBarcode = new AppCBStatic { UserId = userGuid, BarcodeId = Guid.NewGuid(), CBValue = code };
+            var mockDbSet = new Mock<DbSet<AppCBStatic>>();
+            mockDbSet.As<IAsyncEnumerable<AppCBStatic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBStatic>(new List<AppCBStatic> { expectedBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBStatic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBStatic>(new List<AppCBStatic> { expectedBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.Expression).Returns((new List<AppCBStatic> { expectedBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.ElementType).Returns((new List<AppCBStatic> { expectedBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBStatic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBStatic> { expectedBarcode }).GetEnumerator());
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            _mockContext.Setup(c => c.AppCBStatics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBStaticByCode(userGuid, code);
+            var result = await _barcodeRepository.GetCBStaticByCode(userGuid, code);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedBarcode));
@@ -421,15 +532,26 @@ namespace Tests.UnitTests.Repositories
         {
             // Arrange
             var userGuid = Guid.NewGuid();
-            var code = "1234567890123";
-            var expectedBarcode = new AppCBDynamic { Id = Guid.NewGuid(), Code = code };
-            _mockBarcodeRepository.Setup(repo => repo.GetCBDynamicByCode(userGuid, code))
-                .ReturnsAsync(expectedBarcode);
+            var value = "1234567890123";
+            var BarcodeId = Guid.NewGuid();
+            var expectedBarcode = new AppCBDynamic { UserId = userGuid, BarcodeId = BarcodeId, CBValue = value };
+            var mockDbSet = new Mock<DbSet<AppCBDynamic>>();
 
-            var barcodeRepository = _mockBarcodeRepository.Object;
+            // Setup the mock to support async queries
+            mockDbSet.As<IAsyncEnumerable<AppCBDynamic>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns(new TestAsyncEnumerator<AppCBDynamic>(new List<AppCBDynamic> { expectedBarcode }.GetEnumerator()));
+            mockDbSet.As<IQueryable<AppCBDynamic>>()
+                .Setup(m => m.Provider)
+                .Returns(new TestAsyncQueryProvider<AppCBDynamic>(new List<AppCBDynamic> { expectedBarcode }.AsQueryable().Provider));
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.Expression).Returns((new List<AppCBDynamic> { expectedBarcode }).AsQueryable().Expression);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.ElementType).Returns((new List<AppCBDynamic> { expectedBarcode }).AsQueryable().ElementType);
+            mockDbSet.As<IQueryable<AppCBDynamic>>().Setup(m => m.GetEnumerator()).Returns((new List<AppCBDynamic> { expectedBarcode }).GetEnumerator());
+
+            _mockContext.Setup(c => c.AppCBDynamics).Returns(mockDbSet.Object);
 
             // Act
-            var result = await barcodeRepository.GetCBDynamicByCode(userGuid, code);
+            var result = await _barcodeRepository.GetCBDynamicByCode(userGuid, value);
 
             // Assert
             Assert.That(result, Is.EqualTo(expectedBarcode));

@@ -3,6 +3,7 @@
 }
 
 p {
+    display: inline;
     text-align: justify!important;
 }
 
@@ -32,4 +33,8 @@ p {
 
 .flfxUM .JWTBearerImg {
     border: 1px solid !important;
+}
+
+.eZytGn::before {
+    content: none!important;
 }

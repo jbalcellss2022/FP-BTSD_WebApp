@@ -2,31 +2,34 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
+namespace ExternalAPI.Filters
 {
-    public void Apply(OpenApiOperation operation, OperationFilterContext context)
+    public class SwaggerFilterOperationAuthorizationHeader : IOperationFilter
     {
-        var noAuthRequired = context.ApiDescription.CustomAttributes().Any(attr => attr.GetType() == typeof(AllowAnonymousAttribute));
-
-        if (!noAuthRequired)
+        public void Apply(OpenApiOperation operation, OperationFilterContext context)
         {
-            operation.Security = new List<OpenApiSecurityRequirement>
+            var noAuthRequired = context.ApiDescription.CustomAttributes().Any(attr => attr.GetType() == typeof(AllowAnonymousAttribute));
+
+            if (!noAuthRequired)
             {
-                new OpenApiSecurityRequirement
+                operation.Security = new List<OpenApiSecurityRequirement>
                 {
+                    new OpenApiSecurityRequirement
                     {
-                        new OpenApiSecurityScheme
                         {
-                            Reference = new OpenApiReference
+                            new OpenApiSecurityScheme
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = "JWT Bearer Token"
-                            }
-                        },
-                        new List<string>()
+                                Reference = new OpenApiReference
+                                {
+                                    Type = ReferenceType.SecurityScheme,
+                                    Id = "JWT Bearer Token"
+                                }
+                            },
+                            new List<string>()
+                        }
                     }
-                }
-            };
+                };
+            }
         }
     }
 }

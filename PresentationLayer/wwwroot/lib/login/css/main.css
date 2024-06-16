@@ -221,7 +221,6 @@ iframe {
   width: 100%;
   position: relative;
   border-bottom: 2px solid #adadad;
-  margin-bottom: 30px;
 }
 
 .input100 {
@@ -290,7 +289,7 @@ iframe {
 }
 
 .input100:focus + .focus-input100::after {
-  top: -15px;
+  top: -20px;
 }
 
 .input100:focus + .focus-input100::before {
@@ -298,7 +297,7 @@ iframe {
 }
 
 .has-val.input100 + .focus-input100::after {
-  top: -15px;
+  top: -20px;
 }
 
 .has-val.input100 + .focus-input100::before {
@@ -509,4 +508,67 @@ iframe {
 	.wrap-login100 {
 		width: 640px;
 	}
+}
+
+.text-danger{
+	font-size: 0.8rem;
+}
+
+.gray-bg,
+.bg-muted {
+	background-color: #f3f3f4;
+}
+
+.recovertext{
+	width: 100%!important;
+}
+
+#customGoogleBtn {
+	display: flex;
+	align-items: center;
+	padding-left: 30px;
+}
+
+#customGoogleBtn:hover {
+	cursor: pointer;
+}
+
+span.label {
+	font-family: serif;
+	font-weight: normal;
+}
+
+span.icon {
+	background: url('/lib/login/images/g-normal.png') transparent 100% no-repeat;
+	display: inline-block;
+	vertical-align: middle;
+	width: 42px;
+	height: 42px;
+	padding-left: 25px
+}
+
+span.buttonText {
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 22px;
+	padding-right: 22px;
+	font-size: 11px;
+	font-weight: bold;
+	color: white;
+	content: 'Login with Google Account'
+}
+
+.googleBtnWrapper {
+	display: flex;
+	align-items: center;
+	width: 85%
+}
+
+.g_id_signin {
+	background: white !important;
+}
+
+.g_id_signin iframe{
+	margin-left: -5px!important;
+	padding-left: 0px!important;
 }

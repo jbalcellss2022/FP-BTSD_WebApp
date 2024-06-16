@@ -1,42 +1,110 @@
 ﻿<!DOCTYPE html>
 <html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QRFY Backend - @ViewData["Title"]</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add local styles, mostly for plugins css file -->
+    @if (IsSectionDefined("Styles"))
+    {
+        @RenderSection("Styles", required: false)
+    }
 
-        <title>@ViewData["Title"]</title>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <environment names="Development">
+        <link rel="stylesheet" href="~/inspinia/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/inspinia/css/animate.css" />
+        <link rel="stylesheet" href="~/inspinia/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/views/chat.css" asp-append-version="true" />
 
-        <!-- ==== Favicon ==== -->
-        <link rel="icon" href="~/favicon.png" type="image/png">
-        <link rel="icon" href="~/favicon_16.png" type="image/png" sizes="16x16">
-        <link rel="icon" href="~/favicon_32.png" type="image/png" sizes="32x32">
-        <link rel="icon" href="~/favicon_64.png" type="image/png" sizes="64x64">
+        <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js" asp-append-version="true"></script>
+        <script src="~/js/security.js" asp-append-version="true"></script>
+    </environment>
 
-        <!-- Add local styles, mostly for plugins css file -->
-        @if (IsSectionDefined("Styles"))
-        {
-            @RenderSection("Styles", required: false)
-        }
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/inspinia/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/inspinia/css/animate.css" />
+        <link rel="stylesheet" href="~/inspinia/css/style.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/views/chat.css" asp-append-version="true" />
 
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    </head>
+        <script src="~/lib/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js" asp-append-version="true"></script>
+        <script src="~/js/security.js" asp-append-version="true"></script>
+    </environment>
+</head>
+<body class="fixed-nav fixed-nav-basic pace-done fixed-sidebar">
+    <environment names="Development">
+        <!-- Skin configuration box -->
+        @* <partial name="_SkinConfig" /> *@
+    </environment>
 
-    <body class="fixed-nav fixed-sidebar ">
-        <div id="loaderlayout" style="display: block;"></div>
-        <div id="wrapper">
-            <partial name="_Navigation" /> <!-- Navigation -->
-            <div id="page-wrapper" class="gray-bg" style="display:none">
-                <partial name="_TopNavbar" /> <!-- Top Navbar -->
-                @RenderBody()
-            </div>
+    <!-- Wrapper-->
+    <div id="wrapper" class="@Html.PageClass()">
+        <!-- Navigation -->
+        <partial name="_Navigation" />
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="gray-bg @ViewBag.SpecialClass">
+
+            <!-- Top Navbar -->
+            <partial name="_TopNavbar" />
+
+            <!-- Main view  -->
+            @RenderBody()
+
+            <!-- Support Chat -->
+            <partial name="_SupportChat" />
+
+            <!-- Footer -->
+            <partial name="_Footer" />
+
         </div>
-        @RenderSection("scripts", required: false)
-    </body>
+        <!-- End page wrapper-->
 
+        <!-- Right Sidebar -->
+        <!-- <partial name="_RightSidebar" /> -->
+    </div>
+    <!-- End wrapper-->
+
+    @RenderSection("toast", required: false)
+
+    <environment names="Development">
+        <script src="~/inspinia/lib/jquery/dist/jquery.js"></script>
+        @* <script src="https://code.jquery.com/jquery-3.7.1.min.js" *@
+                integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+                crossorigin="anonymous"></script>
+        <script src="~/inspinia/lib/Popper/popper.min.js"></script>
+        <script src="~/inspinia/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/inspinia/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/inspinia/lib/slimScroll/jquery.slimscroll.js"></script>
+        @* <script src="~/inspinia/lib/pace/pace.js"></script> *@
+        <script src="~/inspinia/js/script.js" asp-append-version="true"></script>
+        <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
+        <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
+
+        <!-- Only for demo purpose -->
+        @* <script src="~/inspinia/js/skin.config.js"></script> *@
+    </environment>
+
+    <environment names="Staging,Production">
+        <script src="~/inspinia/lib/jquery/dist/jquery.min.js"></script>
+        @* <script src="https://code.jquery.com/jquery-3.7.1.min.js" *@
+                integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+                crossorigin="anonymous"></script>
+        <script src="~/inspinia/lib/Popper/popper.min.js"></script>
+        <script src="~/inspinia/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/inspinia/lib/metisMenu/dist/jquery.metisMenu.js"></script>
+        <script src="~/inspinia/lib/slimScroll/jquery.slimscroll.min.js"></script>
+        @* <script src="~/inspinia/lib/pace/pace.min.js"></script> *@
+        <script src="~/inspinia/js/script.js" asp-append-version="true"></script>
+        <script src="~/lib/spin/spin.js" asp-append-version="true"></script>
+        <script src="~/js/iLabSpinner.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("scripts", required: false)
+</body>
 </html>
-
